@@ -2,7 +2,7 @@
 const DEFAULT_MODULES = [
     {
         id: "product-design-bom",
-        title: "Bills of Materials (BOM) and variant handling",
+        title: "Bills of Materials (BOM) and Product Data",
         description: "Configure parts, revision controls, multi-level Bills of Materials (BOM), and design lifecycles.",
         icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg>`,
         items: [
@@ -688,7 +688,7 @@ class ReqGatherApp {
     constructor() {
         this.modules = [];
         this.activeModuleId = null;
-        
+
         // Dom Elements
         this.cardsGrid = document.getElementById('cards-grid');
         this.drawer = document.getElementById('drawer');
@@ -699,11 +699,11 @@ class ReqGatherApp {
         this.drawerIcon = document.getElementById('drawer-module-icon');
         this.focusList = document.getElementById('focus-list');
         this.toast = document.getElementById('toast');
-        
+
         // Custom Focus Area input elements
         this.inputNewFocusName = document.getElementById('input-new-focus-name');
         this.btnAddCustomFocus = document.getElementById('btn-add-custom-focus');
-        
+
         // Modal
         this.exportModal = document.getElementById('export-modal');
         this.btnExportMd = document.getElementById('btn-export-md');
@@ -720,12 +720,12 @@ class ReqGatherApp {
         this.btnConfirmAddModule = document.getElementById('btn-confirm-add-module');
         this.btnCancelAddModule = document.getElementById('btn-cancel-add-module');
         this.btnCloseAddModuleModal = document.getElementById('btn-close-add-module-modal');
-        
+
         // JSON backup/restore
         this.btnExportJson = document.getElementById('btn-export-json');
         this.btnImportJson = document.getElementById('btn-import-json');
         this.importFileInput = document.getElementById('import-file-input');
-        
+
         // Reset
         this.btnReset = document.getElementById('btn-reset-data');
 
@@ -737,14 +737,48 @@ class ReqGatherApp {
         this.suppressedCountEl = document.getElementById('suppressed-count');
         this.isSuppressedExpanded = false;
 
+        // Login Screen elements
+        this.loginScreen = document.getElementById('login-screen');
+        this.loginForm = document.getElementById('login-form');
+        this.loginError = document.getElementById('login-error');
+        this.usernameInput = document.getElementById('username');
+        this.passwordInput = document.getElementById('password');
+        this.btnLogout = document.getElementById('btn-logout');
+
         this.init();
     }
 
     init() {
+        this.checkAuth();
         this.loadData();
         this.renderCards();
         this.updateOverallProgress();
         this.setupEventListeners();
+    }
+
+    // Sanitize and migrate legacy priorities
+    sanitizeData(modules) {
+        modules.forEach(mod => {
+            mod.items.forEach(item => {
+                if (!item.criticality) {
+                    item.criticality = "normal";
+                }
+                if (item.suppressed === undefined) {
+                    item.suppressed = false;
+                }
+                // Convert legacy high/med/low priorities to phase1/phase2/future
+                if (item.priority === 'high') {
+                    item.priority = 'phase1';
+                } else if (item.priority === 'med' || item.priority === 'medium') {
+                    item.priority = 'phase2';
+                } else if (item.priority === 'low') {
+                    item.priority = 'future';
+                } else if (!item.priority) {
+                    item.priority = 'phase2';
+                }
+            });
+        });
+        return modules;
     }
 
     // Load from local storage or set defaults
@@ -761,17 +795,7 @@ class ReqGatherApp {
             this.modules = JSON.parse(JSON.stringify(DEFAULT_MODULES));
         }
 
-        // Ensure all items (including from legacy localstorage or defaults) have criticality & suppressed defined
-        this.modules.forEach(mod => {
-            mod.items.forEach(item => {
-                if (!item.criticality) {
-                    item.criticality = "normal";
-                }
-                if (item.suppressed === undefined) {
-                    item.suppressed = false;
-                }
-            });
-        });
+        this.sanitizeData(this.modules);
     }
 
     // Save to local storage
@@ -806,7 +830,7 @@ class ReqGatherApp {
         });
 
         const percentage = totalItems > 0 ? Math.round((scopedItems / totalItems) * 100) : 0;
-        
+
         // Update DOM
         document.getElementById('overall-percentage').textContent = `${percentage}%`;
         document.getElementById('overall-progress-bar').style.width = `${percentage}%`;
@@ -816,12 +840,12 @@ class ReqGatherApp {
     // Render main cards
     renderCards() {
         this.cardsGrid.innerHTML = '';
-        
+
         this.modules.forEach(mod => {
             const card = document.createElement('div');
             card.className = 'mrp-card';
             card.dataset.id = mod.id;
-            
+
             // Calculate progress for card
             const activeItems = mod.items.filter(item => !item.suppressed);
             const total = activeItems.length;
@@ -843,7 +867,7 @@ class ReqGatherApp {
                     <span class="card-badge">${scoped}/${total} scoped</span>
                 </div>
             `;
-            
+
             card.addEventListener('click', () => this.openDrawer(mod.id));
             this.cardsGrid.appendChild(card);
         });
@@ -891,7 +915,7 @@ class ReqGatherApp {
                 Delete Module
             `;
             deleteBtn.addEventListener('click', () => this.deleteCustomModule(moduleId));
-            
+
             // Insert it before the close button
             const closeBtn = document.getElementById('btn-close-drawer');
             closeBtn.parentNode.insertBefore(deleteBtn, closeBtn);
@@ -904,7 +928,7 @@ class ReqGatherApp {
         const cardEl = document.querySelector(`.mrp-card[data-id="${moduleId}"]`);
         if (cardEl) {
             const rect = cardEl.getBoundingClientRect();
-            
+
             // Set initial style matching clicked card (rotated in 3D space)
             this.drawer.style.transition = 'none';
             this.drawer.style.top = rect.top + 'px';
@@ -913,10 +937,10 @@ class ReqGatherApp {
             this.drawer.style.height = rect.height + 'px';
             this.drawer.style.borderRadius = '16px';
             this.drawer.style.transform = 'perspective(1500px) rotateY(-180deg) rotateZ(12deg) scale(0.9)';
-            
+
             // Force reflow
             this.drawer.offsetHeight;
-            
+
             // Set final expanded style with transition (flips and straightens, centered)
             this.drawer.style.transition = 'all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.1), visibility 0s linear 0s';
             if (window.innerWidth <= 600) {
@@ -945,7 +969,7 @@ class ReqGatherApp {
         const cardEl = document.querySelector(`.mrp-card[data-id="${this.activeModuleId}"]`);
         if (cardEl) {
             const rect = cardEl.getBoundingClientRect();
-            
+
             // Transition back to card boundary, twisting in reverse
             this.drawer.style.transition = 'all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.1), visibility 0s linear 0.8s';
             this.drawer.style.top = rect.top + 'px';
@@ -958,7 +982,7 @@ class ReqGatherApp {
 
         this.drawer.classList.remove('open');
         this.drawerOverlay.classList.remove('open');
-        
+
         this.activeModuleId = null;
 
         // Clean up inline styles after transition finishes
@@ -994,7 +1018,7 @@ class ReqGatherApp {
     renderDrawerFocusItems() {
         this.focusList.innerHTML = '';
         this.suppressedListEl.innerHTML = '';
-        
+
         const mod = this.modules.find(m => m.id === this.activeModuleId);
         if (!mod) return;
 
@@ -1051,11 +1075,11 @@ class ReqGatherApp {
                         </div>
                         <div class="control-group">
                             <label>Priority</label>
-                            <select class="priority-select" data-item-id="${item.id}" data-val="${item.priority}">
-                                <option value="high" ${item.priority === 'high' ? 'selected' : ''}>High</option>
-                                <option value="med" ${item.priority === 'med' ? 'selected' : ''}>Medium</option>
-                                <option value="low" ${item.priority === 'low' ? 'selected' : ''}>Low</option>
-                            </select>
+                            <div class="priority-selectors" data-item-id="${item.id}">
+                                <button class="priority-pill ${item.priority === 'phase1' ? 'active' : ''}" data-priority="phase1">Phase 1</button>
+                                <button class="priority-pill ${item.priority === 'phase2' ? 'active' : ''}" data-priority="phase2">Phase 2</button>
+                                <button class="priority-pill ${item.priority === 'future' ? 'active' : ''}" data-priority="future">Future</button>
+                            </div>
                         </div>
                         <div class="control-group">
                             <label>Criticality</label>
@@ -1068,7 +1092,16 @@ class ReqGatherApp {
                     </div>
                     ${item.guidance ? `
                     <div class="guidance-box">
-                        <div class="guidance-title">Guidance Prompt</div>
+                        <div class="guidance-header-row">
+                            <div class="guidance-title">Guidance Prompt</div>
+                            <button class="btn-copy-guidance" data-item-id="${item.id}" title="Copy guidance to notes">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 11px; height: 11px; margin-right: 2px;">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                                </svg>
+                                <span>Copy to Notes</span>
+                            </button>
+                        </div>
                         <div class="guidance-text">${item.guidance}</div>
                     </div>` : ''}
                     <div class="notes-wrapper">
@@ -1086,12 +1119,22 @@ class ReqGatherApp {
                     });
                 });
 
-                // Bind priority change
-                const select = card.querySelector('.priority-select');
-                select.addEventListener('change', (e) => {
-                    const priority = e.target.value;
-                    this.updateItemPriority(item.id, priority, select);
+                // Bind priority pills events
+                const priorityPills = card.querySelectorAll('.priority-pill');
+                priorityPills.forEach(pill => {
+                    pill.addEventListener('click', (e) => {
+                        const priority = pill.dataset.priority;
+                        this.updateItemPriority(item.id, priority, priorityPills);
+                    });
                 });
+
+                // Bind copy guidance button
+                const btnCopyGuidance = card.querySelector('.btn-copy-guidance');
+                if (btnCopyGuidance) {
+                    btnCopyGuidance.addEventListener('click', () => {
+                        this.copyGuidanceToNotes(item.id);
+                    });
+                }
 
                 // Bind criticality change
                 const critSelect = card.querySelector('.criticality-select');
@@ -1235,7 +1278,7 @@ class ReqGatherApp {
         this.showToast(`Scope updated for ${item.name}!`);
     }
 
-    updateItemPriority(itemId, priorityVal, selectEl) {
+    updateItemPriority(itemId, priorityVal, pills) {
         const mod = this.modules.find(m => m.id === this.activeModuleId);
         if (!mod) return;
 
@@ -1243,9 +1286,48 @@ class ReqGatherApp {
         if (!item) return;
 
         item.priority = priorityVal;
-        selectEl.dataset.val = priorityVal;
+
+        // Update pills active styling
+        pills.forEach(p => {
+            p.classList.remove('active');
+            if (p.dataset.priority === item.priority) {
+                p.classList.add('active');
+            }
+        });
+
         this.saveData();
         this.showToast(`Priority updated for ${item.name}!`);
+    }
+
+    copyGuidanceToNotes(itemId) {
+        const mod = this.modules.find(m => m.id === this.activeModuleId);
+        if (!mod) return;
+
+        const item = mod.items.find(i => i.id === itemId);
+        if (!item) return;
+
+        if (!item.guidance) return;
+
+        // If notes already contains the guidance, don't duplicate
+        if (item.notes.includes(item.guidance)) {
+            this.showToast("Guidance already in notes!");
+            return;
+        }
+
+        if (item.notes && item.notes.trim()) {
+            item.notes = item.notes.trim() + "\n" + item.guidance;
+        } else {
+            item.notes = item.guidance;
+        }
+
+        this.saveData();
+
+        // Update UI notes textarea if drawer is open
+        const textarea = this.focusList.querySelector(`.notes-textarea[data-item-id="${itemId}"]`);
+        if (textarea) {
+            textarea.value = item.notes;
+        }
+        this.showToast("Copied guidance to notes!");
     }
 
     updateItemCriticality(itemId, criticalityVal, selectEl) {
@@ -1297,7 +1379,7 @@ class ReqGatherApp {
             name: nameText,
             guidance: "Custom focus item added by user.",
             scope: "pending",
-            priority: "med",
+            priority: "phase2",
             criticality: "normal",
             notes: ""
         };
@@ -1331,7 +1413,14 @@ class ReqGatherApp {
     generateMarkdown() {
         let md = `# MRP Requirement Gathering Report\n`;
         md += `Generated on: ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}\n\n`;
-        
+
+        const priorityLabels = {
+            'phase1': 'Phase 1',
+            'phase2': 'Phase 2',
+            'future': 'Future'
+        };
+        const formatPriority = (p) => priorityLabels[p] || String(p).toUpperCase();
+
         let overallTotal = 0;
         let overallScoped = 0;
         this.modules.forEach(m => {
@@ -1343,7 +1432,7 @@ class ReqGatherApp {
         });
         const pct = overallTotal > 0 ? Math.round((overallScoped / overallTotal) * 100) : 0;
         md += `## Progress Summary: **${pct}% Complete** (${overallScoped} of ${overallTotal} items scoped)\n\n`;
-        
+
         md += `| Module | Total Items | Scoped Items | Completion | \n`;
         md += `| :--- | :---: | :---: | :---: | \n`;
         this.modules.forEach(mod => {
@@ -1368,7 +1457,7 @@ class ReqGatherApp {
             if (inScopeList.length > 0) {
                 md += `### In Scope\n\n`;
                 inScopeList.forEach(item => {
-                    md += `#### ${item.name} (Priority: ${item.priority.toUpperCase()}, Criticality: ${(item.criticality || 'normal').toUpperCase()})\n`;
+                    md += `#### ${item.name} (Priority: ${formatPriority(item.priority)}, Criticality: ${(item.criticality || 'normal').toUpperCase()})\n`;
                     if (item.notes.trim()) {
                         md += `**Notes:**\n${item.notes.trim()}\n\n`;
                     } else {
@@ -1380,7 +1469,7 @@ class ReqGatherApp {
             if (niceHaveList.length > 0) {
                 md += `### Nice-to-Have\n\n`;
                 niceHaveList.forEach(item => {
-                    md += `#### ${item.name} (Priority: ${item.priority.toUpperCase()}, Criticality: ${(item.criticality || 'normal').toUpperCase()})\n`;
+                    md += `#### ${item.name} (Priority: ${formatPriority(item.priority)}, Criticality: ${(item.criticality || 'normal').toUpperCase()})\n`;
                     if (item.notes.trim()) {
                         md += `**Notes:**\n${item.notes.trim()}\n\n`;
                     } else {
@@ -1392,7 +1481,7 @@ class ReqGatherApp {
             if (outScopeList.length > 0) {
                 md += `### Out of Scope\n\n`;
                 outScopeList.forEach(item => {
-                    md += `#### ${item.name} (Priority: ${item.priority.toUpperCase()}, Criticality: ${(item.criticality || 'normal').toUpperCase()})\n`;
+                    md += `#### ${item.name} (Priority: ${formatPriority(item.priority)}, Criticality: ${(item.criticality || 'normal').toUpperCase()})\n`;
                     if (item.notes.trim()) {
                         md += `**Notes:**\n${item.notes.trim()}\n\n`;
                     } else {
@@ -1408,7 +1497,7 @@ class ReqGatherApp {
                 });
                 md += `\n`;
             }
-            
+
             md += `\n---\n\n`;
         });
 
@@ -1453,24 +1542,30 @@ class ReqGatherApp {
     exportCsv() {
         const headers = ["Module", "Item ID", "Item Name", "Scope Status", "Priority", "Criticality", "Notes"];
         const rows = [];
-        
+
+        const priorityLabels = {
+            'phase1': 'Phase 1',
+            'phase2': 'Phase 2',
+            'future': 'Future'
+        };
+
         this.modules.forEach(mod => {
             mod.items.forEach(item => {
                 if (item.suppressed) return; // Skip suppressed items
-                const scopeLabels = { 
-                    'in': 'In Scope', 
-                    'nice': 'Nice-to-Have', 
-                    'out': 'Out of Scope', 
-                    'pending': 'Unassigned' 
+                const scopeLabels = {
+                    'in': 'In Scope',
+                    'nice': 'Nice-to-Have',
+                    'out': 'Out of Scope',
+                    'pending': 'Unassigned'
                 };
                 const scopeStr = scopeLabels[item.scope] || item.scope;
-                
+
                 rows.push([
                     mod.title,
                     item.id,
                     item.name,
                     scopeStr,
-                    item.priority.toUpperCase(),
+                    (priorityLabels[item.priority] || item.priority),
                     (item.criticality || 'normal').toUpperCase(),
                     item.notes || ""
                 ]);
@@ -1532,18 +1627,8 @@ class ReqGatherApp {
                 const importedData = JSON.parse(e.target.result);
                 // Basic check to see if structure is valid (contains array with id, title, items)
                 if (Array.isArray(importedData) && importedData.length > 0 && importedData[0].items) {
-                    // Ensure all imported items have criticality & suppressed defined
-                    importedData.forEach(mod => {
-                        mod.items.forEach(item => {
-                            if (!item.criticality) {
-                                item.criticality = "normal";
-                            }
-                            if (item.suppressed === undefined) {
-                                item.suppressed = false;
-                            }
-                        });
-                    });
                     this.modules = importedData;
+                    this.sanitizeData(this.modules);
                     this.saveData();
                     this.renderCards();
                     if (this.activeModuleId) {
@@ -1566,6 +1651,7 @@ class ReqGatherApp {
         if (confirm("Are you sure you want to reset ALL data? This will clear all notes, scopes, priorities, and custom items, and restore default templates. This action cannot be undone.")) {
             localStorage.removeItem('mrp_requirements_data');
             this.modules = JSON.parse(JSON.stringify(DEFAULT_MODULES));
+            this.sanitizeData(this.modules);
             this.saveData();
             this.renderCards();
             if (this.activeModuleId) {
@@ -1629,7 +1715,7 @@ class ReqGatherApp {
         // Close drawer buttons
         this.btnCloseDrawer.addEventListener('click', () => this.closeDrawer());
         this.drawerOverlay.addEventListener('click', () => this.closeDrawer());
-        
+
         // Escape key to close drawer/modals
         window.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
@@ -1674,6 +1760,59 @@ class ReqGatherApp {
                 this.createCustomModule();
             }
         });
+
+        // Authentication form & actions
+        this.loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.handleLogin();
+        });
+
+        this.btnLogout.addEventListener('click', () => {
+            this.handleLogout();
+        });
+    }
+
+    // Authentication session check
+    checkAuth() {
+        const isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
+        if (isLoggedIn) {
+            document.body.classList.add('logged-in');
+        } else {
+            document.body.classList.remove('logged-in');
+            setTimeout(() => {
+                if (this.usernameInput) this.usernameInput.focus();
+            }, 100);
+        }
+    }
+
+    // Handle credential verification
+    handleLogin() {
+        const username = this.usernameInput.value.trim();
+        const password = this.passwordInput.value;
+
+        if (username === 'WMGSME' && password === 'wMg12465') {
+            sessionStorage.setItem('isLoggedIn', 'true');
+            document.body.classList.add('logged-in');
+            this.loginError.style.display = 'none';
+            this.usernameInput.value = '';
+            this.passwordInput.value = '';
+            this.showToast("Welcome back!");
+        } else {
+            this.loginError.style.display = 'block';
+            this.loginError.classList.remove('shake');
+            // Trigger reflow to restart animation
+            this.loginError.offsetWidth;
+            this.loginError.classList.add('shake');
+        }
+    }
+
+    // Handle session end
+    handleLogout() {
+        if (confirm("Are you sure you want to log out?")) {
+            sessionStorage.removeItem('isLoggedIn');
+            this.checkAuth();
+            this.showToast("Logged out successfully.");
+        }
     }
 }
 
