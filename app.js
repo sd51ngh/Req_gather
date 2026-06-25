@@ -7,9 +7,9 @@ const DEFAULT_MODULES = [
         icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg>`,
         items: [
             {
-                id: "multi-level-bom",
-                name: "Multi-level BOM",
-                guidance: "Focus: Managing nested component relationships, parent-child hierarchies, and assembly roll-ups.",
+                id: "master-specifications",
+                name: "Master product specifications",
+                guidance: "Focus: Core technical attributes, tolerances, unit of measure definitions, and base configurations.",
                 scope: "pending",
                 priority: "med",
                 criticality: "normal",
@@ -25,9 +25,9 @@ const DEFAULT_MODULES = [
                 notes: ""
             },
             {
-                id: "master-specifications",
-                name: "Master product specifications",
-                guidance: "Focus: Core technical attributes, tolerances, unit of measure definitions, and base configurations.",
+                id: "multi-level-bom",
+                name: "Multi-level BOM",
+                guidance: "Focus: Managing nested component relationships, parent-child hierarchies, and assembly roll-ups.",
                 scope: "pending",
                 priority: "med",
                 criticality: "normal",
@@ -255,6 +255,15 @@ const DEFAULT_MODULES = [
                 notes: ""
             },
             {
+                id: "estimated-skus",
+                name: "Estimated number of components in stock – think number of SKUs",
+                guidance: "Focus: Total number of active component parts, inventory volumes, and SKU count estimate.",
+                scope: "pending",
+                priority: "med",
+                criticality: "normal",
+                notes: ""
+            },
+            {
                 id: "critical-stock-alerts",
                 name: "Critical Stock Alerts",
                 guidance: "Focus: System triggers for items dropping below safety margins, and expedited purchase procedures.",
@@ -319,7 +328,16 @@ const DEFAULT_MODULES = [
             {
                 id: "sfdc-new",
                 name: "Shop Floor Data Collection",
-                guidance: "Focus: Production Feedback, Shop Floor Terminal (Touch Screen, Barcode Scanner).",
+                guidance: "Focus: Recording actual production starts, stops, runtimes, and operator logs.",
+                scope: "pending",
+                priority: "med",
+                criticality: "normal",
+                notes: ""
+            },
+            {
+                id: "production-feedback",
+                name: "Production Feedback",
+                guidance: "Focus: Shop Floor Terminal configuration including touch screen inputs and barcode scanner support.",
                 scope: "pending",
                 priority: "med",
                 criticality: "normal",
@@ -675,6 +693,47 @@ const DEFAULT_MODULES = [
                 name: "Financial Dashboard",
                 guidance: "Focus: Gross margins, purchase price variance metrics, cost of goods sold (COGS), and cash flows.",
                 scope: "pending",
+            }
+        ]
+    },
+    {
+        id: "other-questions",
+        title: "Other Questions",
+        description: "General metrics including order volumes, terminal counts, and user licensing needs.",
+        icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" /></svg>`,
+        items: [
+            {
+                id: "cust-orders-volume",
+                name: "How many customer orders per week/month on average",
+                guidance: "Focus: Average frequency, peaks, and volume of customer sales orders.",
+                scope: "pending",
+                priority: "med",
+                criticality: "normal",
+                notes: ""
+            },
+            {
+                id: "purch-orders-volume",
+                name: "How many purchase orders per week/month on average",
+                guidance: "Focus: Average purchase orders generated for suppliers per week/month.",
+                scope: "pending",
+                priority: "med",
+                criticality: "normal",
+                notes: ""
+            },
+            {
+                id: "shop-floor-terminals-count",
+                name: "How many shop floor terminals",
+                guidance: "Focus: Estimate the number of terminal screens required on the manufacturing shop floor.",
+                scope: "pending",
+                priority: "med",
+                criticality: "normal",
+                notes: ""
+            },
+            {
+                id: "user-licenses-required",
+                name: "Number of User Licenses required",
+                guidance: "Focus: Estimate total concurrent or named user accounts needed for the system.",
+                scope: "pending",
                 priority: "med",
                 criticality: "normal",
                 notes: ""
@@ -781,12 +840,59 @@ class ReqGatherApp {
         return modules;
     }
 
+    // Merge loaded modules with default template structures
+    mergeDefaultStructures(loadedModules, defaultModules) {
+        defaultModules.forEach(defaultMod => {
+            let loadedMod = loadedModules.find(m => m.id === defaultMod.id);
+            if (!loadedMod) {
+                // Module doesn't exist in loaded data, copy it completely
+                loadedModules.push(JSON.parse(JSON.stringify(defaultMod)));
+            } else {
+                // Module exists, check its items
+                const defaultItems = defaultMod.items;
+                const loadedItems = loadedMod.items;
+                const mergedItems = [];
+
+                // Reorder and merge default items
+                defaultItems.forEach(defaultItem => {
+                    const loadedItem = loadedItems.find(i => i.id === defaultItem.id);
+                    if (loadedItem) {
+                        // Update default fields to latest templates
+                        loadedItem.name = defaultItem.name;
+                        loadedItem.guidance = defaultItem.guidance;
+                        mergedItems.push(loadedItem);
+                    } else {
+                        // Item is new, copy it
+                        mergedItems.push(JSON.parse(JSON.stringify(defaultItem)));
+                    }
+                });
+
+                // Append user's custom items
+                loadedItems.forEach(loadedItem => {
+                    if (loadedItem.id && loadedItem.id.startsWith('custom-')) {
+                        mergedItems.push(loadedItem);
+                    }
+                });
+
+                loadedMod.items = mergedItems;
+                loadedMod.title = defaultMod.title;
+                loadedMod.description = defaultMod.description;
+                loadedMod.icon = defaultMod.icon;
+            }
+        });
+
+        return loadedModules;
+    }
+
     // Load from local storage or set defaults
     loadData() {
         const savedData = localStorage.getItem('mrp_requirements_data');
         if (savedData) {
             try {
-                this.modules = JSON.parse(savedData);
+                let loadedModules = JSON.parse(savedData);
+                this.modules = this.mergeDefaultStructures(loadedModules, DEFAULT_MODULES);
+                // Silently persist the merged updates
+                localStorage.setItem('mrp_requirements_data', JSON.stringify(this.modules));
             } catch (e) {
                 console.error("Failed to parse saved data. Reverting to default.", e);
                 this.modules = JSON.parse(JSON.stringify(DEFAULT_MODULES));

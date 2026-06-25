@@ -16,9 +16,9 @@
 on opening each card
 # Contents of each card
 ## Bills of Materials (BOM) and variant handling
-- Multi-level BOM
-- Variant/Option handling
 - Master product specifications
+- Variant/Option handling
+- Multi-level BOM
 - Revision control 
 - Design lifecycle management 
 - New product introduction 
@@ -53,6 +53,7 @@ on opening each card
 
 ## Purchasing & Stock Control
 - Supplier Assessment & Mgmt (SCM)
+- Estimated number of components in stock – think number of SKUs
 - Critical Stock Alerts
 - E-Procurement Portal Integration
 - Purchase order revision 
@@ -61,8 +62,8 @@ on opening each card
 - Purchase price variance 
 
 ## Production Management
-- Shop Floor Data Collection
-	- Production Feedback
+- Shop Floor Data Collection 
+- Production Feedback
 	- Shop Floor Terminal
 		- Touch Screen
 		- Barcode Scanner
@@ -112,3 +113,10 @@ on opening each card
 - Sales Dashboard
 - Production Dashboard
 - Financial Dashboard
+
+## Other questions
+- How many customer orders per week/month on average
+- How many purchase orders per week/month on average
+- How many shop floor terminals
+- Number of User Licenses required
+
