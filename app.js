@@ -1,751 +1,104 @@
 // Default Data Structure matching 'Requirement gathering.md'
-const DEFAULT_MODULES = [
-    {
-        id: "product-design-bom",
-        title: "Bills of Materials (BOM) and Product Data",
-        description: "Configure parts, revision controls, multi-level Bills of Materials (BOM), and design lifecycles.",
-        icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg>`,
-        items: [
-            {
-                id: "master-specifications",
-                name: "Master product specifications",
-                guidance: "Focus: Core technical attributes, tolerances, unit of measure definitions, and base configurations.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "variant-option-handling",
-                name: "Variant/Option handling",
-                guidance: "Focus: Defining product features, variables, configuration combinations, and rules.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "multi-level-bom",
-                name: "Multi-level BOM",
-                guidance: "Focus: Managing nested component relationships, parent-child hierarchies, and assembly roll-ups.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "revision-control",
-                name: "Revision control",
-                guidance: "Focus: Tracking revisions, history logs, approval workflow logs, and release numbers.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "design-lifecycle",
-                name: "Design lifecycle management",
-                guidance: "Focus: CAD integration, design release gates, obsolete/superseded parts, and maturity levels.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "npi-new",
-                name: "New product introduction (NPI)",
-                guidance: "Focus: Engineering change orders (ECO), pre-production verification, and transition-to-production checksheets.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            }
-        ]
-    },
-    {
-        id: "estimating-quotations",
-        title: "Estimating & Quotations",
-        description: "Handle margins, complex multi-line quoting, pricing agreements, and prospective pipelines.",
-        icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 7.5L12 10.5M12 10.5L15 7.5M12 10.5V16.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`,
-        items: [
-            {
-                id: "crm",
-                name: "Customer Relationship Mgmt (CRM)",
-                guidance: "Focus: Interaction tracking, prospect accounts, marketing pipelines, and contact directory.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "quote-mgmt",
-                name: "Quote Mgmt with quote validity and price agreement",
-                guidance: "Focus: Setting quote expiry, customer-specific pricing agreements, discount boundaries, and conversions.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "moq",
-                name: "Minimum order Quantity",
-                guidance: "Focus: Defining MOQ thresholds per product, customer group rules, and MOQ enforcement checks.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "discount-mgmt",
-                name: "Discount % management",
-                guidance: "Focus: Setting maximum discount limits, approval workflows for high discounts, and customer-specific discount tiers.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "sales-pipeline",
-                name: "Sales Process, Pipeline Mgmt",
-                guidance: "Focus: Pipeline stages, opportunity win/loss rates, quote revision logs, and forecasting metrics.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "variant-configurator",
-                name: "Variant Configurator with BOM integration and compatibility rules",
-                guidance: "Focus: Rules-based compatibility checking, dynamic pricing based on choices, and automatic BOM generation.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "ecommerce",
-                name: "Web-shop & E-Commerce Integration",
-                guidance: "Focus: API links to B2B/B2C storefronts, customer portal pricing lookups, and order imports.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            }
-        ]
-    },
-    {
-        id: "sales-order-processing",
-        title: "Sales Order Processing",
-        description: "Automate sales confirmations, compliance, e-commerce imports, and order release criteria.",
-        icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" /></svg>`,
-        items: [
-            {
-                id: "export-regs",
-                name: "Export Regs Compliance",
-                guidance: "Focus: Tariffs/HS commodity codes, customs declarations, and shipping incoterms check sheets.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "delivery-optimisation",
-                name: "Delivery Vehicle Optimisation",
-                guidance: "Focus: Grouping orders by geographic route and load parameters to optimize vehicle utility.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "outlook-integration",
-                name: "Outlook Integration",
-                guidance: "Focus: Parsing POs directly from email, sending automated order acknowledgements, and archiving correspondence.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            }
-        ]
-    },
-    {
-        id: "production-planning-scheduling",
-        title: "Production Planning & Scheduling",
-        description: "Balance supply and demand, run MRP calculations, and allocate factory resources capacity.",
-        icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z" /></svg>`,
-        items: [
-            {
-                id: "demand-forecasting",
-                name: "Demand Forecasting",
-                guidance: "Focus: Reviewing sales pipelines, historical patterns, and raw marketing inputs to create forecasting estimates.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "mrp",
-                name: "Material Requirement Planning",
-                guidance: "Focus: Automated net-requirement calculations, lead-time offsets, replenishment suggestions, and safety stock flags.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "gantt-kanban-calendar",
-                name: "Gantt view / Calendar view / Kanban view",
-                guidance: "Focus: Visual scheduling boards, interactive drag-drop timelines, calendar syncing, and status cards.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "forward-scheduling",
-                name: "Forward scheduling",
-                guidance: "Focus: Scheduling operations sequentially from the earliest start date to calculate delivery dates.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "backward-scheduling",
-                name: "Backward scheduling",
-                guidance: "Focus: Planning backwards from customer due-dates to calculate the latest release release-gate timing.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "capacity-planning",
-                name: "Capacity planning",
-                guidance: "Focus: Modeling machine and crew availability limits, identifying bottlenecks, and planning buffer capacity.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "aps",
-                name: "Advanced Planning & Factory Scheduling (APS)",
-                guidance: "Focus: Finite/infinite planner, tool/mold conflicts, setup optimization, and visual Gantt boards.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            }
-        ]
-    },
-    {
-        id: "purchasing-stock-control",
-        title: "Purchasing & Stock Control",
-        description: "Procure raw items, track stock movements, audit inventory, and rate supplier performances.",
-        icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m8.25 3v6.75m0 0l-3-3m3 3l3-3M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" /></svg>`,
-        items: [
-            {
-                id: "supplier-assessment-scm",
-                name: "Supplier Assessment & Mgmt (SCM)",
-                guidance: "Focus: Supplier performance scorecards, defect rates, target lead times, and approved lists.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "estimated-skus",
-                name: "Estimated number of components in stock – think number of SKUs",
-                guidance: "Focus: Total number of active component parts, inventory volumes, and SKU count estimate.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "critical-stock-alerts",
-                name: "Critical Stock Alerts",
-                guidance: "Focus: System triggers for items dropping below safety margins, and expedited purchase procedures.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "eprocurement",
-                name: "E-Procurement Portal Integration",
-                guidance: "Focus: B2B portal interfaces, automated punch-out, and direct PO electronic data interchanges (EDI).",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "po-revision",
-                name: "Purchase order revision",
-                guidance: "Focus: Tracking revisions, supplier change acknowledgements, and delivery date shifts.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "purchase-price-agreement",
-                name: "Purchase price agreement",
-                guidance: "Focus: Bulk volume discount rules, contract pricing, and index-linked price lists.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "vmi",
-                name: "Vendor Managed Inventory (VMI)",
-                guidance: "Focus: Supplier-owned stock levels, consignment warehousing, and auto-billing configurations.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "purchase-price-variance",
-                name: "Purchase price variance",
-                guidance: "Focus: Auditing gap margins between target cost standard and actual vendor invoicing prices.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            }
-        ]
-    },
-    {
-        id: "production-management",
-        title: "Production Management",
-        description: "Release work orders, log shop floor feedback, run CAD/PDM interfaces, and assign step-by-step tasks.",
-        icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12a7.5 7.5 0 0015 0m-15 0a7.5 7.5 0 1115 0m-15 0H3m16.5 0H21m-1.5 0H12m-8.457 3.077l1.41-.513m14.095-5.13l1.41-.513M5.106 17.785l1.15-.827m11.379-8.16l1.15-.827M8.14 21.27l.707-1.03m7.65-11.12l.707-1.03M12 3v1.5m0 15V21m-3.077-8.457l-.513-1.41m5.13 14.095l-.513-1.41M17.785 5.106l-.827 1.15m-8.16 11.379l-.827 1.15m-3.03-8.62l-1.03-.707m11.12 7.65l-1.03-.707" /></svg>`,
-        items: [
-            {
-                id: "sfdc-new",
-                name: "Shop Floor Data Collection",
-                guidance: "Focus: Recording actual production starts, stops, runtimes, and operator logs.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "production-feedback",
-                name: "Production Feedback",
-                guidance: "Focus: Shop Floor Terminal configuration including touch screen inputs and barcode scanner support.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "work-order-creation",
-                name: "Work order creation",
-                guidance: "Focus: Automatic conversion of planned orders, routing verification, and resource assignment.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "wip-tracking",
-                name: "Work in progress tracking",
-                guidance: "Focus: Batch identification, material usage logging, operations timing, and staging locations.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "work-instructions",
-                name: "Work Instructions",
-                guidance: "Focus: Visual operating procedures, tool specs, quality checks, and technician sign-offs.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            }
-        ]
-    },
-    {
-        id: "qms",
-        title: "Quality Management System (QMS)",
-        description: "Enforce standard quality checkpoints, capture deviations, audit material origins, and coordinate corrective actions.",
-        icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0110 21a3.746 3.746 0 01-3.068-.593 3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0114 3c1.251 0 2.396.618 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" /></svg>`,
-        items: [
-            {
-                id: "qc-plan",
-                name: "Quality control plan",
-                guidance: "Focus: Quality checkpoint definitions, sample rates, target thresholds, and logging conformance.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "deviation-capa",
-                name: "Deviation mgmt, CAPA",
-                guidance: "Focus: CAPA logs, root-cause investigations, NCR forms, and corrective tracking.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "inspection-plan",
-                name: "Inspection plan",
-                guidance: "Focus: Detailed step-by-step inspections for incoming parts and manufacturing checkpoints.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "root-cause-analysis",
-                name: "Root cause analysis",
-                guidance: "Focus: Fault trees, 5-Why templates, Ishikawa fishbones, and prevention planning.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "approval-workflow",
-                name: "Approval workflow",
-                guidance: "Focus: Sign-off boundaries, electronic signatures, and approval hierarchies.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            }
-        ]
-    },
-    {
-        id: "pick-pack-despatch",
-        title: "Pick, Pack & Despatch",
-        description: "Manage pick lists, track carton packs, print label requirements, and manage fleet configurations.",
-        icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124l-.047-.75m-14.773-2.625h14.773M2.25 12.75V4.875A1.125 1.125 0 013.375 3.75h9.81c.318 0 .624.146.82.4l3.06 3.89c.18.23.28.514.28.808v.538m0-2.25H12a1.125 1.125 0 01-1.125-1.125V3.75m-9 10.5h16.5V18a1.5 1.5 0 01-1.5 1.5h-13.5A1.5 1.5 0 012.25 18v-3.75z" /></svg>`,
-        items: [
-            {
-                id: "export-doc-mgmt",
-                name: "Export Document Mgmt",
-                guidance: "Focus: Automated packing lists, commercial invoices, and country-of-origin documentation.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "route-planning",
-                name: "Vehicle Route Planning",
-                guidance: "Focus: Dispatch sorting, drop sequencing, vehicle dimensions boundaries, and carrier dispatch.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "fleet-mgmt",
-                name: "Delivery Fleet Management",
-                guidance: "Focus: Tracking in-house trucks, driver qualifications, safety checks, and third-party logistics (3PL) links.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "route-optimisation",
-                name: "Delivery Route Optimisation",
-                guidance: "Focus: Algorithmic mapping based on traffic patterns, fuel conservation, and drop-off windows.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "warehouse-heatmap",
-                name: "Warehouse heat map",
-                guidance: "Focus: Visual pick-frequency mapping to improve warehouse staging layout and reduce picking times.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            }
-        ]
-    },
-    {
-        id: "field-service",
-        title: "Field Service mgmt",
-        description: "Track installations, manage maintenance, repair, and overhaul (MRO) tasks, and coordinate engineering timesheets.",
-        icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17L17.25 21A2.67 2.67 0 1113.5 17.25l-5.83-5.83m.084-2.113l-5.83-5.83A2.67 2.67 0 115.67 1.83l5.83 5.83m0 0L17.25 1.83A2.67 2.67 0 1121 5.67l-5.83 5.83m0 0L21 17.25a2.67 2.67 0 11-3.75 3.75l-5.83-5.83" /></svg>`,
-        items: [
-            {
-                id: "field-service-engineer",
-                name: "Field Service Engineer",
-                guidance: "Focus: Dispatch queues, engineer location links, tools configuration, and availability schedules.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "job-card-mgmt",
-                name: "Job card creation and mgmt",
-                guidance: "Focus: Writing technical repair details, safety check logs, and parts consumption on-site.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "installation-commissioning",
-                name: "Installation & Commissioning",
-                guidance: "Focus: Customer sign-offs, site preparation checks, equipment startups, and calibration records.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "mobile-access",
-                name: "Mobile access",
-                guidance: "Focus: Responsive design or app interface for engineers to input field data without desks.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "service-contract-mgmt",
-                name: "Service contract mgmt",
-                guidance: "Focus: Tracking warranties, SLA terms, annual service intervals, and renewals.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            }
-        ]
-    },
-    {
-        id: "hr",
-        title: "HR",
-        description: "Administer staffing directories, log skills matrices, track certifications, and record working shifts.",
-        icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a.75.75 0 000-1.5.75.75 0 000 1.5zM12 18.72a.75.75 0 000-1.5.75.75 0 000 1.5zM6 18.72a.75.75 0 000-1.5.75.75 0 000 1.5zM12 12.75a3 3 0 100-6 3 3 0 000 6zM2.25 12a9.75 9.75 0 0119.5 0c0 .35-.018.692-.053 1.03a9.75 9.75 0 11-19.394 0c-.035-.338-.053-.68-.053-1.03z" /></svg>`,
-        items: [
-            {
-                id: "timesheets-new",
-                name: "Timesheets",
-                guidance: "Focus: Recording direct/indirect hours, overtime calculation, project codes, and line manager approvals.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "skills-matrix-organogram",
-                name: "Skill matrix/organogram",
-                guidance: "Focus: Certifications mapping, shift schedules, department hierarchy, and skills search.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "training-mgmt",
-                name: "training mgmt",
-                guidance: "Focus: Safety courses, training schedules, course histories, and renewals reminders.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "expense-tracking",
-                name: "expense tracking",
-                guidance: "Focus: Travel expenses logging, receipt uploads, mileage limits, and project invoicing linkages.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            }
-        ]
-    },
-    {
-        id: "integrations",
-        title: "Integrations",
-        description: "Connect your system with external platforms, CRM tools, email applications, shipping, and payment systems.",
-        icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" /></svg>`,
-        items: [
-            {
-                id: "api-documentation",
-                name: "API Documentation",
-                guidance: "Focus: Developer REST API endpoints, webhooks, authentication standards, and data payloads.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "integrations-outlook",
-                name: "Outlook Integration",
-                guidance: "Focus: Syncing emails, calendar meetings, task tracking, and automated contact lookups.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "crm-systems",
-                name: "CRM system - Salesforce, HubSpot, Zoho etc",
-                guidance: "Focus: Account synchronization, lead routing, pipeline progression sync, and custom field maps.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "finance-systems",
-                name: "Finance Systems eg. Sage, Xero, Quickbooks, etc",
-                guidance: "Focus: Ledger exports, tax settings alignment, invoicing flows, bank feeds, and reconciliation.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "ecommerce-platforms",
-                name: "E-commerce platforms eg. Shopify, Magento, WooCommerce",
-                guidance: "Focus: Inventory syncing, order imports, tracking numbers update, and pricing alignments.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "shipping-carriers",
-                name: "Shipping carriers eg. DHL, FedEx, UPS",
-                guidance: "Focus: Real-time freight calculations, label generation, pickup booking, and tracking links.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "payment-gateways",
-                name: "Payment gateways eg. Stripe, PayPal",
-                guidance: "Focus: Direct checkout integrations, refund flows, transaction fee accounting, and payouts reconciliation.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            }
-        ]
-    },
-    {
-        id: "dashboards",
-        title: "Dashboards",
-        description: "Establish overview metrics, stock analytics, sales insights, production logs, and financial KPIs.",
-        icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25" /></svg>`,
-        items: [
-            {
-                id: "overview-dashboard",
-                name: "Overview Dashboard",
-                guidance: "Focus: High-level KPI summaries, cross-department analytics, task queues, and performance metrics.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "stock-dashboard",
-                name: "Stock Dashboard",
-                guidance: "Focus: Warehouse stock value, turnover ratios, out-of-stock items, safety-stock alerts, and expiration dates.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "sales-dashboard",
-                name: "Sales Dashboard",
-                guidance: "Focus: Monthly recurring revenue, win-rates, salesperson conversion performance, and average deal sizes.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "production-dashboard",
-                name: "Production Dashboard",
-                guidance: "Focus: Work order progression stats, machinery utilization rate, labor efficiencies, and scrap metrics.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "financial-dashboard",
-                name: "Financial Dashboard",
-                guidance: "Focus: Gross margins, purchase price variance metrics, cost of goods sold (COGS), and cash flows.",
-                scope: "pending",
-            }
-        ]
-    },
-    {
-        id: "other-questions",
-        title: "Other Questions",
-        description: "General metrics including order volumes, terminal counts, and user licensing needs.",
-        icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" /></svg>`,
-        items: [
-            {
-                id: "cust-orders-volume",
-                name: "How many customer orders per week/month on average",
-                guidance: "Focus: Average frequency, peaks, and volume of customer sales orders.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "purch-orders-volume",
-                name: "How many purchase orders per week/month on average",
-                guidance: "Focus: Average purchase orders generated for suppliers per week/month.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "shop-floor-terminals-count",
-                name: "How many shop floor terminals",
-                guidance: "Focus: Estimate the number of terminal screens required on the manufacturing shop floor.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            },
-            {
-                id: "user-licenses-required",
-                name: "Number of User Licenses required",
-                guidance: "Focus: Estimate total concurrent or named user accounts needed for the system.",
-                scope: "pending",
-                priority: "med",
-                criticality: "normal",
-                notes: ""
-            }
-        ]
+// --- Cryptographic Helper Functions (Web Crypto API) ---
+const encoder = new TextEncoder();
+const decoder = new TextDecoder();
+const FIXED_SALT = encoder.encode("MRP_ERP_Requirement_Gathering_Salt_2026");
+
+function arrayBufferToBase64(buffer) {
+    let binary = '';
+    const bytes = new Uint8Array(buffer);
+    const len = bytes.byteLength;
+    for (let i = 0; i < len; i++) {
+        binary += String.fromCharCode(bytes[i]);
     }
-];
+    return window.btoa(binary);
+}
+
+function base64ToArrayBuffer(base64) {
+    const binary_string = window.atob(base64);
+    const len = binary_string.length;
+    const bytes = new Uint8Array(len);
+    for (let i = 0; i < len; i++) {
+        bytes[i] = binary_string.charCodeAt(i);
+    }
+    return bytes.buffer;
+}
+
+async function deriveMasterKey(password) {
+    const passwordKey = await window.crypto.subtle.importKey(
+        "raw",
+        encoder.encode(password),
+        { name: "PBKDF2" },
+        false,
+        ["deriveKey"]
+    );
+    return window.crypto.subtle.deriveKey(
+        {
+            name: "PBKDF2",
+            salt: FIXED_SALT,
+            iterations: 100000,
+            hash: "SHA-256"
+        },
+        passwordKey,
+        { name: "AES-GCM", length: 256 },
+        false,
+        ["encrypt", "decrypt"]
+    );
+}
+
+async function encryptWithKey(plaintext, cryptoKey) {
+    const plaintextBytes = encoder.encode(plaintext);
+    const iv = window.crypto.getRandomValues(new Uint8Array(12));
+
+    const ciphertextBuffer = await window.crypto.subtle.encrypt(
+        {
+            name: "AES-GCM",
+            iv: iv
+        },
+        cryptoKey,
+        plaintextBytes
+    );
+
+    const ciphertextBytes = new Uint8Array(ciphertextBuffer);
+    const packagedBytes = new Uint8Array(iv.length + ciphertextBytes.length);
+    packagedBytes.set(iv, 0);
+    packagedBytes.set(ciphertextBytes, iv.length);
+
+    return arrayBufferToBase64(packagedBytes.buffer);
+}
+
+async function decryptWithKey(encryptedBase64, cryptoKey) {
+    try {
+        const encryptedBytes = new Uint8Array(base64ToArrayBuffer(encryptedBase64));
+        if (encryptedBytes.length < 12) {
+            throw new Error("Invalid cipher data: too short");
+        }
+        const iv = encryptedBytes.slice(0, 12);
+        const ciphertext = encryptedBytes.slice(12);
+
+        const decryptedBuffer = await window.crypto.subtle.decrypt(
+            {
+                name: "AES-GCM",
+                iv: iv
+            },
+            cryptoKey,
+            ciphertext
+        );
+
+        return decoder.decode(decryptedBuffer);
+    } catch (e) {
+        console.error("Decryption failed", e);
+        throw e;
+    }
+}
+
+const ENCRYPTED_DEFAULT_MODULES = "EDi9SXje2jOYUKtbfOWgt7NXOUlvavNLwkTylL+tdnn9mQcMMLuaZWy8UlqDrG1Jz7En/BaMeQ+Yixqe8WGY0UQ3np6eSzsQB0KbHdBGYFiuuTfl0sIYeJTq5FRNQO1Cey/VfPR71ZMIMF4lxn9ngneliErXbPgescHbTduTCpjOsJyxvUHwun5lrzqvkuEJWW3hOXFW1zCsRLRHffOkhK72MzbAfSFKzjVFdOjygJypIPW+dHugQVug6ucqSrYqxYuZxCI4RDL5S6B4U7ez9jnNpXZbWEYRk9Jx2luF5AK2WPDlQG1DbRpJpZbveOfBZOfH7ywNHZHRSjuW2aeeNMrIxhDDF/uSdshJnW1LvBKn5w13HkFYWpfzox9XXHtKLMjhQFprq2MCqwu09OlD+xqKJ2wpW6MwCajKiAEMMVbgQMwUKnZJUFdxd898ZH7byNYxrkJO9CkY1rBEFflqAzr2QICgop1ILRzBjAmT9Y/SrEFrUffw80VOED3blsnp49/K+HTp4trInFRRknPaRGyhDuphi5LRPHiFXNc4euyKRyofthYU9UfJEIUAnSji2Htd147J1MMX9KieKJ2rIuY20leGUgzGzWjDbj9ag6Tj79x4FhUz0A7zyTKjZt2DrcjvxM9djNK1JkNC6e9nbW33MjrsEsyKXwPBPRnarf8doN4mzCxmjTOzQPo4JoChonRlhrbyHqSyf7FwPsZx1MaUgxVDtDKJvpY9bJQGWQ5yd7DctLwnuG3RWYXpAyfCGUENTiJvGS9ZrNXu7ho8ZRrzO/WC23c3EQeZB644cyoL8XR0rfYv2fnltvWgbX43ITWFClfvGsrLwv8jG0oFzw4++lvUo4b0bF58BtHFUQ+D3IfrWBfLsY1DF4wi7TUxUJu1JL2+fpvuLPpveRZVxYqcmlLff82awkddvqgep/6qO+l0PgNaqqYPHe9J8ThRlYDS3oX5XQr/2xQWPQCnYZAxPcFQny6RAmsIQ91Nqi2/uRbTDlwHt3vxxohBabFEBNeGWOA5pvcl0+T2K6Lhra+BdL+KVumoINDvz0yCri/dpxP81A/rXSAEUJkD/as3/DDT2v5bBYgl1gq9QmPmfbok5hYaTvE6TvuH6QfdoVLyBO9HPzreB1s38ESJColJt6Hj1fPL7BcjT5TVAJmVat8gClmYNPyiOLhLFd4u5S4UF79AlNS9GCxNKov4F79TLDLB2yl9aSKChudfbC04jDiRdd11fq1h2B/WSKQ8RT33ZzWSEzI2ta/aQl8VPqjgn55vCIIGvUu9u+FrvTT6noh9PvG61e6pHIlAo0RuEldBrtovfBl2WVm8WIeIAGxI6FdKEdDALguuoktNylsPfcx6MqZSFVtTF7QT10vJEjKRUB1GdrFeRWGCtPCvSjoxaxHsyTRl2UkCVopQmTXt/xyOGO4M4MSC3JdaiyY6TMQ2M8OQfTcouXm3oLkrYc/kum2QkF7FS86LsGsbmZGmYbZmeyLFm+LgRT1ZF/DiJowQl+jLeFaauP28aK+pbT+UOp4yGrAKLeJUXPlQ4FnZl6fARSi70XhwLyeznfdNvu7gIMsH362BV3m72YJig6K43ekbIVEShAv99xwlLZ0iLwRyqYZMbQMKlRAEUcI3pHLG3Z8zrueRbdLZo0iUObh9t4rfS0VfD2GSQGPK2l+ZO8Itive6sztcnUUs/fy41fh7cVuoCBYQ0Ou7hMYWr3JvdGXFMWZgKaqKG5tm2iKHa5ILVcAAi/IXBrmlb2gfXhq8GsrZCZ+aB+NiQS3EXdkljWvs+2ccaIuxlPUEX7YiCr4SpZPwTXxjf38o6ZtzaRu+v3Itn3NuQXigFpQTxxTuE+b6Ghp0kufUHIXZw9hyAKCF7KItBDjHrvZ/+v7GNVQ8YeRfUGGrzJY8Qb5D52gOpe5x20iw41A6hhmVZh6j5pTGkV7Jd1MVX8TZmuKclT5WTCRKpRnKCI0/G24ujO0pQA2/EGdWVBoELarkjTih6XE8787sbeetoj2FRuThPMVWsWeJ3c09cgSwyDlX3LQDANg9rFBWdfq6FunjCVT4eYdQIjt4jrIqO0jo77TdUm/l88Q+F410WEssX9X3r/5BbL8F4SFZlEJrhJqVQSSHcqlDcxLQHPwgwCPISLIaLnmAjQkDGwbPqxyoVptN2F4fY3gjX0gOIibPYxY5pB+MnTvH9T5Pe7FrmjghTHNDHWRgJPkFaNLVpkZabU6AxVfCrptPvLAnXwW0eDaJcmTtHzusXr/YxLPexVSewSUbi8w31fXXWqwkGe8VeCF7RcvBSCm53XyuhSkw94zfq7MX3ufE4SnOrILUHY1FTSH+afTQvFHpcgSjXBQtZntGpoTcJwINeGSaEITZONYS0yKm3FNvjgFmCxqEXTVNlPLr+l1nogBGmDeXsG4ZmJTahQW77F44AK1yc5LGxfeUE3domv98BJLpVND/AwXIElq3hxZo+nEpw2RlcqJt+zwcV3P44e4OYL4/coCZUAr8Yb6zrhuVR1UPhOEFycYB952Cnfs0GOi94HamNV+0uBtI4NVQ62hvgVq4cxoCcGmnfb8PP+2HoXp3QyKGrOK4fpz58bff7MC33b0zA4T7YC3w9ksSNfQpQay05Xl9spXz646gP3sslLscNDKnz1dt0BPFZGiJB8BQPKtyFWCpQoBXIQVQh7RzF+t6mZdkEyrKaAXQ0VZ7eU+IkNKzSraWJC9j5u+OKg7GPl+okMvAHDtB1klGNInpCPDLeAgyGME+GhiSEsY6gkt6zLDY6fruqMtGCGve3zkO2bmyabvFhoOJ4pPTJ76jdKHJidKCILh2WhyQyrpcNn6TQkHQalxg2NAnqGfTx6KgZWguwd1mZEqvyu0ebqbiFUdQrHER3GsfOTigMuMEq5ru3a0jmqTtfQaEQL06KskYVnOwZZ3nqtxTZADrnoON7P6YCisuHDo/MMIfFX8HrpT3+e4Y1jvjIVDgG36MjV31R15NimYca0YevXSfRspH4mnJKdLXiNehfCLHenrq6t8UXdbrSocT91fbA5pdUJi6Q//c7KT9soexKzM8go56tzPw48BoSqNsEJBcpVJpKvN3mIcPMQWuQTvJkXwI6ehk0X0JKaoNfo6HQyQWdkY+D92V6syphkkAxqW2hc3v6u3E4LfV0owLMBAZzW0uoCvMtt/RH2YDYMdP9TZ0IKEIf3b1G4GJhgB5gV7UNv3GvWiRLyatcRu02A7LeSsYyd8CAgtUxfYk6hc3aoLjRPBeuX+aZRK4APzgmz76FuFZJ5lcnTdAlU9/dGO8vd68sNLiblN7lXMLKm+wsYFtGsBr0f+t9Zq5bPgv4sDentDVj5wotD5pf/mGOzajR40naf1pxeCFU9IWB2WzyMZDhNd8VZ+x847U2CaAEqCjQoec8SGr8chkax9U/eDzt2b2/5sVjKKkYeI3SuJx8q2LZUEUqPgZndqgGvMqx9kUITNEZPYiUtVEDqmCBCj8L+5l6YTqROe26Ac+nbPzeSpzxycPwG+i2JIUYQ/8XQXErDrXAPAS4k0RDGu6XMD/1ePdrW4TMsmU9gjHdFaixWWgZSU1x/b5kriCe/B4xwwtXTuhF7vZWYswIjUBLPcdgsP4TKreHHIJtFeOA4AhEpwq7lKKcrSewHAc2gbfP3n1xYSCaZ7/88tDwaH7o8Uo3YZf7heLQMQwJFba80K6plPrhUM0+Ytjl8L+BHjzd3UGc+bVALWxZDov2gZkfLqEs7yaEqr/LWGlxOrXfsWIpGq0XMLJvcd72KjAXsumULVrbYQwaRqHKSq0ugmD351jKev28voW7ktWEHydsSIABPYTXi5ez4r617jYVziOxqZ/ZCsKCJ1HhOOijpeZsCycn5DUGXLH1TXBuKBdxg8OXi2Jb4p9vp2SfeUK73YNnpdBcvhc6XfUsDl9jmVlT1PNkB34SWval44NgjPrmR+6L6TiuQDLvg6iDFEpeLrd5XkDZT9+v++UmmBVYZBCJxn9vuVwLFzqzXFOzb0WVTZwjOOLlJ62ZIVmAVQiPdgX4rWI4or0GAivnFvjl/we1E2O4D2byt9k0+r+MRQqSVwmnB3rtJOUKrlpdFCCJFyt4bJfw1dq9VqwO5QeU0XURrEE2NXM7aTOFradJRA2fRxQOMFH471Sib8/yAlerjbjPbjenb1HGoU7KFkT+U5Vr31D1DObG5vKrKrE2WT+zbmYvmSonLykWMNNtEETaRMjb6V+j3fQTMdjkb7qYVZGkAzxUowWAE/WGtMDLXlHyMtd77vyAkfuG+WuBhfJr8nlGzKf1CTZxV6WtVreFFQGczsbCXVOW4hJheSqZXu5W8vtHBV8FvckfMLULJKYao6KPefHsEdb68o78zlCy1tUCQsJ8hmizS7zy2lpG+ek7StUvsGnQkQqF3ipUCdqME0rIwBnyNNyL1RcWxhZkIy73C/wCrrjqMFGS7noMeXJ6QcXMl0/axLcx/skJV4156r0KsgzvSNKUjS9T+RPW8dBz7Shri1CWqQDzEMaly6HkEtQJj0PTkh3Xica+VJA2VT1NdyiSHARAE0z5gXqgO11k3vESFRKtxwNYAEmaCCFQ/843RLK6PGKGoa0K+wfu6cFDS+jrdau5G2fESoJog7RXpNxKJ4ozRtFvwmtn4JdOIvNPBEfz09TASH58sAeD4bp1J+lwwm8kiAdKS5OII9xwtKVg/nWouAps4e2VRFsn376jhKvGmDJWxM9YKgnK2BWss9zv8RCtmA74B7eTejeEwosEjULo+9IIPYxU9P4gqgg3FC4Hwes+HQujqwFvijoU0dxffykhxn+phnODgYj+lhV4p7HOB/hNIpTwAbyYgQMWUaoXMuADV6WV6DsCBr8Wm1Df2vphiEs8q+/bFqyNJVvrLBq9ocn4n1D3bGVXU5gvQ2wYsKVDreZzn3QLi9zYNjyk5j4e/8tcVh903mkc/AgbFSkoxoX0vF8Yd+ocC51Y73Fv0lqWn3W/MVEzLAVpRzH4gtoegJwoqIf6q2tSMi/Raxzt4KxdAnnV0KS10wkALBaiGGZdvULFWcXwzLoYVA2uRTwyv2XmFYwqLEJwY1UEMjGWhEhnI1M2yHxNKaW1fGSbj0T2qMMlq3newomEiYEV0ErHLu6CCHIiBbBqrFTFAHYg8wo7YYBtohbQtgUfFumbwIyfPxxa9WaJyMOyNVccsNfPpvQ8ThqxepdWDYfLvrK6AALBws/5ISqeaJSv3D4QKmz/PGoalEOpSldCezqlp093mWa+ptWuogBKmiHRli+QydwHoMvCX7cRwf4p5Axh9poNKFoKJrQ221awIs2z57SBOkX5xTNLWp5dMQ86S2YDd122zco/eRFRwgOSFe2FJKSdRt6EKAlifMtMmvt4jXDT8K6b6FdTwSoiiCZtvtyGNi5IMp8SsnoHD4DSQ7Rgxx5RckwtX5Qzr85MUeiCvzrBLhQyiO/xGDOtYFF6zqzVE7NFE3DkMTmYvWn8VqNiOoakRucaKz5PNDp4RGfrn6Km0jLm5B/Ggwu3699czlwTRISQ/BSVL4AIJ52nWa7zMvoewQU78WEDNipFT5y+Zx4M2Ar/cs8havPn1G8gcUYRMmfh3sET/2Z3kkpOBCuxrqzz7Mze7vLxtWH1lNdSAI4rSDSVxQW5fnMyQ1vAqwxUmirNjfr4hVRj7lXiSGeMLla6igFjM8JQ8aBX4pQmz6Pngk9NJaUzfaMQh4C+p7D29I19/o7URvTyBN3ZZYK2IvrrPVhU3ZJb7RQV6dij/2ajRz2w98yrfN1iYXKRxKTF1MTWNINqRQs1w6+gPGzVYEl3AQjUlJHcFRjHM3u577BKXSJgp+MMEbg8BFGz1Qzle58x+IMEi1DwDIvSvwra9mqyO9kXJG3PbpL00EgopXLs8ODAGcrKTZStGpI8gMpdG/HV1wmPdA0lfRfE1T4Ut6wQxWEnS85owwb8osMy+qxCL/TR+UE7GH8XbnY6Xh60e0SY04EoLKBNRhT28wnT9iBTPY4Cix4DmCkCHJiMFV4QxLuQLubj19vvPYmgcuZ/i8poJHTN4rscTF7N2hhQtaKciUutgv1HO70+cANS2Hyb3so+3HzBpsbxYzgJ+QRjSkaZlj38bkeeGX3IFSJ2bJMrIkr7qEm8DXh0FjU3DyuKuSVUTPKjewnvIkkEPJscF6mtY1ou4MUkto0OoxcEb+9UlFKtsA5IOsIFOjOJ9NEfAIM0nnrAIFwxy9wGV8UQoJcVoCdfWm8Ezy0+xMr3x9UT0OyAdMNzmL38i9GuV3qQirE6mn6/e0EcpJdfrwmutti/RLdXyHXHhf0sjR9R1Jbwb8LWOug/d5mS0WikIlTTZSD1W4OYqE/rbTwA0DXP3ommFr2f3p3ulY5+GkHtWquMlBPHrCGvh+0xk8OveK424qhp6qKACN37kA/Xy9TViMTxKZ45E9CqqndR+As12G9vWR1lUcSt+JrjjGIpXwgb1nezUxefwh5LSZ5c+GuFCFPy2YQpPvTV5Ia04zMQ/9geHd5cI+981HjqHdEKNAp3miYjuJMyoR2sCKQsAYhWQ0j76AVBJH3hFmTivcCY3joZPn4XDpxLfcbU6cQn4X1wB3gL1itjv+yzHPbZYgGQFYV7yMDOD9ReS3mzAgAdi4ZM416MAhmTnqEfNh+giXWX6Ix7WWw+U+rHttuXlnm32kD5DUjP0QtytWNtL3Zyn8Jn8Sx6mmohcqhEWv9nRsHjRjcDMjPz73cEWCYDNWG/3nes3KkhKQrFkSvWUzOOFwFbFT0sj6YOIXUAXwTGQxJ30VfCLIREbieMFe6hMzOJTQnlxMuOFkcrvBD4DA/6mxRgDSv+3qnFxw1BGud6xiLymsY282hDpEpy3/tjQr8Pn0hqOUBzM4xmetNFEVFb+kfogfefeWs4cJ90lmlfKfE4xw+LMpyoToBmoOviGs0hIa9+mvo1qbNskTGmYqLhzw3NS1VqdBUYnAplXJYhkT2C3F3lYzhD1LteHF3CH7IO8+oiAW2tV90GMO7GOMnHAn7NuVsdhKQtkHiCsAOePYj2/Wpb4OAVTZ5A5In0y0K/7RvbL84ScWvoOwAPzr8ZT5MZVxBbCnb/IKYNovNmc1Z9vHoHzoVncTm2v0Q1++8K6jajFmaRKZJ9gwcaNGicBDJaR1y1jovsGVsLl+Gq4x5WaIm9jUnbKP+gprlT/mAl+B89tt/RVkf4QseYmxiMaY097RBac5uHFs3QNo8xU0txpfzQo8EegbO9fQe23E0UOJHvYh/rWcds9FKeplmI/8QNM0zue7qGZk1yr8rpLT4C5Sx9aq1eAXbGFnPDxOlpQai+aPgYh4Gf50n/IQrideTrxZNBnfSZMsPuGuI4Kh1zYNRlSG78CIyPgnCPQJ8sjyPiMbA1vN8HyscztAmWXV+7V6Gszgg4ykUpII6dNF4ZYXTAMdRa6zKbVCHOvtRnt56XQxSmbM+38PviACQoWqHqsqU85aRrtWTHH1uQD/JplbzVY5ClGyhW9RLPKkkK/CodC9gvZ2zR5MHv2kBWn5xcolQgwZxiP82k3SCFlR0uOEyFF/+ENjkMU5OMzn/5BY/BCv9JQ4owvTvOOQDm39Z7G+OpK5cqmF1Rus0jiXTyNYy0weiV86d0nv0rq9sxsF594m8NdjYljRr5i1DNMvt/flHBdJMRmjbeVZ3uk9jS9ZmWK17X7r1iAjuS8LM7yMvi+5i5JKzyJivFHXbhTbPK9HVXWU4mjmFRbc/OjMVafIwv+SIqQr/EW0znavhZ9c49cb5Fds/qBWnELJ5TRfVm1Lsc6YvKGG+haWdrI326b+XzSbCY+8QNEdHuLT+VQv8SFibPIuInFPrDboPgGPcbDc9ancPO5q/oqf5cmYPHoR2fSUsm70rUW3jb5We4c0W8PhkxOWyuUTr8WRIEETIA5jmVs3Qnmi4f8wgfWro/dErNAbKMzUzXbciRxHtaZ9TBmlkei2B93JDvbseyrAlEtW2vMLNai/WBG3gXftlfXJ9vnUzOeHpQTzrGH4M/b/3IchnCOLufIcdNEr/R3k6jMV5BF+Wd+SCXIMZqpIGzkp/BC3qMhXsSdQLlcCqm3q0tc22tyxkRH27yYgT6iMJum6hDTifmOO8B2ZKqODs6f3Za6NlF0pHmlg/q4Gj1lypWokdsIkOU5bvt1VwanULMkwSAI/mcZ9zZn/xehV3vrZCvOOvnINTAXLUjz9itGXzgubQQv1ptjHus+8Z9nOkKPSQ1xjyRV8tFg01a/UVHTLY94HWm54+IWQIe8MPzniYnlK9UcYrtOpWsB6PeWWUbtzMTvyIBJRajPFc38jMITCyrnMwsFwfNyNRhIBjbHV+V6DyOcBNLr2Yd2CKxLYhT5HG1HfFjrXeizjHXiZDEg3WJZ+dvNl5j+chLG/Et93GuvOmIXRXRVQc0w6xPfICSFc3yhD4l7Y445BsjQKmURNW2CTBo0U12Bl6Q1NufGeToTgTZILxxFYTUSuJI4EPR1FK2eK8f4SIO2eMHIIZY5yyWpXuSDEDWkpJAyL3LxtI7OUe4a3Am0C6YSPHnA/t7f2YNmCoMKTe5fHNtbbQgRp/1/QcwsLz6K+6aYzsaUf4+ijDso8+e+rXFDaMLACMEH3xptYi1+BHk7dRnosOQu6XTbRYOPBjaCs3NdQz3r3MTBcnXjsY3rkfyUe+IpDmU1wjN0pJtjdovDa1KM9eF6mSVieoVWx7d/7htE4GOuc4omTzMNRrZYgt0i1lsJNP/UY5TFS7NccKBRlxYEidpEOiMsGHC9OCAIzErR7TooVuj7ucJwQtdKt6JGtz5bVggA+1DtabABeAgh7yDKmpdTju3KSQt8CZeO9AGJdJ6U+kbNtxZT8nyewDPq+W9iFUXBM9W3RrWONEuwtCeXooZN+rPAljl/DudQMEEQDZMGRQC3Beclb0cFsXr7WBMjuCgKKMumF5louMqs7WwYJ/HKYNlqv9opI4C2z8mgJBjtCPrhnHw8GmdomsEts9PE/HIleXm/CpsaJGaSSHeJHNipaVYLOn6kFS6WJBnklGFo+35DUssqDNVDhCuQSz7ZaRWg2SZAfqGhC8eXufp1ajeY/eQyTRBlVErkWrbu3XcKtssyRshTIwxUprRNatMb3ITlRz3D/L1iQqsFygySd2dJXn+N2mxeUzZ6cDYPNqNB+QuSSMGvghW9yR7B4hvqhJzw07P+Y7YQA+ktmpH6vl1tQnHLTYDU8ka+DKydAcnhgOLYkbDW4Idwr87uahdh5pxxHfLNIGL8MBC1M7tw72SWwVQaN1ZAfqpKXNG+DbRIMAcRD7rQqREZgJlvta51Z+5KO/Ft5opOVbQXp2zqKBZYXdyorWor/JaAn9Pcb6uLin0cttr3N5HQod9Fa10DF1vC/tTZR+N7N2KaKvHii34+vaHkkbTcb+ELFqHbKBies0rqEMWSN2La9HtnFq+Hwy5J+2T71ixRJHvfI85fPS8cnwDjGjEuh7KOH77nAPRq1VYEwR6FlYhJSJOo1xVEeLAvttK3ONSyRAl5jCsMZkVr/50blks0Qp9AJbet29jkEZj4M4BNtf4ocd0BL2ehwe3I71fqEXtcakNoKlVodAeiTrmmRnd3EfmBjQx7Has0cCbRh/LA9xW+QcEAI0w9QVF2+4k5J6iegTiabdkNDzza7Mu/TedDubmMtv9ksf6rm57qrlaaaCfuREqOFB9qov2OGAkDcVqxxq+qw/kQzY4L5bFAaTYlUe3KAvJO6lXZzPP9a6wP5ZvA8zuYkWPKuN4tyQXEqy95nrSGd4Yt953DBDHoTpf7CPVvFKlimNgvnHWhOOLLQ8NEthU6I92vNI7en8V9BzY9h9pm4yUHJLsblb0hQGoSby3ZOXpNlF7GRjWLHn7Br6LEA21nyIGJM3GQAxt0eoUxaxSoPJ5hxHR1XhBb8B0bMbBy3s/ySr0S/Tmpi7mevc82jAKWAXcBKZK2Fvp28bhAY9FeqwpckUzDcxHHHqO7q6o94RXyZDy0cNGCvfUrLssy/miuo0dmzxThqrji2G+AUwLILSpwNwkV+K/hvMcSkJpCQKm1Nhzk9vuTe3rfjKshSVkSgIGDX0CuO8tsZ9p7wy2jBYbYLn4uagHnsQTwu5v/eK/D+tbRND5wFGuzyv0cBv8bBllVX6Hb9tXMJeqEvUGPeWXacULIyneL+T9KonqB3qYKotB7mOU716wgth/dAcDFVpJeXUH9OnxBAmtFNkEg3xuwhsVunJc9Nk+tTWubb4Oj/4iIbs1V8W2oxqPYb7i+QghMfJhak+hBCgJGVh8Xjh1m/X+8YBSWmUKAhDAv9h6/rJBYOy6vWfSjzCEMgb8JRn7Zo3OtBNrXLFoIJDadQ4yDzNqR/HfqP1S5UVoX9olm2FeJpKZkRXcraEjDJYIqKTxfiRpQVqo1L9SWFGQzv6Rw/UwVmETmKQZ1L69QEyx1SkfbOBwxuqFeY6pWhbJ5EOktBTf7a4gdTpK0O5f6mqLDQAi+ddkXUzPUnx2vNUzBXh9gJzOjb4T9XxIzTyt1VpHGUxCJalnyQWKwGWd876bOG+1ofo8+ym/peXqxrQgIPcDYAx1JbWyKsIFZ6DLfFy8BKabA6+RAX9OOrQe6C+Z3OJqnDPAD0q78EMXytCoDR76/zDZFyGzlvFrZ0Ooz4Jm/NF/rSbH1xH+AK9WLH8ToTeX4r9vpEhw/mcYrc831F+3mhTnUESVM5hQklZGVtC6OSNyXiMeGEy7lLhO//9Hi9N5PRwsD2hAx/QbgiYg4hT/cDWE6ltyqACQhp7eG1IoRlvJY0uEuzc2zA8S5o/U9Hae6+Fn5p34llxeh7IhiFaibj5/+SlGIqD7Ps9npqraxJB+kOC4eQh9DYASf1RPJLTd7jsdk0+QveZIYaz3SF/UGmECGd5pzVab+pwNNvtLg9wA9q3gc6yInqn+MSgKDLyBU7bePG8uId+wC3Alh7yUVYb5IerU3OVRoEfM8mQP6PFQUJK7XKjxfqgW+YaVtbgRSRUD8hpbjoUT5Saay880KR68H51Yz/xp46hUNPQL3DZ3E/xlnBjTf831wB50ceOfr7tA78MY/zgCaRY9j+O943RnuqImMzy2nfs1+BCJmtKmi+DUXa5JqdZn4MwNJ3G9eFXuaJKNJliOZo9GOWFREhJwCWsiG286l8NGOeRrkab2M8zAlDO8gG0KIMga5B9aZk/FzQhj/xQjGBlxjgLu9gv1XN1cZqjfbO10CQI3BChehzPqcfqqq4Fh277WHd0tPp7p0AWegUy54rR9l05h38pgkcIWjKS2JqQdmPeaXIYa6KOYhHZNADraaQUGtuP1MeAKlSFrUdxetqiclAwMGWFoY6RTmdqPcxb7wU62/XbmcC7rKFs5ozhEWJyXbaPYZlxrEelXF3QZHRR42qY+5yp/ZmnfviLsa2qBF+CERl6w2MwN1CRGJbS9/DFgm8ubgRhrNf0oLi0SfMPElKDk7n9JzIgTEDAInqla8CE7xibhI8XIGwzlnrmucUSHT3SujKY9Kbx/mhhC/Dl1rI6YNHC704ltL0/UQ+q19rFEwLA/Im7gcPtYXdxz6SaHAmYfiXm1il1qHq3hX2LB2bXrWIzFpE2d7U9T/PfTKzy1LS2G+xNAH8s++XTUbQ/ZVotBbnKu+S434IRq27aHhgbXw96dFGb78SvTbA8d+BNqJAC0O0E3TFBIz24y1LzWsOyoMzs3oNyUoH6jh6GPWOCj7nG8iywuCyAe8mhsg3HqVAER4K0Qv7bgTIrdKWVdhmacJg6ZFbD5JFHhX87QRUj9NpTLUvo1kAWkBR+C5gLnJLh4DAZgVedLCpiUFm/IR2zFqCjX66D2VBMFKi1Rfy/227UTvvPZDvT6FDRRC5Ah69DUriwHu25XkG+65qPK5wRc1yET0uR1up5qUNGRlBxmsBGLUUCmZGgU3YQGSNEp02oahf13/Gyzax5nBW9aq0C2PHWP9vLbpHOf4B5+fNJsDXv7si5wDrGtuqpDEI2Pnpm8K3NeLqhJIHsMdHSNXzPEw1HUnHVAqd5xehEbF51hDbazpGYz5obF5BEKLCsG4Od7s/Wfmrq2MOLy/jXyQqKXZOm4qUs0QLwJkS/rmch8JuTAvCvVNk1ojwMCnnsdqMp/32RWBkf6RAAh2acEPcOuPrDYf6fOyMovsHLpS2tXz35JIK/NXMfxEol2A+yjtDNUjth28JRhA+PfRmRQRtrofWl8Llxf1ZuL9WLBB5A5idZa0v6tXsdQuBNvpJQb/BFkGPhmjEHEB8IH+s4axZg9aKu5azy9JRl5qwe4607siWYlGR/OwQhs+GWnTVaCcYaytszcoIcvKiFA25sVK8c3wSKg/BwpG6mT/CZHwxT9CLsij1u2ClA4/jbCTXJZ0nCXakys6nHFMmbFb7A2pVdpZPUe28QX3WMjYuNPS4QZ/5ljX12uHDYZqRb+iABz7sVgDxi7AX1I7mQn57Zh/iygukmXJF/gCN4ucAkTUkaGKdgrrvjcnhBtv7LSHBPTXrMej+YmKovyo8ccoiZqtrAhbIHJ3g8Mll4abUau0oBEvjkst36eV/QkXQJmtLJl0OxYctIeLKNZOHaTJHtZ/2RvaN7SIA2qjeQAocSp9Swmpm7GTCDdj35A29LfJw9+PGp7fLL7/DfDmnQQunlmJ/6XFwKQRVGe3Xs0zMh1FO4BlXTsYKUBDRtpLalMDXDsHs07HtvoNIonR/p3gf8+Ijw4LwylBFY119bCnCmJmTNingzUsSeYyxp1DumzHvTgL5+r8TFO7CBDEwFTRoLFcFPzTJh5FrLKC88naGkW0CeCOdbhQBk0vvLJciFbBxU9ChsrGXtNWqhSM4lBruSudMBXDkW6MNHSL2dz3Kl9u4jph+L20SXC1Xq0gstRP1hVI0TwzKLTIxBVIsou6jDqfWlVkCiHwxqJQY8TyNTlNLAHKETF2Km5ZRWDZwNIdHGtwxJamUqHIJiCMo8Uu1NX88t6IIv+qOvt1UPRpbQIQfuGOx5QIWKI2tx7RGTUXv56X797Uxuectms1BsT0Q3nHbv7cK6S0a2SzwP37q+QKx8+TkbQxGukIraNWOtj8362J+NxTNjE/cU09mtZxA53B8TsoSEjQ63/w7/+tQ0XuexyNsoMzHla1q7es1csQ8r28dY56ymrNvFtRlsnNtGwF+56lLXANdSLtX7HzhtADS+w7aidw2jnWHOv+KVlcSjtCufvrI4+KCWcdpCazZsuLLIMVFuYUQ6h2mcyvxKCjZqOqsGpYtmW5QPxyuVTjL5f1TUeHPwhggf8WgTRg1jy5jLvL8CAQlV3tnuNz7peTT4LI1Tj0kM0fHIcSsDbnP0E7pUTCNke/qairxYpTk2CRF3znyViJmvgDI8DhhX0pNEdidw+MdzzgYrMZItBRPrheIlsdg1/aSR3wQOoBANIKjqUQ7rToVA2hdb1O9YdTKyzYp3fz0xd3YLBY+sptZOdC/iDsKu6io/MV/QeR43eO5bYD9Zs8U7v+Mbq+7gWnJZjTSSUUKA92N/0qeG24eVplSrAKlhc7qDmAVry0eneGgMMrAs/46/RkN3rf0MJjtsrYc3nU/BreMV6Y6UcR4ZOb1G4VRVJq4qUMCiUHQq4ntGkJEXv7NBDebWNZz5DrqiJRGHN3VJQfFOXMXYRt0J75PheePoGb+mAqc77jN4q4CKlNc7sTEMVD3zxhhjfbxB8ZUS1veX4XzUk0bplyawAvmAciSjrEPrg3IpiS61W6XfLGy8/wL958+5cQA4Jriic9vpr/aXSy9wXYcutXMnxbx16R4Q1ePQQ812HfPNrr8tiBX4RiAWWFE86JmQ7Ah2DP+HH+p6ommhzTZL7A2b5TwpI8vAbnA8oGBjUX7AIdpVpxHNtlvxs7q7sOLnj4ar0avnYrsYcAXhPR6700jF+HkD5OfTc+zzF6uC7pfzyZhHRZtYSy1rNY91NvtwVufGTl1+g3W64JLC6H5fMFUSPmMcW0J1g5PmdUS3844h5pobYM2Fh1A+c247toek8SPuhxbilZGSoKmGQHTgtNSQBVYUgl8+GET1p8Fz+3XPX7jsKo60DPlSzzmgGM3vpt6d9PeqTlZKk7EnLuHJZdDCfLiGYQKNejC+1BzLvRGEb1s0ptgguvim+LI9jTgsGHZknaKF2hg7Uh0gOIg8Gg+Ion+xZaTvtVETATWXRp2fhlyxm2c1DfpwmVIuROB9yIO0Z8m1Up2OypZ4pb/p8n6/yY/CO3lnT1aM7HchJFcchtWgx2bSJ6BdnHIllD0ZilQkhA4fkKIwcXZVwLKFwaf3aNtUUgqBulHNa69ak/tXhTIJWK7R+5p3Om08BumglXgdNaFCmCso51yWK/bhVTwEyBgoVYU3tMwe2Ttv9f1ljVp4BGouSfySGoXkL+JpvcstOOY4R6zcdjx/F765BTEhr+kwJURxZC3uND3hC3SfPxnSPymggmdphgvt+54smh2CtAhH6SdPwNYwwwyBeVWZj7JwAAewA8o6w8zXWtMoAEiC5uhVEIJex6f3MtyQbZhtL0BifSIbnL/hJ0KIEr0J3sb8FGPs8a6tYTEW7ZP7syHmZnKU31zon4DS3qspt8u5Bad0m7W77qvP5gzSIFgelhV1TwKhXB/vJxgedyzYvT8p+rIyLEJ5lmEM9O38SIga/w9Ld7W2u78axwkoKdH634CzmgplvldBegF5vkxSgtMtCPOGhuapzq7/plx6U3xmk/A3xQ0ZLxYCxFBlmLCUc6ivWjcnQD9K9yCUi4QzvYaRNcSG4sLVEbwvbsxg9WsrUGCxAU8RuNWv845lgj7iSbt22iZ3oOcI+6zkTofuM9GssNFZbUqt5G0a0i186LSpHsmmGzEPHLfyZSQYJR/LLhVLa/rrrZ2LO5Vm3Ox73016pwUn1BSoQCyEHzMx92syTZCJbQ/7+07k8zfVcStQMCOsRfIpxPw+rVB3syDKD6KaIm/ynZm5/Y0glqNXF6bd1NZc5wtWZbb3eDcDqs5UTaW1XxYviASNm3HY9zq6DadUiZzE/SSYwk7III6+mwCml5UZVJqTznSLcOI2Vn3/CI/IhNarBFX7rF6pJVIwoOWPGQ+ehqttPozoLZOzLj1TNiMzAacdVaLQGwMruxIgKYA8M0fXruEz0PThIXMrYFUBhZqS8U1Wt+bHHYhzE/h8hErvyXX+Ue8H/Sc5XGI34wtf4Ioyc5CDFGAhKlfU311LzJQvnIiwKWJqZBeX3qgzjqZBYr3Ok7AvKdy1JID/vSV2X7jvdqk2W8t58kIlz6i6++WSlfNEtVEnxwX/oskF12yO71x5n2nr5eDimncElc0c+EVbKiwxviAZNSTuMyyhBkYv2gU2Qkp8mik3nK20m7w9dFINJKUPDXDDMHiq8NJ7SyFMo35hz/o6jOzwgTib2iZHmtqO6R/vopA1oF7UBcP9GswHJ3kihCRrgVuQpH4njGRf+73GDTlFAM61xpX8mFdnl+5AsOPKS/5fzONN3FzoX+vPkbYfiV+jeAU4w23obGNMRFYrM+sytvPu22LHzUDbMTeHWjhz/PJBIQe68EZ/GJsynW4mt7OOCDCtmrSpGm3kjav49mbxPpI7J9F3WkR0zVQxxksveJJ+C1Q+e1HeGns02hMqARhoxITuUzhbCg5C/DwauhnRAKWHCvgQD3XZaYcKOo8j7Pum/2BORiSZvYXHP6P0lH0KaYrqwAYzCCd4UFt6GTxKPmQq4LE9drNxwRNghbd+0LJW8tmXZV9ehd3G2u74dxUNQFR1SrBOKujKUcnYyen3hAs8v9A9myX/UKCb5eGEa+mYGvMhoJLO7fJ1uPvbTKJkN6B6FdT3KNxOiFeVuYlpWy+VC6n7O5SiPb0gp15u7EsEhZ6hlSCvTyltUagqGgdnH9H5IxM6BLyO48M84axW7bmJMmjTD/QRDIoaWCRMr0D92vOsnWNyWUMbHlbUAprIUXYHEgJWXGO0r0TGd0bF3tDEwWqHJcf988mGUEU/UOIQYWvWyRuzSC6Oxj+paotLDYHo27wsaglW3u1EUJW7oNNeQXjWIhrz/CeGlxk1CSzCoKkEERJJjux5Nq4r6lynUUTMFcbakaP4G6e9GrBPO9E8vUhmvYtefXcjFa50UZOdtZ2KuhOBRoRP3PxaSDccpZhevHe0/dr7IPVhlnYXrtfgkafexo3SOX7jPZ+I5AfvhblbtjQXlW7L819RP3Rb5nBe7xoOJsO+5wii+ELa6B2XHcQ1srnfrQvn5quO3A6+P/uYQ0iE3JWqLoA4g5hNx92nVhIcn0iGn9UvgwQ97bxQVsed81NVpNnJru+YGchtNODWg+14gVwIY9yB7rFKCTCBz/QfWPZ1WnTKdFIfmMjCYE88ALjN7e9qiglI9qzsnMEoHZHjXC0wSK5hKoJ8cZdhxFcUwIvElKTICXrmtjcGZiEzGvTKv4vwpGnZ/VsNaCoBdWkvXQW7QpMv7azGUjqiyfyesg5dQZYHRL2vwkrLjv+HS1D8tC1ALWmM96scucr3QXtq2IZbroaLNrTFKOVvGy+ZWJQnPmJXTYnyvk1Vpxsr6K82+er+3ViFamJRZU8AxHiTkOR73NQB44xRxlUFugMEVovjkTxpS8q4Bsk7q+1wj1O0fMqevp23bOR8Rc88cbAfcmM84Oh5HJxcn5kmEr6YWy2/bBiqj0ECUlGXIzGIM7YFE+fn4T/0VLMZKDy4+yCoiffxLtjpEWH7wgXALrFoKAuZ991au5t8aPIZeAzWyIseha8MdHdBZbV7BrDl6a3d/bF0GjuqpnhN2GD7M+S/3r62rpUHnbPedKo8ROiP0uXtE8PqJX5t4WRH4hCvG+Or+Czlwz2l3/2SB07T5vx6UDi/y9Y3lEdgBkb4tHuFXYHApc2PbquyvFYmupuv7z4aJKd5xZjqw/EOYm2433b98LvkB/s4xgrghKkmajUzmviTZ+m/O6iJpr+GyVxgWrYd0viDt/ZW8j/MZ8YR33eNvehQ+qF64Zlbx3TrDOrPobmDl7dQoIeTa0CAv77HecrpPX4vlxEc6V23HahZvL4L8faIardZBAOtiEqSCaGZ7Mkll/jvl6e5HAmdLBr2lHfSjVwivsdpnvVpUof0j500nGWr0xyADKPdLsBdktO96vxvmbyaNOVSut+sOPJIRctJLKAZUMmvbSYd9Rf6lp+ZdUKgb5GV0Tb0yFoKQzNfVULgZlxtzoLMTKZPdi/FZ6U5KZaibrHTg5B/rXx314b4mbp1Xr63r0MHQC2CJfH4rou4obYlIM9VWnFt/zwqwegqTtawDmYS+SuYVSqAWoViFAEbUfBkxc2M1xBkeraj9l4r5bYchqQ5IMLmBHeEiZz8Sv3K1Iy+L2VQSERUIT1k6edBesbyfYJYiJyjQ1XNFx+RSrJrGURFTu4qOYgnnkYd6EDnDRmrJ8MlOb2poFpR0DpInnGBfjD0jsBsRtVRhNRSRYd72uJkNp5xYHE1L8p3eG/c+iE3QRb6ZGpp3IRM7pKbMusNes8xSMEh8sSiDWJ6p2UwkHTdxGvbFgqzrg6Kk82hvcqKi1XZzmLSdB0t1wxjqW9MeEevlBxaVSZWDBNwQ9m3uGhF5fxsrlWCW0Ch9kgkGfPGffkRYfd0I3yHNsiK3mNPcfTKt6aurUM8wnVk2mJ9oAt+CEYPuKsS4hoHZwHWW51ssYyYk1eI3r/RewSyA89wAWseF/bWeJzsgmgS5RF41CiktgO36Aq5DXr+hWaMWAVn4CRreqPKSLD67XqdmBAh5hUoJ+b5hielnNhiF/+M29xnZvf388vuXWQ3aC4mjhJ0BAWYjmKtapynF4ndvJBOwc7HtCJfMI/wgqYuFXSGJts12N13kfDiX8uh1+OOYbuwiGaiBjTzHqAa8SAvuPhsD6+MnNe5lP5r4FTXQE+fRyD0YjxiP/XjQfekDN3ikLx2A4rqODJ0AGX8CwK8raFenbH3OdYBPQGpiCFRwVDSLAN9EL8Ndxm1KBc/OeocyNoj8K9wNeipukthIhHVUNPasXFMNB2AwKBMwefN5tE9lTl4c5W2gvqI1p3oRnvNvT3B9ibhbL8NQbI8oxqU2lNUfAHaDw94n07rkPiElfUj6W7kla+3jWvpMCvzPAOjWuvdlrgDr89Jq9wsPxZxP82F3L7PxxuIbRm18NqfQw53pIMG9iqoNSrxo39Hv2NhdyYgZpMC3NhZBSK2EhOle/pB9nozBKhiO9juj/y58uQVoAbfIhuQzmHxnc2+XsgeLcpSuZSP5PKmID+noYv/6YWOxB6xXm93APVat+Fn4PAhobfI2KotSRWffIkIerptzWqk3hSD1K1QLonjN02kYRTfbP68SL6mozmVQg3ct5MqJPPi6GGgydgp+KW8SAfOXjmVufOoifTHrUHqzyGNXJc1s43luSsgP6XEcVd3gRZrausMmdWCIOHihc6f+85YS53xhxEble411b6attE8XrZF6/tHRmGTWayW2xEfLVur/bzF+M3HHj2Li+6gdBmr6u6kEJqbv0YdlSXcf3ssBmdHPcDGrWmOiNXnwdLjBB/Sf7tf992l4vOdxLpk+amegHLPYouqd2ls3MiwsI4Pm7PQRfBXC7F5YjqMMkf2KzSwq6t8e2tRx7wFf5AaJ2yMNbzd9fIJOjlPdhx9TB5AfoOMdynA7mxP2xoX9+7dGkcJXvYI1KFDkHms2IMBPYXpdK8kFIp4h5JCCeK8dgTcP8OIHTFzMDsty0qBdpQqAs28irnN9TLwlVoWPIVpYP7xgfyJ12KDngsZah7fvmQhhefASfuRvg1MlvmzYT2F3m6TQE0GkoJ56KsyV7gIm5u1tuZTWbLjvP6cmcH/lQ1G+lrydFzCiz0qPHH5WDW++69lbHX1z59sKE2aSdWm0WDpf5dMJyAtW2N7+aN3ArKn8yWHs+NVD2RTZ0WbSRhlBDzF5NXJYS0QOK4hrj2RSdXCjeap339s9+2wXUsPt3a6HQS9pE9AcYczknU3VYDpcXzWNRVmJiuIQiBLwhgMFVrUw6GNVrisbHSuB+Jov45x4f7h9Vadyk8yo7omkenDywKYxo5QvykTb0I9sfFhhHyS4hKVp+q8M8oIbiykxSZj25UnEjxQU+qpzCjXjxJXZKNzoSSCCrGOHjjuVHZdQE6t8n2l9ZEPeQAV2Bgn9ig9cPQQaxCGDCFdUnUcPEDiGfOE3TU/3P5RbuLdvBhCjjw43b9k7vTjFCoquOgCsl2RWZd3ad8t2bnJrFzcpu7M6klqv1M2vnWCmnaeNbRbF7MPGIz4YsjCoJdM0RSiT/ufG7RxHoMK0LHYQid4ZhV2/SAwrFXru1UvaVITQUo7zNcj6NCS94y30glN03Edot3qmgYZIRQiwS/Ep5Jqq8If9KfwGHpa9or6ENXbxXNTI/FsEcsuYW25Dy8UJY0eXjlSxk3l3ZMjMTjfiGRsXzdghx/yN0cUuOwCBUA9XSC0o3aBp40+aYhMjM0qK8fOWglDJrQGOSt4uB1/iuJNWWGr7CzX2HtK++yPiqD4Roji2va2LebxHTy1lKpQEgUHzYVqX6+WU4NHHq34KoIB2Ynlgicw/3tNF5ldmO/IxnsEv3PsO7Qng3fmW/9+SQltCjEyLOsrs/Rxk/ekPajDHg6Dsbd8VtetW/Z1SZrz1DbY07dpgUTOx03EmkNn7ENwN7QqH6F88QqDqUjnxblgYngAba039JyveZAwxJkNdeO/QimLPEeMCc3yyBBzdzS3grIMU4TFdZwY71BpTs8iVCojlbVsedXbvU+cDeDFS5cDdOX5hgfVmiI3W+eHDuhNqSpeESWjPYk9isyFihAHPxR8K/U1Kr6bbz7RXoSG7wK6WdYX0hGaHdy7/vYeKuzAfaKzs/U52NYy6v8lQ277wqmicth/8w69+c5VD8iw5/wtY4ESXl9PsfF1eQPcDIAyZoJdliCuvntqiI7IgbY65rdgbR4zTMcXpjVwu64NYsUn9X4+g7hDcTZmegGU90EIHYS1FCq320bhnUjnqBo7Wd4q/KtFOAQr69kE8LX0ZbLWGA5mx34E/Dq+iPujrfoLTTWH+QccTQ5D2oGDGCXp5DnckZQdoj/ZLSfIxmpQzSOxwgUedD7jDbFwKT44R7KtqTCLKUvXkHGa2wiNTr8x3HImGFa4Xh2D6q3M6n8yzmmvezO32z95qH3Mn7vEsfsCuMXNOpG18srew0VBstLIEWMUe+bC0F+RAVclkdzGoL6LnUVUNfpdmFoGgUz95OBV/JxO8fj4ySIwG38O52ktjLWdcbslSfuixCl+0VJWz/eyocYwOVzT+U5JNErMoevia8R2ijn8eLSgIB8mBypIEk6pSoLYldky11SJpTVgMbvs3rL5G0uqC1dKe2RxqcEnbn92xGKzTscLaidf3jYROlTsJ56/rUgVzeN6UWvG2JcAQM2PmT3a0ZIdHORYY0yFE56ItsiB30GjD//ibNnMvlDjVCKzeX6Ae3lZVWW2E/2xLU4fHxDklL+qsgJI/7uYVO35WffEkLfH4zlraqWpt7I2Bi2sRIzyFRDEKcqFiR849ck5EdZF31akH2WpbqF9/lvVuxPi8kcP6wOXH0uv8igQiqWb1yP8vPRVbMKMNV3AH6mu1On8vHnPAomxE8v30bcBGsOHcovt9s8IapxSYYBLgFYovEhY9JmCyHU4acrP4JW/URN4kIUclnNNM5KHa7I1NnJaS3B6P12My7Wz16KZypisqYhRA+E9WEGsphYJNk/Z4cdNNfaIUlV5TZP8mmMQN2etA+vHqMoY26HgLdN1O8FbcDa1umv/mtVYCjSEhx/yN42p6PCJVALLJ2iWrqqkFNw7CCmZVM/jVysCznwtYoX7Ca0G3ZqI7xbL77kgGX8IdRE8mfwOeK07Xhc6osd+oWa4meWzXI8jDOkaEKk01O6AU6vdOM2jJ1bwbF9EITAL+HUnk3uT5jT/FgV0V3bTVvcPEHr153JRL5fEhZlM5pN6e68s+L1EPoIqeTbjwd9UHRt+bE8AWaK0Uvr4HlTnQvNQw+9pcRMUo4LMxEtt9Rqncosae6VwVi9yFrOPmAeLtcm5D2Z7aUVqpzzPB3x2zBoouNPnelpWmwiQ2YSu0JfhH3GsJB6wF1ZjN8AHKEIPaABUQH0a/nPpOyBN+c83pCW7U2nhR2VJepgFPMoO+HwxdW7izwgCCD3I8oO6dDYnc3lEAYiQ0btRrUc5W1Sh/8oes+hkGe1pYKuR1ynjN62jk4WjCt5V0VIFD11jikzkmPH14cA1Fi1odzsUd1VPybHDjogbqBVXadEf6G3DSTYLCpkqpwwEpsLe9PzqDoFD7Ma/RsXDGo0BM/y/BHV/zA18HvV0QFxMNffu2TYwnK+oZ05J1XVsDlhOPqNWaT1Yw0NgUEATZuaYEqwfabwujKz5pbu4pHYnIUkJqaju5Api0cjlb96kiR7jHWwq/8XPSONklbJWz7xhYb565d4VbJSgvzzFVnCMFDC3JxUtEiKJMXr24fE0lX77wNoS9FqJebSXjE+3lD7m2RXoHvfUix1cQOjvKXks4YJJG6oaVGPKS/Gm4kaBgEf31Udi7VLobolIQU0Bf1EmnMAeehqOSGsKZDGz3CYNfLkp/+RFen51tUDmwIP1EJ3u5Mw2rG0eFFK42rBdhl5T8fz7gTgaHHcdkkopzWgDE2zfnlCqKh0WYVmEptUrbU4if2Jz+uzyfsmTBmUAL9mzkmZ8EFKKJ83xSnfpDEno9xgExQI5n5Z1FSPPi4w+TrYzU3SsYDmPAiUUcGw/2MxrdpoQStQwg8/9S4wZpl+G4P78rlUlHI4aPUlKaJbN3PPUJusnEjUgw8VQOvnmAb7yqixxxy9zGvlAZh7LAe3SDurvvxIJI8jneNTXb1cKiiMqpO4nzlrCirGhfOzLP4Gt3SGAqJ86/yupUaNHwTEHlthsqFgOtgh/rn6JbrKVT4gCv1C1QybLd8ZMR4H4xEmnftWpCaI9WJ/pmS8Q9ztVBHP8f0vKQP1MrDujZ9+NWfHHCFFwcMOhwekhK/o0XvcfY7rECA9MnqNnAZeZXqlIcJ1Bh6jnam/VV5ajtdZ9Znt2KQh3ASWzQMlT2CnL4kEvw1TnMZEdWOd5MviGaYJnkHoO/YPbo1Jvt6PcxHL/EQ6YRuzxKIxrrHYR6Rfbs2E8JNYOWlxjtHm+ZFkVaJ0M5WUFrZkwLZei6a19IwufExHj3pfZ7+8BZDGQx7RcYAZtc04PC5lnYp8sKnAVOdywldGBnBXxuyRVMwd+Ytmw4+TQRXGUCvWAkZL9aOJvxV+uFLDSwk/9ztM/BaLgB16wpvEhLTUL+KBBNtG705z5DHNTderrZhfEhfFV9gczGPan1A1NBkYARNonjgjSGrdcogupHd83ra+MU+vcuY6FctKILmrwjT1D31yML64YpMIr+PHFIBxHV9s72STKjpX4cADi+aWF4/lzTfao5CDEhHiIvylnSJ1lsyJKc4InIWi8qvt7+a2FEkj3B78IfWyK6xckAn84ZotmRe/XnKiksa5LwjFLoNNiXYsmKRSOiGQfb86IAIkYrdrfzBNh1R9bFsW/Y2Lfefb8gOZsoNyVlYgMk+YHlnmG0nqWEE+Da3FzoPCowVNqzEDzXN0c3rosZR+1cuaRwjJAANIvj8ONpQkRJJac0EmLwKthf0GlqHevw6JAweVHbHL2FRWaqS4F0Jd7BqCMxfLiztbz2nwHtSrJmLr36QCzaoeCWGGBUsRtHkIVEt4XAaZ4YG3WjO+0OT3KtTDGOh3aq5FCjgHPezJNkfL00Db7ykcW2qtvXI6TY6U8/XZpucvpIaiE7OS7LcGOHsIpA7a+5lyLl+kUKOGw0cM6C+QUcVsNh/2cyGkkB96DmGMdaiBU5KJBidAGOtDofGomx91JvIs2N7AAvMvSkLUCLJlot6rIrOh/5cGZQsUFZ9cx2bBfol05wlYwdPZ9wPDGSrYxCcDQ1WKAHNgn+bPv+Q/qinTx8VYq0jLUDyI6xsRoRNoD7hKu6Ogp3JFHwXl5MMKJbUZpWyaXvtI6P6VqXNDr/flmRUqtgKrQ5JrKYb8vc5MBCexv3MVb9rvYuto4l1N9eaYTLlopfyzaQ/qHlrzYeqSFcCTDcmeJArzomLkJxay2JwKnyCK6xKMFa9onTgqz4XljwNUiMwaTCehpho0ZuHTAseo5DWNWl9FMt5UL38I4PRLsX5QG9lYZxmVvevTdhk0/icNNUSYgjMLDUm0Ze4eWSU45CzZl05d2fUv0EVxyIWdmOb1BiPQgC4FZ7g4pT8JNAsTtpNvxYsCtnx7DZ0s1DKohYc79SlQu6GtYtiIez6VPD9y0YZ8SOxfkgsSADic8g45E8Om37rIHnz/uy1hkZDDmYG04HsLeSrgRkgXPFDxGYfv0Z2mmXrmBqTVBrU23f35KmJgw/pTvqALssdKYV5NI3ik37VdT64lIilmqRl31evQZF8uEYff+FltIDOhQE9Lli41JmFiCXKlOGqhdwZzc5zBUChbhiasuHakhqNK6d3d76pMpgvy0ss+kS/VkWOmR6T8hFEEGecWiZQ4NtrwH/lYyrL7ZD0b53J07zVH6aNMPqrrV/C9FfQJUbmm/uMVpAsWZ7LI4T8srR3x0nrmhfjsbZVOxUVq5yg/7bMM/mArvKpLQZ1veJuJTAlsIR2g2sXn4WPTgjxrgxxCsQixlEsRCbFuFh0KXtWOqt0qpgxpu7M3utIlHy/SdrIYLG8tkIrxhPouqIekGSqfrV4uvL2CuPWA1NdzLSI7HvB1mGULWpM8tNv8qVjl53ScVqYPhy8xDrNTDGBvYzW0SYCGjxbS8SOyEhZGoKAsfx8Gk+xgkT7ygjjO5gbGbBqkN4Z2ojQG41rJO1KEQR/HQ4BozaXxMk2aUwSfx8rwoukH11QYQbYiuqA+kCSL02Wn6a6Rmk76OoB4kxTYpdeeRFzFyQUX6WVGSaTJzwrwOGCNM+KmRx/7fn3gk8m2kExHWWhUc9j3qbVuYNMyNXohB/6w2lsNhquZUugB2el1NDCOZZUvxAYWK27u5pp4CX2T3SsPsRS9PHvr9BlLnrAOfdaKuuQCs5n9tRymqeWxEWJ4qEuH5TtW6AzH1cleD0kvlCSjy289Zqz/LU39gAgBeQOFDfEaCEKFlYU00c6B261pCqbGzfKVqgbkwx4MB3W1CKoj2NVM7yKKK8YlShnWjRUcCEjBMgasFytrMeXQoHCiKZeAiHmUeQSKAl4xraMEFigDCLDDfEcgiPeQirYXxV0mYpLPttCVTA3Nf7qIDaNcGTwcEXFUHYY5uDOzO3YrdBodWKNV9C9ldKVuD6Ao5Cl82p4+lqFjNzOobJjRCsyHvxQAz2ah506E0JnswCpRExLrDxSZ+i1DCOSNPcEFxr6jjBrOB+Cd/Mco1N3pSvk3AMoFDaqbdjmyf+RakUJGSa7G8JfUb+G20ewM8F/3rfXdDlbB30QeGsHgs1V5giCr9DJgF9bKKa39fbZLCv0f+6sceRVLnFDkplNpMs/0RNYwf+K19KIY5UlyfArxHLAJZNsYfoen0TOo0yhrBKnV3n0n7tfabpjzyfqEFX9/lS2bn7BfcwpG2fz9mhhy9bcSMNoxa1wRbTvWvsBXdck6v9TmcoMcN0edf1KvEnPyr+yyznPNxzn+IjamxCQPfbzh19bdj/ETzghost/2KGxaUM1HE9e8eG8MbDhzf0k8nX90lmriBiIZcmTDoF8UMHslGxhGmS/SXOfa/droUAkp1G0VkTnOd7k2oeYlkPZCnrYbs5Q/dqdjEpQKJxhQfK19xAC1xTIuOkQeG4hbxKgR6jbHNM+2c65IwL3S0bZ1n+EZKqDdnfBUUP8Wt1GXw43bcEjaIBVkzKnG2xMHoqokn47U8SlcazX4OiKO7UBtpuHKF/SUH0bFGKY7Ikw/V4+k/GGtmSsjKVtzLZQqMufD515PruZGLxNFlLfv9EDyf0fjcGoaeHD54FoZvjlRK7Wo+uHRzSvpZ0xpISj0o2Xv5hkfID8A0ugpaRssYtf35DLS2jKwrC4LJcTTlkC7XHqZV93YSakvQrMknybfFOet6O0Bp4pQ3znIzCsA3rNmSg+OZ39OvIkLvfHkvct4C6Mg1LBlrcGXi9Cv3FObi2cQqbfn4VxObesjim/Nw7Zn4wXf5pbdphDRTYxgTLxwlywS+S+mT6ZDcY9Q/+Ej/Mh0nd/5m1UD0dkq+5WeHn5rCzcFKGc5FG3sCw8pt8I6i5jOaq+CT8d/6T0ufTl/IXAREJyn7uN4F0FWxi95mr3ljNQ5aAMh4FhLRkcVbRy8MPE3ozCEglWtpysGq+1rLXhZJnnJngu+x3PsdXyX5ArdzIfLwmXFjbypVZ1mai2HxSdWxOdrqDK9Q8hqbVru7wwoiLdYke7oLqi4TyxMD23Q1on+Nve+Rl1rdGRyvQ0J2DpWJ4E8RncabZDLiKEnjGBLSZLLxldR8fZQ6qklI/ItjdC4MYTUbUroeXhS7VknbnaQtJLlXlVwvuxghsXGrG02n2/FqvWV0vKYdITbkB7J07VPvE4liWkxZf1vqnshi1JWHhFqXKvNS/r+VTOwknu9hHdUC6aMbkAsoP9gFYouib0L45bDF0ZgZ8f4ikYXXmPq6APOmQhe/xNzi1bbkq8Kz/LqsHRzbhKgu39X9PSJrDOM0gxBGqELUTBHFAhzoT8Fy2xDNWjggLF6wEoU02EvRB/1lmp67r/ZGl6zdSnYPqFrfjCj1mtWVADhZt2J6zwJwGubpUDsXVTjfMhhmaRirpWRny19ZjHTq5iTDkeZkHHtje0QZyeehXQw3CQnYQxtKjtWDAWrkLGUgafsYR2z2wt1rUu1k2SdqV56Nl6Xn2+WHlW92txkhhIMmOaJ8Xmy/iDN5il4CS6wqZ7W+4h3a+dU3VlbTCq9ylaHuB6ocbjIS2VrXoaBldErPws8zyuGI86dJ6r6LJPdLSgqAIOj0z47uEdcM4h50EdNGUxTOIJGp1jfRxk3ONFCQS/N0e4UiLODT9iB646qvl1ZR1t3YEgdFWkEXWDO4qjyXqJsdjKL4AzDvmRc9U2rjS3TO2ZAFUeRXAoQn7MXjRRw8ia/dAGUZ2nYs9vLHaqp/OETGTycUksGQFKIHYX8VfWuDBQsdlJs8igBqL7nZ9VRVukV6Qhi9k4D6bRCeXW2eCuIVoJhwghjbFGlIDAC9zJ0MGGlDIk163xTEcBPJtxYUh1mDSqtuE5isFseplyimJnW2D+23PUnuNbsn7DhuKQsvExEAFQ3RYKHtdHP1Es1WeQxzxX5Q5syha5A1NB0Q5uKSdMg/2hEKbQHXSMCNjXB9YFdW/xL9cNKHjCQOBninbgKuJ159Z2BTYT1ywvL0SSNk5xAkAvBgOAK0VUzErVa13CFoSn4QmOL/MtuboowPF8FTMtvESAZGwP0Wb/VNOYLAog463LZ8mu/ZhbLva42FcTk5plu3SjBqeUNwkCcCR29mphqb96mvYrQGs1sINy1MP4V3mrzpgsrIerx0hzIIM6UDNvRt/gJZqaIEGtAO/1DKtcaLHaUQ/gnwgm9f+hI5kfMH59NbLQSwkWbJjdxBLpKz7QEGTOvYks8FykWoGhixvOfW941hEpKV4QzgXFzyak8EZsFteX4bPAkokJXb9mDvj3+KOaDEOatSfySn2CMeWMaKWSEaWNVoLVBKbSOR99PSEKwyA5KXTNfIQra4Sj5NBt8ERTTfXU12wD9Z6P8Iek9izRlZRGRqAFQAcTfuznXK49XrotWcP5uj28+n5alLjac2pe4uSDiY3fv7N34VXOI6YVSbx0aqoV9gcwHkcLiTlSl199F+PuNhjwRgYzyZXwQw6arkLP/S3y1QurSyVpRMf5ZPMNshLBm2hqgz3Pa9DELhNnwBtX7l4r++ItQ4cXurIAcR8BFhRogtGxD7/6WyUduH3Nr+ytyww3Vn5DXBqr0vVmjyQ0vxYreNPgHZZsiYJJiL4t0puflxNu3bhgz6RJlS0JrloRzn0rqkWQcnUPbpQv3KejjYRAk3Nn7k+HayE8hJJvUS7oeeBiEsHAlaVoto4gkFlnXGWZjAyAGp3gYOq0hjubFFKZWc/lUohjS5Os6K8g5GJf94yiscUM67XJ1BJBj1z4ImamW+J/1Rwq6t48PdsioDw9G4JmHFY70Dt99FrVNvPoGYxuqzM2XablxKHjKlgcDhxXnrQT0G3pFh0ckiEf3NNaV+1SCIDYdQxTKpudi00/TkxunbEFPK2mDPZ1GSRTV6IHv25q0MuZT7QUF2TvRyP8Q/yaRcnlvpQam8XuEVkmT+RL1bSynnvQ95tOYWHP1YjaVAU++8nRKeKIJytX6zuKNupDVldeHSSgIZe5m6cKyFTZ7d5Yr7ASFNSPoTk7NCVXDtvlYmEUgIlTdmqDXHZn7K0QXUiIyal414/E/QVFjcKJVIlpgR4+n8yFqPKCfiVA4A44FJoTFJotazuIrDklsbXQ4Svstfv56A7mK9ATBScWsGF3pdCZTFZyT2xE3JoKWKaaYeULyjQMNwkQhoM+jHI0d79BaUo1vlDdfU4QKFnc3stcqz4VaKW05/G2s0gkT8TPSHxSdpu5F0QjZtp+NKu7wRfWLKcj/rY+6NuHQf/tTwpGnn7fXjkEtlyJKXT070xbP0DJzvzBZLsJEceAfHK3n8ujPi4DWBOeevzV7Fqt4o/8jceADS4DZHSc7Kv0L1MNFG/vYK0zHnhWLtCxM8UetKcsLg6YTiSThB5fEKEf2HcEKx6G0PmcQ1dknGS4KzAoekqcQ2KQwH5PH74hbqFl7amPPVtnscdsv4QYWs0GfHKhlTr3AbUwk2OmYceMoVLYFIJgiGgkIphG8/JxLg3LmismzWSknClWOQsj+qDdJo8Snsm0ffDOu21oPvhsaqm11LdHSXXK7bM8xoHVXHhZGfkYl07nkwIuxfz2C/azuysizUgsn5hLoxawDFejgNAc/Vj87TdJBp+5grhdI0dlptICJ5fDR4KU3LEYnoiuZtGwjJKeMjlPKNpLyh9+Q/5g6kGd6d2kg3PvHHtbZDDW/ihulV7uvQ8dwxFU4zg2TYLxkDHr39AIn7bJP5HiC4GeupHQ+uRn6IncN88YcSJf4slgwySOm/xz9Nunfy7fLuamyZEIt0gHET+iktIP7fbPwTDPCWQV1Fl5pwmjNVqMn3g74ijvhOeW3dALCHt1dUPbu8byhIHM4rS6YqG+HWhlzE3mjF67yIFYPxd18/5nwmaPzR/DzU+LwGQY7zmFRUt5KwYVTYIEi/KeGIcvzY15ZOg3OpqBldskwM41WqvOnbVFevgAruAkB7g1r6lqlsYr52y9xpc+CPNRKXZ5i743apCMii79gq5RalE/aSokkc2Dt82cxcuf1tmHXUDGrRlrwW/tqsmnhe1FUzrxg1mDF8pmoGO/AP+kYf9WWLj3WQPIMLEtfYi4H/cbyDvtCaMZviU4u3JjC2Imct95JOeY4KiU1l+zT09W0O2qa1mg7wZb646IWshsZO+fEcn7w6fIEkmLcF2ySlM1WvcPkF4cj+2CVLmXz6h+I+4aCB+T737Km/Hfadrhqeh+Oo0VOimxvkk4VyOMN3F+8KpIY6YxJ8ug0ogjyifGJ9aTMGS8xx6sCVHpyj8C64Iw98IrbcZYrzNn4tuyY9Q+BymiQHrLg7OAKXzIwm/XvyOLMwaZ2rl6YuBMd2xjw22QUrHP0vXXx3Cx8OJgxn7Rlqjy+tuBMdjyyg6DGqd6s9/obnrT/MDjvHscJZkOMdQc4X6+EOR5cBeSgdMHHQkl1ed9Ugkv0tT2f7dqp54GkWHu3ueaADmuEzKdZ1j+/x6a5hPxb0rdVBNu0DYgjlxCSMJb2g53N5iIKSgfhMrOv/fk4Gfjlm3tCRq22hdXugfF32B2UMN7kbskvpwgqR4tHlHxqCxiWqPmM0ORKFn4hsMBMEYxdJbK3OiTsgx9k5hJxVAf5e76mEfk5fNaRazrOkKmn3q8/rdteRwew7etgJICKx7M8oRCQ/hx4Re7vHJddmI5WWy62yby7U80f8SiYAO59zGSBsHU299Ez6yk+sTGZbnZ9naWANEunO0J23h/3ksNha9zorBvqH8bImEza/5pF8Es1Zr5SCLPMps8S8wqbVDom03tkGKrlAGEwhhmoB9QI+u8YhYcy7MUyieUBFTWbza1zjlFcRrjZCG8hfyrudlHTot5pIOIs/P+3mqeUSFEVsBN+P7AiUH8iUQmGwMRDj0xQ5myd+xdRMpfvNFoIs4ejekhR/MF+WQF03eeqB/qu0j49M+zcSU3WGQiVvldBE8LuWR8g28tXuCfRHE1MGqZwYSn0ah5pVYpLNZQPSJE8Gj9r9eA98g6wIlgYb1aUpD1T+Z7bqAZJoFpmVRuTtmdC0pqOTmFc8w/+c9gEiQUeBeA9BMSH2Wd2yk3LJXf4wN4qGK/iJWeGvhf9Tk1+2eOPusoMkGqGh6zETjMzyZh1KdYFSoLT5+wrE69CFpqcWNfwW3q2U+gg0Ea1B9+95l8Z17DqabwTQE2EfqidTQw1zM8zSnjaNo0oyXQzt7Gd5UwXUCCQQQlk9QRMIFDfoZH71Z6ns/P/AlALFPN7XrChc4t7HnXMUDrtM33IueNHKarySYXA8DhyZb8iOdslUkqRFsiz1RV/LXBEGqy+syPHg3hVH4xpAvF0qwMe3u4ZAnCzHKZ0SP8Yac35TtUlMWGnWvqfdAUjtjGHAJMugJpuuB90EtPVEp34m/02A2/Wil9DSd2I+o521Y1Ua2qwxDccED8286ArKs6KqU16+1P6Mi7CiYleAUPGiaU7btN9SXd6xmUwFmiUIDoV3+7xCgj/EblczAVgJZpU+gWU5zYj3j9rbKMDTFFURu8QBXJOFXwziuYGDIRuuqqIs6M0bbukX6m7MsJzKtFV4ohCp23IIfrpX54J6U0ZGnpf2rGwR/O5mSkmxeMPFwEwGyeg7XMD6YX9jG3570prcaxCcQK1sbwWk+CmaaThsRMU/rwmoV3sLP8d/cazKwKQspe9CsIVE+YUt6xmX2SBKNaJgz//IDaydbOqBA+bt/qF2bnOfypKugAbw8fhdwXKZ0cCAG3wlciJjyVflehvNp81ZyCMLEvYRBToFZ7xfE35XY7SF47UF2edNM9cQQW/3adv5WhEZua1aMu6oKV+tB+bqZX0wrAjY5KYOBuE5VtDu+5KF6pboOLOEXX6yDmVAVrp1HL1utW1Ujpo9bCt01FNQYjwfvb9QunGxKDZg06BfL75pfb70aYL99dCg9hERz2BW3CZeFX0SMvQqqQtRl+9dv52ExFL2xBFs3BgB/4COAxwvk2l9eRQ109Ocp5PibCcQOUIRwH5zlZTsDDpKFgU9oOp9ot77xxIiplIsz1jTfkKVJZjZDoP2wMwey9q5H/8ZkElxDczwT1ld33p6rhWd8HJ0EX+x4GZTLsVR4WMrGUl6YqO3+uWKTFOTVtV2cDGTw6acP9sENfP1TSdvqJ2/pQ7MttP39TC7XDnLw31zrPE3nTXn9rgTiZUkEp2oGPkFseukDWZheO3fE13NdjI63+KXKouRuxKLPKr3tchqHDDuRBPCD6YKzYKOwVPlyVjT+sPebMILbzOdqf6Dt9odzs0FT9dK86DDWA8Y7cHx5IE00T5eYV3qepAXEwK25Q636amR7wjIqfgiyZB5Ayh8DjgmDGcGRsqMsWdIU4WhoLm6BltC9nsjdyWNDQMYv2aCaEPuDYwF55m++ly1MEAY3lFGWY+kAXOsWTURb6REWSJwHmnX9p0HFBLzp1yCJBfSvCSR5YjK1jHcFHQwHp9fB562qGPmrSQOcntxdWGBI5cXM4Hpb1fJ6sbyBMx8aQp/iWmrLMPGlrfnnreg95sV8g/wi1NtqnxiiHx/oVUhDPNuJvfzU537/1MrT2zNS4e34WP3YdGTuGpXEEYMqKrzumwiY/8XV0DxWXdzdk9576u0xRZE74lKc9L4j+Z7LAn52GRgAJr6boKRxEyjvVN1o8rNwErRfyKRZU//hpwpEnc7hl7AUh23U4URdhVbBVfwESRw0t54K3uza1LWeeEZcl5yy6B1R7wVvPwkgPk9eOIhu6ZzFgtVZd2u7a+46OmV4lZ141Rgt/ZLMdVmI0xARrnUoWvR1t2XGPLTBWPykrqTI5bkTei0YaKiCSmzTlcuQkLFzU0YdNuEcYZUrtVnnMgsRzksdDAAhrZaZ18fmBKDWgOj8qYijzvJ3nXcHNMOLsJ/DB1bvzT+E3X2GD+Hf33kfK6vjasajPfc3+KRb3gNXjQEM42kD0bZ5cRegIdOzbi/9ICdIa3lUD+E1xEG5zzaq83WGnRUJ8oY3vXoiCIa+rwsMWud+6NItrCr7n0KfdBRPBneHkVDa2FmE9eqYu0jDqCBAlga9sYcYNHiz3BGSO3B5J0P8KonS9COpaJxoNMhrT4w6hzOpbooX2gk4EBXk7LOF2mJRggvGqMqWiUQrWhjBRxUtHzCXphV3xXmD82gWsf/JUe0zJmCmzgkYCD/DgNfJMvtJnGyKvCXnKsBwXhRJdMW+TUpC0SGgh2r4AkiEwevIXXRnrtI2KQRh5H22rTGJ8PXJFLoIzytLJy+uGyoP+Xwit4jiKeyncJbQnAP6Q5tmgWXRBDG+kswbo5n0o9n+tSQReJngszh4qEcCqT+ttAH4h2sNlfj/5/DaU19vP25lQoTrbEiQ718EHaVIkAHI2D0fZZxUq3r+aVjjME0hNxm4wHcAEHV6MTXyGRdoZe/uolB4Vhym7Ck60+3YVsnQ/+7kZUIbLpvsBb4Ecn5BaXvTm3gcVvYMEEscnOMODvjoKaH7OcvlZAqSNR4VKQUHEiXTzSLOVPWil249W2sQdgkG+eIPRM/9y1KXniNH56HeaOwPm3yZGZQE6TSm6+OJyCAidg7RA05TKehhAyOwDbZ2AB2xqGJ53BkGXmf5FF1Ud3+9d8q8/vTwGoVVsxhBlDHW/+z666zJpIn+8Bk50dq4JDmeVcbh+137EWVRqco/mH/4WoHojzp7QRkC0Px1RNF0uv/Z5I1lQMh30U+hNh/AS4jvbWgr5aQAgzLixEAJfklMPyADGnUMJ3Dr3FXprlOYx1MVWk7OmJGQ29O86enj2K07Me9pcQKveHGiltzT1LFQ3tppDjjnrIuI1qboRnsM9diJFt2TtpB6oZxLy/3dmZ70BCIxNenUwR0gTPs24fSk/0Hc2KopeljSDE5QiQLRsBRpxDrmi3HPj/xvyGBGF0FQmSmOxsStGdi8RX5jXDpxFDpc7oLehQHQfa+KzfeUoY0haZVTJtWRVud72vGOVbEYPlRYrum795iF5T1F3dAJ4q3ZJY9rsX/OJuFXGUVKBAk6r6jnMPRaT8S04ao2kE/ZHZk0qoiqaYe7WG2Xe9O0WZf02WAWzO1vYc+8qKgJBP7xRgzrh/taKegdkOqGzhsno6dnGorUWe/3m1lTYgnm7dtm/YoyotE66gdqCgDFFkSHzXPuPGrkTfybmF9zz+8hVmGdECgwCRbEV/W/Mk1lDsfyie02PtgFHAAAIdg2oV1amXSYVZllQX9TH0cfwpa9tYKMQXUWKECacwPe0naZwVF7GTeQT7jaZeSX8uDqmA20jTd1w++pk+z1CI1eR5dsAeqO19qBnuLGXOx1GWQVd8Si3n3orJgIt39onvaLlYtNkmIzU3vvAG1FeI5ugGZdGu1hyKKyIoHq6hkwlJp8X45eR/XZtbgg/e7peizLtliSr9XXDrafKYZ3hic4h8NXPIXtDfDY3poP2mPTIBvR3GEmvOho11SDCvb1IkYGXWQDbUXTCG9InprKum1CuM6zmn+E7N8pl9nV+SwUbp6UhbHCcgdu/twJghHrgC312io4LcoxOGr657rZXs7S3cMd5syMmx5TmvIOM53KH3gskdJ7jw4vWMyxqwlsaPwvNzW2bYK0QAsTB7WpGQJdzUsaXkzbHZD8n2XWB5RkiqQTUhl+kVyE6+ebiMEaVje6E3Nietc1R/u8NMAXAMTm61Zw8PGYajf+R9+AXALoXqGygKkXJ1gEOPLSjKs81bxM1VzRsULRe7wzLRLc6x+PJaCSImqUV4AMxPUoYiqRoU+budLsBwmdyOiC6Zr+NMPQE5add3kpXw+yZOB4jEeCgKMZV3WzYXJ5R0tHhN/OWwin6xHGBlMTcA1HHWIgSfpHN/djbqN3iYnlcrMZXRv1VdnNvaJuXuTMdwzy401zglVarfWrJ5o2k+tcirXoxoNdDygqLI573oZGcG8BcNdNo6bksVKfQTkTowIGGdM0kZ+775sM/asOKkURiQfvyBiYc5narwv3ztzXAsM0L4aam/sxHEGm4ejqwGKcC5/ZtPrjFdnnH/60M1A2kjUTkxpEnqL0pnhAxElfRWHSBGMt4pNMH7ddDCKUEjIz8D5ngZ+Keg7dOW6x9rszhhv8doKZPBAJUL4v8ACuXqGHnGEj4N/w5ZJ1/Ixwcw7ezVhj9/ZJqLrDeEQGFItwUEUD1pEucJhGYggDEPV9H+VDaB8YniwGETAPNq56vcCuF8dsKwQBqbau5gw8rReXe1H9yznqOpZvxmBz6OsmxLnkfNqGF8Pgxcp6QgWUcIhdN7X1yTZKecBA6KolghZ7/x+faTOkL1Xpz4W8qHtATxW+pGv9/Gae99AQYVYdLg14z6Nn6f/wwGtN+Q=";
 
 // App State Manager
 class ReqGatherApp {
     constructor() {
         this.modules = [];
+        this.cryptoKey = null;
         this.activeModuleId = null;
 
         // Dom Elements
@@ -807,12 +160,9 @@ class ReqGatherApp {
         this.init();
     }
 
-    init() {
-        this.checkAuth();
-        this.loadData();
-        this.renderCards();
-        this.updateOverallProgress();
+    async init() {
         this.setupEventListeners();
+        await this.checkAuth();
     }
 
     // Sanitize and migrate legacy priorities
@@ -885,30 +235,38 @@ class ReqGatherApp {
     }
 
     // Load from local storage or set defaults
-    loadData() {
+    async loadData(decryptedDefault) {
         const savedData = localStorage.getItem('mrp_requirements_data');
+        const defaultModules = JSON.parse(decryptedDefault);
         if (savedData) {
             try {
-                let loadedModules = JSON.parse(savedData);
-                this.modules = this.mergeDefaultStructures(loadedModules, DEFAULT_MODULES);
-                // Silently persist the merged updates
-                localStorage.setItem('mrp_requirements_data', JSON.stringify(this.modules));
+                const decryptedJson = await decryptWithKey(savedData, this.cryptoKey);
+                let loadedModules = JSON.parse(decryptedJson);
+                this.modules = this.mergeDefaultStructures(loadedModules, defaultModules);
+                await this.saveData();
             } catch (e) {
-                console.error("Failed to parse saved data. Reverting to default.", e);
-                this.modules = JSON.parse(JSON.stringify(DEFAULT_MODULES));
+                console.error("Failed to decrypt or parse saved data. Reverting to default.", e);
+                this.modules = defaultModules;
             }
         } else {
-            this.modules = JSON.parse(JSON.stringify(DEFAULT_MODULES));
+            this.modules = defaultModules;
         }
 
         this.sanitizeData(this.modules);
     }
 
     // Save to local storage
-    saveData() {
-        localStorage.setItem('mrp_requirements_data', JSON.stringify(this.modules));
-        this.updateOverallProgress();
-        this.renderCards();
+    async saveData() {
+        if (!this.cryptoKey) return;
+        try {
+            const jsonString = JSON.stringify(this.modules);
+            const encryptedBase64 = await encryptWithKey(jsonString, this.cryptoKey);
+            localStorage.setItem('mrp_requirements_data', encryptedBase64);
+            this.updateOverallProgress();
+            this.renderCards();
+        } catch (e) {
+            console.error("Failed to encrypt and save data", e);
+        }
     }
 
     // Show save toast
@@ -1461,7 +819,7 @@ class ReqGatherApp {
         this.showToast("Notes saved.");
     }
 
-    updateItemNotesSilent(itemId, notesText) {
+    async updateItemNotesSilent(itemId, notesText) {
         const mod = this.modules.find(m => m.id === this.activeModuleId);
         if (!mod) return;
 
@@ -1469,8 +827,15 @@ class ReqGatherApp {
         if (!item) return;
 
         item.notes = notesText;
-        // Save silently without toast
-        localStorage.setItem('mrp_requirements_data', JSON.stringify(this.modules));
+        if (this.cryptoKey) {
+            try {
+                const jsonString = JSON.stringify(this.modules);
+                const encryptedBase64 = await encryptWithKey(jsonString, this.cryptoKey);
+                localStorage.setItem('mrp_requirements_data', encryptedBase64);
+            } catch (e) {
+                console.error("Failed to silently save notes", e);
+            }
+        }
     }
 
     addCustomFocus() {
@@ -1728,14 +1093,13 @@ class ReqGatherApp {
         if (!file) return;
 
         const reader = new FileReader();
-        reader.onload = (e) => {
+        reader.onload = async (e) => {
             try {
                 const importedData = JSON.parse(e.target.result);
-                // Basic check to see if structure is valid (contains array with id, title, items)
                 if (Array.isArray(importedData) && importedData.length > 0 && importedData[0].items) {
                     this.modules = importedData;
                     this.sanitizeData(this.modules);
-                    this.saveData();
+                    await this.saveData();
                     this.renderCards();
                     if (this.activeModuleId) {
                         this.openDrawer(this.activeModuleId);
@@ -1753,17 +1117,24 @@ class ReqGatherApp {
     }
 
     // Reset all data
-    resetAllData() {
+    async resetAllData() {
         if (confirm("Are you sure you want to reset ALL data? This will clear all notes, scopes, priorities, and custom items, and restore default templates. This action cannot be undone.")) {
-            localStorage.removeItem('mrp_requirements_data');
-            this.modules = JSON.parse(JSON.stringify(DEFAULT_MODULES));
-            this.sanitizeData(this.modules);
-            this.saveData();
-            this.renderCards();
-            if (this.activeModuleId) {
-                this.closeDrawer();
+            if (!this.cryptoKey) return;
+            try {
+                const decryptedDefault = await decryptWithKey(ENCRYPTED_DEFAULT_MODULES, this.cryptoKey);
+                localStorage.removeItem('mrp_requirements_data');
+                this.modules = JSON.parse(decryptedDefault);
+                this.sanitizeData(this.modules);
+                await this.saveData();
+                this.renderCards();
+                if (this.activeModuleId) {
+                    this.closeDrawer();
+                }
+                this.showToast("All data has been reset.");
+            } catch (e) {
+                console.error("Reset data decryption failed", e);
+                this.showToast("Error resetting data.");
             }
-            this.showToast("All data has been reset.");
         }
     }
 
@@ -1779,7 +1150,7 @@ class ReqGatherApp {
         this.addModuleModal.classList.remove('open');
     }
 
-    createCustomModule() {
+    async createCustomModule() {
         const titleText = this.inputModuleTitle.value.trim();
         const descText = this.inputModuleDesc.value.trim();
         if (!titleText) {
@@ -1796,12 +1167,12 @@ class ReqGatherApp {
         };
 
         this.modules.push(newModule);
-        this.saveData();
+        await this.saveData();
         this.closeAddModuleModal();
         this.showToast(`Module "${titleText}" created successfully!`);
     }
 
-    deleteCustomModule(moduleId) {
+    async deleteCustomModule(moduleId) {
         const mod = this.modules.find(m => m.id === moduleId);
         if (!mod) return;
 
@@ -1809,7 +1180,7 @@ class ReqGatherApp {
             const index = this.modules.findIndex(m => m.id === moduleId);
             if (index !== -1) {
                 this.modules.splice(index, 1);
-                this.saveData();
+                await this.saveData();
                 this.closeDrawer();
                 this.showToast(`Deleted module "${mod.title}"`);
             }
@@ -1879,12 +1250,24 @@ class ReqGatherApp {
     }
 
     // Authentication session check
-    checkAuth() {
-        const isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
-        if (isLoggedIn) {
-            document.body.classList.add('logged-in');
+    async checkAuth() {
+        const creds = sessionStorage.getItem('reqGatherCreds');
+        if (creds) {
+            try {
+                this.cryptoKey = await deriveMasterKey(creds);
+                const decrypted = await decryptWithKey(ENCRYPTED_DEFAULT_MODULES, this.cryptoKey);
+                document.body.classList.add('logged-in');
+                this.loginScreen.style.display = 'none';
+                await this.loadData(decrypted);
+                this.renderCards();
+                this.updateOverallProgress();
+            } catch (e) {
+                console.error("Session verification failed", e);
+                this.handleLogout(false);
+            }
         } else {
             document.body.classList.remove('logged-in');
+            this.loginScreen.style.display = 'flex';
             setTimeout(() => {
                 if (this.usernameInput) this.usernameInput.focus();
             }, 100);
@@ -1892,33 +1275,51 @@ class ReqGatherApp {
     }
 
     // Handle credential verification
-    handleLogin() {
+    async handleLogin() {
         const username = this.usernameInput.value.trim();
         const password = this.passwordInput.value;
+        const creds = `${username}:${password}`;
 
-        if (username === 'WMGSME' && password === 'wMg12465') {
-            sessionStorage.setItem('isLoggedIn', 'true');
+        try {
+            const tempKey = await deriveMasterKey(creds);
+            const decrypted = await decryptWithKey(ENCRYPTED_DEFAULT_MODULES, tempKey);
+            this.cryptoKey = tempKey;
+            sessionStorage.setItem('reqGatherCreds', creds);
             document.body.classList.add('logged-in');
+            this.loginScreen.style.display = 'none';
             this.loginError.style.display = 'none';
             this.usernameInput.value = '';
             this.passwordInput.value = '';
+            await this.loadData(decrypted);
+            this.renderCards();
+            this.updateOverallProgress();
             this.showToast("Welcome back!");
-        } else {
+        } catch (e) {
             this.loginError.style.display = 'block';
             this.loginError.classList.remove('shake');
-            // Trigger reflow to restart animation
             this.loginError.offsetWidth;
             this.loginError.classList.add('shake');
         }
     }
 
     // Handle session end
-    handleLogout() {
-        if (confirm("Are you sure you want to log out?")) {
-            sessionStorage.removeItem('isLoggedIn');
-            this.checkAuth();
-            this.showToast("Logged out successfully.");
+    handleLogout(confirmLogout = true) {
+        if (confirmLogout) {
+            if (!confirm("Are you sure you want to log out?")) {
+                return;
+            }
         }
+        sessionStorage.removeItem('reqGatherCreds');
+        this.cryptoKey = null;
+        document.body.classList.remove('logged-in');
+        this.loginScreen.style.display = 'flex';
+        if (this.activeModuleId) {
+            this.closeDrawer();
+        }
+        this.showToast("Logged out successfully.");
+        setTimeout(() => {
+            if (this.usernameInput) this.usernameInput.focus();
+        }, 100);
     }
 }
 
