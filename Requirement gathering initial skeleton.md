@@ -86,11 +86,27 @@ on opening each card
 - Warehouse heat map
 
 ## Field Service mgmt 
-- Field Service Engineer
-- Job card creation and mgmt
+- Role based 
+- Field Service Engineer resource mgmt
+	- Allocation/assigning of jobs based on skill matrix and location
+- Job card creation and sign off
 - Installation & Commissioning
-- Mobile access
-- Service contract mgmt
+- Risk Assessment RAMS and work permit/approval
+- Calibration reports and any other compliant specific reports e.g. IATF 16949 compliance
+- Field service reports
+- Manage consumable stock for field service engineers
+- Field service engineer's vehicle stock management
+- Expense managements 
+- Mobile/tablet access for field engineers	
+
+
+## Customer/Client Facing Portal(WebTicketing)
+- Option to raise service/job tickets from webticket
+- Website integration
+- User mgmt for webticket login
+- Ticketing queue and workk in progress flags 
+- Service contract mgmt/remaining hours mgmt 
+
 
 ## HR 
 - Timesheets
