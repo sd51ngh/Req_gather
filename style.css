@@ -25,6 +25,8 @@
     
     /* Layout */
     --sidebar-width: 260px;
+    --sidebar-collapsed-width: 76px;
+    --current-sidebar-width: var(--sidebar-width);
     --drawer-width: 80vw;
     
     /* Shadows & Effects */
@@ -95,7 +97,7 @@ button, input, textarea, select {
 
 /* Sidebar Command Panel */
 .sidebar {
-    width: var(--sidebar-width);
+    width: var(--current-sidebar-width);
     background-color: var(--bg-secondary);
     border-right: 1px solid var(--border-color);
     display: flex;
@@ -106,7 +108,40 @@ button, input, textarea, select {
     left: 0;
     top: 0;
     z-index: 50;
-    transition: transform 0.3s var(--ease-out-cubic);
+    transition: transform 0.3s var(--ease-out-cubic), width 0.3s var(--ease-out-cubic), padding 0.3s var(--ease-out-cubic);
+}
+
+/* Sidebar Toggle button on desktop */
+.btn-sidebar-toggle {
+    position: absolute;
+    top: 1.5rem;
+    right: -12px;
+    width: 24px;
+    height: 24px;
+    background-color: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 100;
+    transition: all 0.3s var(--ease-out-cubic);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-sidebar-toggle:hover {
+    color: var(--text-primary);
+    background-color: var(--accent-indigo);
+    border-color: var(--accent-indigo);
+    box-shadow: 0 0 8px rgba(99, 102, 241, 0.4);
+}
+
+.btn-sidebar-toggle svg {
+    width: 12px;
+    height: 12px;
+    transition: transform 0.3s ease;
 }
 
 .logo-area {
@@ -222,13 +257,100 @@ button, input, textarea, select {
     text-align: center;
 }
 
+/* Collapsed Sidebar State styling */
+.app-container.sidebar-collapsed {
+    --current-sidebar-width: var(--sidebar-collapsed-width);
+}
+
+.app-container.sidebar-collapsed .sidebar {
+    padding: 1.5rem 0.75rem;
+    align-items: center;
+}
+
+.app-container.sidebar-collapsed .btn-sidebar-toggle svg {
+    transform: rotate(180deg);
+}
+
+.app-container.sidebar-collapsed .logo-area {
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.app-container.sidebar-collapsed .logo-img {
+    height: 32px;
+}
+
+.app-container.sidebar-collapsed .nav-item {
+    justify-content: center;
+    padding: 0.85rem 0;
+    gap: 0;
+    width: 100%;
+}
+
+.app-container.sidebar-collapsed .nav-item span {
+    display: none;
+}
+
+.app-container.sidebar-collapsed .sidebar-footer {
+    padding-top: 1rem;
+    align-items: center;
+    width: 100%;
+}
+
+.app-container.sidebar-collapsed .btn-reset,
+.app-container.sidebar-collapsed .btn-logout {
+    padding: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.app-container.sidebar-collapsed .btn-reset span,
+.app-container.sidebar-collapsed .btn-logout span {
+    display: none;
+}
+
+.app-container.sidebar-collapsed .app-version {
+    font-size: 0.65rem;
+}
+
 /* Main Content Area */
 .main-content {
-    margin-left: var(--sidebar-width);
+    margin-left: var(--current-sidebar-width);
     flex-grow: 1;
     min-height: 100vh;
     padding: 2.5rem;
     max-width: 1400px;
+    transition: margin-left 0.3s var(--ease-out-cubic);
+}
+
+/* Mobile Menu Toggle Button */
+.btn-mobile-menu {
+    display: none; /* Hidden on desktop */
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.btn-mobile-menu:hover {
+    background-color: var(--bg-tertiary);
+    border-color: var(--accent-indigo);
+    box-shadow: 0 0 10px rgba(99, 102, 241, 0.2);
+}
+
+.btn-mobile-menu svg {
+    width: 20px;
+    height: 20px;
 }
 
 /* Header Grid */
@@ -874,6 +996,67 @@ button, input, textarea, select {
     flex-shrink: 0;
 }
 
+.btn-edit-guidance {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    background-color: rgba(99, 102, 241, 0.08);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    color: var(--accent-indigo);
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+    font-size: 0.65rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-edit-guidance:hover {
+    background-color: var(--accent-indigo);
+    color: white;
+    border-color: var(--accent-indigo);
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.25);
+}
+
+.btn-edit-guidance svg {
+    flex-shrink: 0;
+}
+
+/* Edit guidance wrapper & inner controls */
+.edit-guidance-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+    margin-top: 0.5rem;
+}
+
+.edit-guidance-textarea {
+    width: 100%;
+    min-height: 80px;
+    padding: 0.5rem 0.75rem;
+    background-color: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: white;
+    font-size: 0.9rem;
+    font-family: inherit;
+    line-height: 1.4;
+    resize: vertical;
+    transition: border-color 0.2s ease;
+}
+
+.edit-guidance-textarea:focus {
+    outline: none;
+    border-color: var(--accent-indigo);
+}
+
+.edit-guidance-btn-group {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+}
+
 .guidance-text {
     font-size: 0.95rem;
     color: var(--text-secondary);
@@ -1136,12 +1319,63 @@ button, input, textarea, select {
 
 /* Responsiveness */
 @media (max-width: 992px) {
+    .btn-mobile-menu {
+        display: flex;
+    }
+    
+    .btn-sidebar-toggle {
+        display: none !important;
+    }
+
     .sidebar {
         transform: translateX(-100%);
+        width: var(--sidebar-width) !important;
+        padding: 1.5rem !important;
     }
     
     .sidebar.open-mobile {
         transform: translateX(0);
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+    }
+    
+    /* Ensure that even if app-container has sidebar-collapsed, the mobile drawer displays normal dimensions */
+    .app-container.sidebar-collapsed .sidebar {
+        width: var(--sidebar-width) !important;
+        padding: 1.5rem !important;
+    }
+    .app-container.sidebar-collapsed .logo-area {
+        justify-content: flex-start !important;
+        margin-bottom: 2.5rem !important;
+    }
+    .app-container.sidebar-collapsed .logo-img {
+        height: 48px !important;
+    }
+    .app-container.sidebar-collapsed .nav-item {
+        justify-content: flex-start !important;
+        padding: 0.85rem 1rem !important;
+        gap: 1rem !important;
+    }
+    .app-container.sidebar-collapsed .nav-item span {
+        display: inline !important;
+    }
+    .app-container.sidebar-collapsed .sidebar-footer {
+        padding-top: 1rem !important;
+        align-items: stretch !important;
+    }
+    .app-container.sidebar-collapsed .btn-reset,
+    .app-container.sidebar-collapsed .btn-logout {
+        padding: 0.75rem 1rem !important;
+        width: 100% !important;
+        height: auto !important;
+        border-radius: 8px !important;
+        justify-content: flex-start !important;
+    }
+    .app-container.sidebar-collapsed .btn-reset span,
+    .app-container.sidebar-collapsed .btn-logout span {
+        display: inline !important;
+    }
+    .app-container.sidebar-collapsed .app-version {
+        font-size: 0.75rem !important;
     }
     
     .main-content {
@@ -1150,8 +1384,8 @@ button, input, textarea, select {
     }
     
     .header {
-        flex-direction: column;
-        align-items: flex-start;
+        flex-direction: row;
+        align-items: center;
         gap: 1.5rem;
     }
     
@@ -1639,3 +1873,79 @@ body:not(.logged-in) .app-container {
 .btn-logout:hover svg {
     color: var(--accent-indigo);
 }
+
+/* Custom Module Edit button styling */
+.btn-edit-module {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.85rem;
+    background-color: rgba(99, 102, 241, 0.1);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--accent-indigo);
+    transition: all 0.2s ease;
+    margin-right: 0.5rem;
+}
+
+.btn-edit-module:hover {
+    background-color: var(--accent-indigo);
+    color: white;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+}
+
+/* Inline Edit Focus Area Buttons */
+.btn-edit-custom {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    opacity: 0.4;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+}
+
+.focus-item-card:hover .btn-edit-custom {
+    opacity: 0.8;
+}
+
+.btn-edit-custom:hover {
+    color: var(--accent-indigo) !important;
+    background-color: rgba(99, 102, 241, 0.1);
+    opacity: 1 !important;
+}
+
+.btn-delete-custom {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    opacity: 0.4;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+}
+
+.focus-item-card:hover .btn-delete-custom {
+    opacity: 0.8;
+}
+
+.btn-delete-custom:hover {
+    color: var(--accent-rose) !important;
+    background-color: rgba(244, 63, 94, 0.1);
+    opacity: 1 !important;
+}
+

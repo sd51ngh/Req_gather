@@ -100,6 +100,7 @@ class ReqGatherApp {
         this.modules = [];
         this.cryptoKey = null;
         this.activeModuleId = null;
+        this.editingModuleId = null;
 
         // Dom Elements
         this.cardsGrid = document.getElementById('cards-grid');
@@ -157,6 +158,18 @@ class ReqGatherApp {
         this.passwordInput = document.getElementById('password');
         this.btnLogout = document.getElementById('btn-logout');
 
+        // Sidebar toggle elements
+        this.appContainer = document.getElementById('app-container');
+        this.btnSidebarToggle = document.getElementById('btn-sidebar-toggle');
+        this.btnMobileMenu = document.getElementById('btn-mobile-menu');
+        this.sidebar = document.getElementById('sidebar');
+
+        // Initialise sidebar collapsed state
+        const isCollapsed = localStorage.getItem('sidebar_collapsed') === 'true';
+        if (isCollapsed && this.appContainer) {
+            this.appContainer.classList.add('sidebar-collapsed');
+        }
+
         this.init();
     }
 
@@ -209,7 +222,9 @@ class ReqGatherApp {
                     if (loadedItem) {
                         // Update default fields to latest templates
                         loadedItem.name = defaultItem.name;
-                        loadedItem.guidance = defaultItem.guidance;
+                        if (!loadedItem.guidanceEdited) {
+                            loadedItem.guidance = defaultItem.guidance;
+                        }
                         mergedItems.push(loadedItem);
                     } else {
                         // Item is new, copy it
@@ -362,14 +377,28 @@ class ReqGatherApp {
         this.drawerSubtitle.textContent = `Gathering requirements for: ${mod.title}`;
         this.drawerIcon.innerHTML = mod.icon;
 
-        // Remove existing delete module button if any
+        // Remove existing delete/edit module buttons if any
         const existingDeleteBtn = this.drawer.querySelector('.btn-delete-module');
         if (existingDeleteBtn) {
             existingDeleteBtn.remove();
         }
+        const existingEditBtn = this.drawer.querySelector('.btn-edit-module');
+        if (existingEditBtn) {
+            existingEditBtn.remove();
+        }
 
-        // If it's a custom module, insert a delete button in the header
+        // If it's a custom module, insert edit and delete buttons in the header
         if (moduleId.startsWith('module-custom-')) {
+            const editBtn = document.createElement('button');
+            editBtn.className = 'btn-edit-module';
+            editBtn.innerHTML = `
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 14px; height: 14px;">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                </svg>
+                Edit Module
+            `;
+            editBtn.addEventListener('click', () => this.openEditModuleModal(moduleId));
+
             const deleteBtn = document.createElement('button');
             deleteBtn.className = 'btn-delete-module';
             deleteBtn.innerHTML = `
@@ -380,8 +409,9 @@ class ReqGatherApp {
             `;
             deleteBtn.addEventListener('click', () => this.deleteCustomModule(moduleId));
 
-            // Insert it before the close button
+            // Insert them before the close button
             const closeBtn = document.getElementById('btn-close-drawer');
+            closeBtn.parentNode.insertBefore(editBtn, closeBtn);
             closeBtn.parentNode.insertBefore(deleteBtn, closeBtn);
         }
 
@@ -515,6 +545,11 @@ class ReqGatherApp {
                         </div>
                         <div class="focus-item-actions">
                             ${isCustom ? `
+                                <button class="btn-edit-custom" title="Rename custom focus item" data-item-id="${item.id}">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 14px; height: 14px;">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                                    </svg>
+                                </button>
                                 <button class="btn-delete-custom" title="Delete custom focus item" data-item-id="${item.id}">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -558,13 +593,22 @@ class ReqGatherApp {
                     <div class="guidance-box">
                         <div class="guidance-header-row">
                             <div class="guidance-title">Guidance Prompt</div>
-                            <button class="btn-copy-guidance" data-item-id="${item.id}" title="Copy guidance to notes">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 11px; height: 11px; margin-right: 2px;">
-                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
-                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-                                </svg>
-                                <span>Copy to Notes</span>
-                            </button>
+                            <div class="guidance-actions" style="display: flex; gap: 0.5rem;">
+                                <button class="btn-edit-guidance" data-item-id="${item.id}" title="Edit guidance prompt">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 11px; height: 11px; margin-right: 2px;">
+                                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                                        <path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                                    </svg>
+                                    <span>Edit</span>
+                                </button>
+                                <button class="btn-copy-guidance" data-item-id="${item.id}" title="Copy guidance to notes">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 11px; height: 11px; margin-right: 2px;">
+                                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                                    </svg>
+                                    <span>Copy to Notes</span>
+                                </button>
+                            </div>
                         </div>
                         <div class="guidance-text">${item.guidance}</div>
                     </div>` : ''}
@@ -600,6 +644,14 @@ class ReqGatherApp {
                     });
                 }
 
+                // Bind edit guidance button
+                const btnEditGuidance = card.querySelector('.btn-edit-guidance');
+                if (btnEditGuidance) {
+                    btnEditGuidance.addEventListener('click', () => {
+                        this.editGuidancePrompt(item.id, card);
+                    });
+                }
+
                 // Bind criticality change
                 const critSelect = card.querySelector('.criticality-select');
                 critSelect.addEventListener('change', (e) => {
@@ -617,11 +669,15 @@ class ReqGatherApp {
                     this.updateItemNotesSilent(item.id, e.target.value);
                 });
 
-                // Bind custom delete buttons
+                // Bind custom edit and delete buttons
                 if (isCustom) {
                     const btnDel = card.querySelector('.btn-delete-custom');
                     btnDel.addEventListener('click', () => {
                         this.deleteCustomFocus(item.id);
+                    });
+                    const btnEdit = card.querySelector('.btn-edit-custom');
+                    btnEdit.addEventListener('click', () => {
+                        this.editCustomFocusName(item.id, card);
                     });
                 }
 
@@ -794,6 +850,84 @@ class ReqGatherApp {
         this.showToast("Copied guidance to notes!");
     }
 
+    editGuidancePrompt(itemId, cardEl) {
+        const guidanceBox = cardEl.querySelector('.guidance-box');
+        if (!guidanceBox) return;
+
+        const guidanceTextEl = guidanceBox.querySelector('.guidance-text');
+        if (!guidanceTextEl) return;
+
+        const currentGuidance = guidanceTextEl.textContent;
+
+        if (guidanceBox.querySelector('.edit-guidance-wrapper')) return;
+
+        guidanceTextEl.style.display = 'none';
+
+        const textareaWrapper = document.createElement('div');
+        textareaWrapper.className = 'edit-guidance-wrapper';
+
+        const textarea = document.createElement('textarea');
+        textarea.className = 'edit-guidance-textarea';
+        textarea.value = currentGuidance;
+
+        const btnGroup = document.createElement('div');
+        btnGroup.className = 'edit-guidance-btn-group';
+
+        const saveBtn = document.createElement('button');
+        saveBtn.className = 'btn-save-guidance btn-primary';
+        saveBtn.style.padding = '0.35rem 0.75rem';
+        saveBtn.style.fontSize = '0.7rem';
+        saveBtn.textContent = 'Save';
+
+        const cancelBtn = document.createElement('button');
+        cancelBtn.className = 'btn-cancel-guidance btn-secondary';
+        cancelBtn.style.padding = '0.35rem 0.75rem';
+        cancelBtn.style.fontSize = '0.7rem';
+        cancelBtn.textContent = 'Cancel';
+
+        btnGroup.appendChild(cancelBtn);
+        btnGroup.appendChild(saveBtn);
+        textareaWrapper.appendChild(textarea);
+        textareaWrapper.appendChild(btnGroup);
+
+        guidanceBox.appendChild(textareaWrapper);
+        textarea.focus();
+
+        const saveChanges = async () => {
+            const newGuidance = textarea.value.trim();
+            if (newGuidance && newGuidance !== currentGuidance) {
+                const mod = this.modules.find(m => m.id === this.activeModuleId);
+                if (mod) {
+                    const item = mod.items.find(i => i.id === itemId);
+                    if (item) {
+                        item.guidance = newGuidance;
+                        item.guidanceEdited = true;
+                        await this.saveData();
+                        guidanceTextEl.textContent = newGuidance;
+                        this.showToast("Guidance prompt updated");
+                    }
+                }
+            }
+            cleanup();
+        };
+
+        const cleanup = () => {
+            textareaWrapper.remove();
+            guidanceTextEl.style.display = 'block';
+        };
+
+        saveBtn.addEventListener('click', saveChanges);
+        cancelBtn.addEventListener('click', cleanup);
+        textarea.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                saveChanges();
+            } else if (e.key === 'Escape') {
+                cleanup();
+            }
+        });
+    }
+
     updateItemCriticality(itemId, criticalityVal, selectEl) {
         const mod = this.modules.find(m => m.id === this.activeModuleId);
         if (!mod) return;
@@ -878,6 +1012,112 @@ class ReqGatherApp {
             this.updateDrawerSummaryStats();
             this.showToast(`Deleted "${itemName}"`);
         }
+    }
+
+    editCustomFocusName(itemId, cardEl) {
+        const infoEl = cardEl.querySelector('.focus-item-info');
+        const h4El = infoEl.querySelector('h4');
+        const currentName = h4El.textContent;
+
+        if (infoEl.querySelector('.edit-focus-input')) return;
+
+        h4El.style.display = 'none';
+
+        const inputWrapper = document.createElement('div');
+        inputWrapper.className = 'edit-focus-wrapper';
+        inputWrapper.style.display = 'flex';
+        inputWrapper.style.gap = '0.5rem';
+        inputWrapper.style.width = '100%';
+        inputWrapper.style.marginTop = '0.25rem';
+
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'edit-focus-input';
+        input.value = currentName;
+        input.style.flexGrow = '1';
+        input.style.padding = '0.4rem 0.6rem';
+        input.style.backgroundColor = 'var(--bg-primary)';
+        input.style.border = '1px solid var(--accent-indigo)';
+        input.style.borderRadius = '6px';
+        input.style.color = 'white';
+        input.style.fontSize = '1.25rem';
+        input.style.fontFamily = 'Outfit, sans-serif';
+        input.style.fontWeight = '600';
+
+        const saveBtn = document.createElement('button');
+        saveBtn.className = 'btn-save-focus-name';
+        saveBtn.innerHTML = `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 14px; height: 14px; display: block;">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+            </svg>
+        `;
+        saveBtn.style.padding = '0.4rem 0.6rem';
+        saveBtn.style.backgroundColor = 'rgba(16, 185, 129, 0.1)';
+        saveBtn.style.border = '1px solid rgba(16, 185, 129, 0.2)';
+        saveBtn.style.borderRadius = '6px';
+        saveBtn.style.color = 'var(--accent-emerald)';
+        saveBtn.style.cursor = 'pointer';
+        saveBtn.style.display = 'flex';
+        saveBtn.style.alignItems = 'center';
+        saveBtn.style.justifyContent = 'center';
+
+        const cancelBtn = document.createElement('button');
+        cancelBtn.className = 'btn-cancel-focus-name';
+        cancelBtn.innerHTML = `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 14px; height: 14px; display: block;">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        `;
+        cancelBtn.style.padding = '0.4rem 0.6rem';
+        cancelBtn.style.backgroundColor = 'rgba(244, 63, 94, 0.1)';
+        cancelBtn.style.border = '1px solid rgba(244, 63, 94, 0.2)';
+        cancelBtn.style.borderRadius = '6px';
+        cancelBtn.style.color = 'var(--accent-rose)';
+        cancelBtn.style.cursor = 'pointer';
+        cancelBtn.style.display = 'flex';
+        cancelBtn.style.alignItems = 'center';
+        cancelBtn.style.justifyContent = 'center';
+
+        inputWrapper.appendChild(input);
+        inputWrapper.appendChild(saveBtn);
+        inputWrapper.appendChild(cancelBtn);
+
+        infoEl.insertBefore(inputWrapper, infoEl.firstChild);
+        input.focus();
+        input.select();
+
+        const saveChanges = async () => {
+            const newName = input.value.trim();
+            if (newName && newName !== currentName) {
+                const mod = this.modules.find(m => m.id === this.activeModuleId);
+                if (mod) {
+                    const item = mod.items.find(i => i.id === itemId);
+                    if (item) {
+                        item.name = newName;
+                        await this.saveData();
+                        h4El.textContent = newName;
+                        this.showToast(`Renamed to "${newName}"`);
+                    }
+                }
+            }
+            cleanup();
+        };
+
+        const cleanup = () => {
+            inputWrapper.remove();
+            h4El.style.display = 'block';
+        };
+
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                saveChanges();
+            } else if (e.key === 'Escape') {
+                cleanup();
+            }
+        });
+
+        saveBtn.addEventListener('click', saveChanges);
+        cancelBtn.addEventListener('click', cleanup);
     }
 
     // Export Markdown Report Generation
@@ -1148,6 +1388,29 @@ class ReqGatherApp {
 
     closeAddModuleModal() {
         this.addModuleModal.classList.remove('open');
+        this.editingModuleId = null;
+        
+        const headerTitle = this.addModuleModal.querySelector('.modal-header h3');
+        if (headerTitle) headerTitle.textContent = "Create Custom Module";
+        
+        if (this.btnConfirmAddModule) this.btnConfirmAddModule.textContent = "Create Module";
+    }
+
+    openEditModuleModal(moduleId) {
+        const mod = this.modules.find(m => m.id === moduleId);
+        if (!mod) return;
+
+        this.editingModuleId = moduleId;
+        this.inputModuleTitle.value = mod.title;
+        this.inputModuleDesc.value = mod.description || '';
+
+        const headerTitle = this.addModuleModal.querySelector('.modal-header h3');
+        if (headerTitle) headerTitle.textContent = "Edit Custom Module";
+
+        if (this.btnConfirmAddModule) this.btnConfirmAddModule.textContent = "Save Changes";
+
+        this.addModuleModal.classList.add('open');
+        setTimeout(() => this.inputModuleTitle.focus(), 100);
     }
 
     async createCustomModule() {
@@ -1155,6 +1418,25 @@ class ReqGatherApp {
         const descText = this.inputModuleDesc.value.trim();
         if (!titleText) {
             alert("Please enter a module title.");
+            return;
+        }
+
+        if (this.editingModuleId) {
+            const mod = this.modules.find(m => m.id === this.editingModuleId);
+            if (mod) {
+                mod.title = titleText;
+                mod.description = descText || "Custom business module configuration.";
+                
+                await this.saveData();
+                this.closeAddModuleModal();
+                
+                if (this.activeModuleId === mod.id) {
+                    this.drawerTitle.textContent = mod.title;
+                    this.drawerSubtitle.textContent = `Gathering requirements for: ${mod.title}`;
+                }
+                
+                this.showToast(`Module "${titleText}" updated successfully!`);
+            }
             return;
         }
 
@@ -1189,6 +1471,43 @@ class ReqGatherApp {
 
     // Setup Event Listeners
     setupEventListeners() {
+        // Sidebar toggle controls
+        if (this.btnSidebarToggle) {
+            this.btnSidebarToggle.addEventListener('click', () => {
+                if (this.appContainer) {
+                    const isCurrentlyCollapsed = this.appContainer.classList.toggle('sidebar-collapsed');
+                    localStorage.setItem('sidebar_collapsed', isCurrentlyCollapsed);
+                }
+            });
+        }
+
+        if (this.btnMobileMenu) {
+            this.btnMobileMenu.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (this.sidebar) {
+                    this.sidebar.classList.toggle('open-mobile');
+                }
+            });
+        }
+
+        // Close mobile sidebar when clicking outside or clicking any nav button
+        document.addEventListener('click', (e) => {
+            if (this.sidebar && this.sidebar.classList.contains('open-mobile')) {
+                if (!this.sidebar.contains(e.target) && e.target !== this.btnMobileMenu && (!this.btnMobileMenu || !this.btnMobileMenu.contains(e.target))) {
+                    this.sidebar.classList.remove('open-mobile');
+                }
+            }
+        });
+
+        const navItems = document.querySelectorAll('.nav-item');
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                if (this.sidebar) {
+                    this.sidebar.classList.remove('open-mobile');
+                }
+            });
+        });
+
         // Close drawer buttons
         this.btnCloseDrawer.addEventListener('click', () => this.closeDrawer());
         this.drawerOverlay.addEventListener('click', () => this.closeDrawer());

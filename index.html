@@ -43,7 +43,14 @@
 
     <div class="app-container" id="app-container">
         <!-- Sidebar Command Panel -->
-        <aside class="sidebar">
+        <aside class="sidebar" id="sidebar">
+            <!-- Desktop collapse/expand toggle -->
+            <button class="btn-sidebar-toggle" id="btn-sidebar-toggle" aria-label="Toggle Sidebar" title="Collapse Sidebar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="toggle-icon">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+            </button>
+
             <div class="logo-area">
                 <img src="WMG-logo.png" alt="WMG Logo" class="logo-img">
             </div>
@@ -111,6 +118,14 @@
         <main class="main-content">
             <!-- Header Grid -->
             <header class="header">
+                <!-- Mobile burger menu toggle button -->
+                <button class="btn-mobile-menu" id="btn-mobile-menu" aria-label="Open Navigation Menu" title="Open Navigation Menu">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
                 <div class="header-text">
                     <h1>Requirement Gathering</h1>
                     <p>Welcome! Step through the core business modules below to gather details, define scope, and plan
