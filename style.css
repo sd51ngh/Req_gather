@@ -224,6 +224,34 @@ button, input, textarea, select {
     border-top: 1px solid var(--border-color);
 }
 
+.btn-export-csv {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background-color: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.25);
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--accent-emerald);
+    transition: all 0.2s ease;
+}
+
+.btn-export-csv:hover {
+    background-color: var(--accent-emerald);
+    border-color: var(--accent-emerald);
+    color: white;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+}
+
+.btn-export-csv svg {
+    width: 16px;
+    height: 16px;
+}
+
 .btn-reset {
     display: flex;
     align-items: center;
@@ -297,6 +325,7 @@ button, input, textarea, select {
     width: 100%;
 }
 
+.app-container.sidebar-collapsed .btn-export-csv,
 .app-container.sidebar-collapsed .btn-reset,
 .app-container.sidebar-collapsed .btn-logout {
     padding: 0;
@@ -307,6 +336,7 @@ button, input, textarea, select {
     flex-shrink: 0;
 }
 
+.app-container.sidebar-collapsed .btn-export-csv span,
 .app-container.sidebar-collapsed .btn-reset span,
 .app-container.sidebar-collapsed .btn-logout span {
     display: none;

@@ -137,7 +137,6 @@ class ReqGatherApp {
         // Import / Export backup & restore
         this.btnExportJson = document.getElementById('btn-export-json');
         this.btnImportMd = document.getElementById('btn-import-md');
-        this.btnImportCsv = document.getElementById('btn-import-csv');
         this.btnImportJson = document.getElementById('btn-import-json');
         this.importFileInput = document.getElementById('import-file-input');
 
@@ -1894,7 +1893,6 @@ class ReqGatherApp {
         // Config / File Import and Export controls
         this.btnExportJson.addEventListener('click', () => this.exportJsonConfig());
         if (this.btnImportMd) this.btnImportMd.addEventListener('click', () => this.triggerImport('.md,.markdown,.txt'));
-        if (this.btnImportCsv) this.btnImportCsv.addEventListener('click', () => this.triggerImport('.csv'));
         if (this.btnImportJson) this.btnImportJson.addEventListener('click', () => this.triggerImport('.json'));
         if (this.importFileInput) this.importFileInput.addEventListener('change', (e) => this.handleFileImport(e));
 
