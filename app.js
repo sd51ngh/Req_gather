@@ -1124,10 +1124,10 @@ class ReqGatherApp {
     // Export Markdown Report Generation
     // Export Markdown Config Backup Generation
     generateMarkdown() {
-        let md = `# MRP Requirement Gathering Backup Config\n`;
+        let md = `# Requirement Gathering Backup Config\n`;
         md += `*Config Version: 1.0.0 | Exported: ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}*\n\n`;
         md += `> [!NOTE]\n`;
-        md += `> This Markdown file contains the complete backup configuration for MRP & ERP Requirement Gathering.\n`;
+        md += `> This Markdown file contains the complete backup configuration for Requirement Gathering.\n`;
         md += `> You can edit this document in any text editor and import it back into the app.\n\n`;
 
         const scopeLabels = {
@@ -1226,7 +1226,7 @@ class ReqGatherApp {
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.setAttribute("href", url);
-        link.setAttribute("download", "MRP_Requirement_Gathering_Report.md");
+        link.setAttribute("download", "requirement_gathering.md");
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -1285,7 +1285,7 @@ class ReqGatherApp {
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.setAttribute("href", url);
-        link.setAttribute("download", "MRP_Requirements_Export.csv");
+        link.setAttribute("download", "requirement_gathering.csv");
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -1299,7 +1299,7 @@ class ReqGatherApp {
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.setAttribute("href", url);
-        link.setAttribute("download", "ReqGather_Backup_Config.json");
+        link.setAttribute("download", "requirement_gathering.json");
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
