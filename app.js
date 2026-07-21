@@ -134,8 +134,10 @@ class ReqGatherApp {
         this.btnCancelAddModule = document.getElementById('btn-cancel-add-module');
         this.btnCloseAddModuleModal = document.getElementById('btn-close-add-module-modal');
 
-        // JSON backup/restore
+        // Import / Export backup & restore
         this.btnExportJson = document.getElementById('btn-export-json');
+        this.btnImportMd = document.getElementById('btn-import-md');
+        this.btnImportCsv = document.getElementById('btn-import-csv');
         this.btnImportJson = document.getElementById('btn-import-json');
         this.importFileInput = document.getElementById('import-file-input');
 
@@ -1121,22 +1123,31 @@ class ReqGatherApp {
     }
 
     // Export Markdown Report Generation
+    // Export Markdown Config Backup Generation
     generateMarkdown() {
-        let md = `# MRP Requirement Gathering Report\n`;
-        md += `Generated on: ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}\n\n`;
+        let md = `# MRP Requirement Gathering Backup Config\n`;
+        md += `*Config Version: 1.0.0 | Exported: ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}*\n\n`;
+        md += `> [!NOTE]\n`;
+        md += `> This Markdown file contains the complete backup configuration for MRP & ERP Requirement Gathering.\n`;
+        md += `> You can edit this document in any text editor and import it back into the app.\n\n`;
 
+        const scopeLabels = {
+            'in': 'In Scope',
+            'nice': 'Nice-to-Have',
+            'out': 'Out of Scope',
+            'pending': 'Unassigned'
+        };
         const priorityLabels = {
             'phase1': 'Phase 1',
             'phase2': 'Phase 2',
             'future': 'Future'
         };
-        const formatPriority = (p) => priorityLabels[p] || String(p).toUpperCase();
 
         let overallTotal = 0;
         let overallScoped = 0;
         this.modules.forEach(m => {
             m.items.forEach(i => {
-                if (i.suppressed) return; // Skip suppressed items
+                if (i.suppressed) return;
                 overallTotal++;
                 if (i.scope !== 'pending') overallScoped++;
             });
@@ -1144,8 +1155,8 @@ class ReqGatherApp {
         const pct = overallTotal > 0 ? Math.round((overallScoped / overallTotal) * 100) : 0;
         md += `## Progress Summary: **${pct}% Complete** (${overallScoped} of ${overallTotal} items scoped)\n\n`;
 
-        md += `| Module | Total Items | Scoped Items | Completion | \n`;
-        md += `| :--- | :---: | :---: | :---: | \n`;
+        md += `| Module | Total Items | Scoped Items | Completion |\n`;
+        md += `| :--- | :---: | :---: | :---: |\n`;
         this.modules.forEach(mod => {
             const activeItems = mod.items.filter(item => !item.suppressed);
             const tot = activeItems.length;
@@ -1156,60 +1167,33 @@ class ReqGatherApp {
         md += `\n---\n\n`;
 
         this.modules.forEach(mod => {
-            md += `## ${mod.title}\n`;
-            md += `*${mod.description}*\n\n`;
+            md += `## Module: ${mod.title}\n`;
+            md += `- **ID**: ${mod.id}\n`;
+            if (mod.description) md += `- **Description**: ${mod.description}\n`;
+            if (mod.icon) md += `- **Icon**: ${mod.icon.replace(/\r?\n/g, ' ')}\n`;
+            md += `\n`;
 
-            const activeItems = mod.items.filter(item => !item.suppressed);
-            const inScopeList = activeItems.filter(i => i.scope === 'in');
-            const niceHaveList = activeItems.filter(i => i.scope === 'nice');
-            const outScopeList = activeItems.filter(i => i.scope === 'out');
-            const pendingList = activeItems.filter(i => i.scope === 'pending');
+            mod.items.forEach(item => {
+                md += `### Requirement: ${item.name}\n`;
+                md += `- **ID**: ${item.id}\n`;
+                md += `- **Scope**: ${scopeLabels[item.scope] || item.scope}\n`;
+                md += `- **Priority**: ${priorityLabels[item.priority] || item.priority}\n`;
+                md += `- **Criticality**: ${(item.criticality || 'normal').toUpperCase()}\n`;
+                md += `- **Suppressed**: ${item.suppressed ? 'True' : 'False'}\n`;
+                if (item.guidanceEdited) {
+                    md += `- **GuidanceEdited**: True\n`;
+                }
+                if (item.guidance) {
+                    md += `- **Guidance**: ${item.guidance.replace(/\r?\n/g, ' ')}\n`;
+                }
+                if (item.notes && item.notes.trim()) {
+                    md += `- **Notes**:\n${item.notes.trim()}\n\n`;
+                } else {
+                    md += `- **Notes**: None\n\n`;
+                }
+            });
 
-            if (inScopeList.length > 0) {
-                md += `### In Scope\n\n`;
-                inScopeList.forEach(item => {
-                    md += `#### ${item.name} (Priority: ${formatPriority(item.priority)}, Criticality: ${(item.criticality || 'normal').toUpperCase()})\n`;
-                    if (item.notes.trim()) {
-                        md += `**Notes:**\n${item.notes.trim()}\n\n`;
-                    } else {
-                        md += `*No notes provided.*\n\n`;
-                    }
-                });
-            }
-
-            if (niceHaveList.length > 0) {
-                md += `### Nice-to-Have\n\n`;
-                niceHaveList.forEach(item => {
-                    md += `#### ${item.name} (Priority: ${formatPriority(item.priority)}, Criticality: ${(item.criticality || 'normal').toUpperCase()})\n`;
-                    if (item.notes.trim()) {
-                        md += `**Notes:**\n${item.notes.trim()}\n\n`;
-                    } else {
-                        md += `*No notes provided.*\n\n`;
-                    }
-                });
-            }
-
-            if (outScopeList.length > 0) {
-                md += `### Out of Scope\n\n`;
-                outScopeList.forEach(item => {
-                    md += `#### ${item.name} (Priority: ${formatPriority(item.priority)}, Criticality: ${(item.criticality || 'normal').toUpperCase()})\n`;
-                    if (item.notes.trim()) {
-                        md += `**Notes:**\n${item.notes.trim()}\n\n`;
-                    } else {
-                        md += `*No notes provided.*\n\n`;
-                    }
-                });
-            }
-
-            if (pendingList.length > 0) {
-                md += `### Unassigned / Pending Items\n`;
-                pendingList.forEach(item => {
-                    md += `- **${item.name}**\n`;
-                });
-                md += `\n`;
-            }
-
-            md += `\n---\n\n`;
+            md += `---\n\n`;
         });
 
         return md;
@@ -1323,36 +1307,407 @@ class ReqGatherApp {
         this.showToast("JSON Config downloaded!");
     }
 
-    // JSON Import
-    triggerJsonImport() {
-        this.importFileInput.click();
+    // File Import trigger and handlers (MD, CSV, JSON)
+    triggerImport(acceptedExtensions) {
+        if (this.importFileInput) {
+            this.importFileInput.accept = acceptedExtensions || ".json,.csv,.md,.markdown,.txt";
+            this.importFileInput.value = "";
+            this.importFileInput.click();
+        }
     }
 
-    handleJsonImport(event) {
+    parseMarkdownToModules(mdText) {
+        const lines = mdText.split(/\r?\n/);
+        let importedModules = [];
+        
+        let currentMod = null;
+        let currentScope = 'pending';
+        let currentItem = null;
+        let readingNotes = false;
+        let notesLines = [];
+        let itemsUpdatedCount = 0;
+
+        const finalizeCurrentItemNotes = () => {
+            if (currentItem && notesLines.length > 0) {
+                const notesStr = notesLines.join('\n').trim();
+                if (notesStr && notesStr.toLowerCase() !== 'none') {
+                    currentItem.notes = notesStr;
+                }
+                notesLines = [];
+            }
+        };
+
+        const findOrCreateModule = (title, modId) => {
+            const cleanTitle = title.replace(/^Module:\s*/i, '').replace(/^\d+[\.\)]\s*/, '').trim();
+            let mod = importedModules.find(m => (modId && m.id === modId) || m.title.toLowerCase() === cleanTitle.toLowerCase() || m.title.toLowerCase() === title.toLowerCase());
+            if (!mod) {
+                mod = {
+                    id: modId || `module-custom-${Date.now()}-${Math.floor(Math.random()*1000)}`,
+                    title: cleanTitle || title,
+                    description: "Imported from Markdown configuration.",
+                    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" /></svg>`,
+                    items: []
+                };
+                importedModules.push(mod);
+            } else if (modId) {
+                mod.id = modId;
+            }
+            return mod;
+        };
+
+        const findOrCreateItem = (mod, name, itemId) => {
+            const cleanName = name.replace(/^Requirement:\s*/i, '').replace(/^[\d\.\-\*]+\s*/, '').trim();
+            let item = mod.items.find(i => (itemId && i.id === itemId) || i.name.toLowerCase() === cleanName.toLowerCase() || i.name.toLowerCase() === name.toLowerCase());
+            if (!item) {
+                item = {
+                    id: itemId || `custom-${Date.now()}-${Math.floor(Math.random()*1000)}`,
+                    name: cleanName || name,
+                    guidance: "Imported from Markdown",
+                    scope: currentScope,
+                    priority: "phase2",
+                    criticality: "normal",
+                    suppressed: false,
+                    notes: ""
+                };
+                mod.items.push(item);
+            } else {
+                if (itemId) item.id = itemId;
+                item.scope = currentScope;
+            }
+            itemsUpdatedCount++;
+            return item;
+        };
+
+        for (let i = 0; i < lines.length; i++) {
+            const line = lines[i];
+            const trimmed = line.trim();
+
+            if (!trimmed || /^#\s+/.test(trimmed) || /Progress Summary/i.test(trimmed) || trimmed.startsWith('| Module |') || trimmed.startsWith('| :---')) {
+                continue;
+            }
+
+            if (/^#{2}\s+/.test(trimmed)) {
+                finalizeCurrentItemNotes();
+                currentItem = null;
+                readingNotes = false;
+                const modTitle = trimmed.replace(/^#{2}\s+/, '').replace(/^Module:\s*/i, '').trim();
+                if (modTitle) {
+                    currentMod = findOrCreateModule(modTitle);
+                }
+                continue;
+            }
+
+            if (currentMod && !currentItem && trimmed.startsWith('- **')) {
+                if (trimmed.startsWith('- **ID**:')) {
+                    currentMod.id = trimmed.replace('- **ID**:', '').trim();
+                } else if (trimmed.startsWith('- **Description**:')) {
+                    currentMod.description = trimmed.replace('- **Description**:', '').trim();
+                } else if (trimmed.startsWith('- **Icon**:')) {
+                    currentMod.icon = trimmed.replace('- **Icon**:', '').trim();
+                }
+                continue;
+            }
+
+            if (currentMod && !currentItem && /^\*(.*)\*$/.test(trimmed) && !trimmed.startsWith('**')) {
+                currentMod.description = trimmed.replace(/^\*|\*$/g, '').trim();
+                continue;
+            }
+
+            if (/^#{3}\s+/.test(trimmed) && (trimmed.toLowerCase().includes('scope') || trimmed.toLowerCase().includes('nice') || trimmed.toLowerCase().includes('pending') || trimmed.toLowerCase().includes('unassigned'))) {
+                finalizeCurrentItemNotes();
+                currentItem = null;
+                readingNotes = false;
+                const scopeText = trimmed.replace(/^#{3}\s+/, '').toLowerCase();
+                if (scopeText.includes('in scope')) {
+                    currentScope = 'in';
+                } else if (scopeText.includes('nice')) {
+                    currentScope = 'nice';
+                } else if (scopeText.includes('out')) {
+                    currentScope = 'out';
+                } else if (scopeText.includes('pending') || scopeText.includes('unassigned')) {
+                    currentScope = 'pending';
+                }
+                continue;
+            }
+
+            if (/^#{3}\s+Requirement:/i.test(trimmed) || /^#{4}\s+/.test(trimmed) || (currentMod && /^[\-\*]\s+\*\*/.test(trimmed) && !trimmed.startsWith('- **ID**') && !trimmed.startsWith('- **Scope**') && !trimmed.startsWith('- **Priority**') && !trimmed.startsWith('- **Criticality**') && !trimmed.startsWith('- **Suppressed**') && !trimmed.startsWith('- **Guidance**') && !trimmed.startsWith('- **Notes**'))) {
+                finalizeCurrentItemNotes();
+                readingNotes = false;
+
+                let rawItemText = trimmed.replace(/^#{3,4}\s+|^[\-\*]\s+/, '').replace(/^Requirement:\s*/i, '').trim();
+
+                let prio = null;
+                const prioMatch = rawItemText.match(/Priority:\s*([^,\)]+)/i);
+                if (prioMatch) {
+                    const p = prioMatch[1].trim().toLowerCase();
+                    if (p.includes('phase 1') || p.includes('phase1') || p.includes('high')) prio = 'phase1';
+                    else if (p.includes('phase 2') || p.includes('phase2') || p.includes('med')) prio = 'phase2';
+                    else if (p.includes('future') || p.includes('low')) prio = 'future';
+                }
+
+                let crit = null;
+                const critMatch = rawItemText.match(/Criticality:\s*([^,\)]+)/i);
+                if (critMatch) {
+                    const c = critMatch[1].trim().toLowerCase();
+                    if (c.includes('critical')) crit = 'critical';
+                    else if (c.includes('high')) crit = 'high';
+                    else if (c.includes('normal') || c.includes('medium') || c.includes('low')) crit = 'normal';
+                }
+
+                let itemName = rawItemText
+                    .replace(/\(Priority:[^\)]+\)/i, '')
+                    .replace(/\(Criticality:[^\)]+\)/i, '')
+                    .replace(/^\*\*|\*\*$/g, '')
+                    .trim();
+
+                if (currentMod && itemName) {
+                    currentItem = findOrCreateItem(currentMod, itemName);
+                    if (prio) currentItem.priority = prio;
+                    if (crit) currentItem.criticality = crit;
+                }
+                continue;
+            }
+
+            if (currentItem && trimmed.startsWith('- **')) {
+                if (trimmed.startsWith('- **ID**:')) {
+                    currentItem.id = trimmed.replace('- **ID**:', '').trim();
+                } else if (trimmed.startsWith('- **Scope**:')) {
+                    const s = trimmed.replace('- **Scope**:', '').trim().toLowerCase();
+                    if (s.includes('in scope') || s === 'in') currentItem.scope = 'in';
+                    else if (s.includes('nice') || s === 'nice-to-have') currentItem.scope = 'nice';
+                    else if (s.includes('out') || s === 'out of scope') currentItem.scope = 'out';
+                    else if (s.includes('unassigned') || s === 'pending') currentItem.scope = 'pending';
+                } else if (trimmed.startsWith('- **Priority**:')) {
+                    const p = trimmed.replace('- **Priority**:', '').trim().toLowerCase();
+                    if (p.includes('phase 1') || p.includes('phase1') || p === 'high') currentItem.priority = 'phase1';
+                    else if (p.includes('phase 2') || p.includes('phase2') || p === 'med' || p === 'medium') currentItem.priority = 'phase2';
+                    else if (p.includes('future') || p === 'low') currentItem.priority = 'future';
+                } else if (trimmed.startsWith('- **Criticality**:')) {
+                    const c = trimmed.replace('- **Criticality**:', '').trim().toLowerCase();
+                    if (c.includes('critical')) currentItem.criticality = 'critical';
+                    else if (c.includes('high')) currentItem.criticality = 'high';
+                    else if (c.includes('normal') || c.includes('medium') || c.includes('low')) currentItem.criticality = 'normal';
+                } else if (trimmed.startsWith('- **Suppressed**:')) {
+                    const sup = trimmed.replace('- **Suppressed**:', '').trim().toLowerCase();
+                    currentItem.suppressed = (sup === 'true');
+                } else if (trimmed.startsWith('- **GuidanceEdited**:')) {
+                    const ge = trimmed.replace('- **GuidanceEdited**:', '').trim().toLowerCase();
+                    currentItem.guidanceEdited = (ge === 'true');
+                } else if (trimmed.startsWith('- **Guidance**:')) {
+                    currentItem.guidance = trimmed.replace('- **Guidance**:', '').trim();
+                } else if (trimmed.startsWith('- **Notes**:')) {
+                    readingNotes = true;
+                    notesLines = [];
+                    const inlineNote = trimmed.replace('- **Notes**:', '').trim();
+                    if (inlineNote && inlineNote.toLowerCase() !== 'none' && !inlineNote.startsWith('*No notes provided')) {
+                        notesLines.push(inlineNote);
+                    }
+                }
+                continue;
+            }
+
+            if (currentItem && (/^\*\*Notes:\*\*/i.test(trimmed) || /^Notes:/i.test(trimmed))) {
+                readingNotes = true;
+                notesLines = [];
+                const inlineNote = trimmed.replace(/^\*\*Notes:\*\*|^Notes:/i, '').trim();
+                if (inlineNote && !inlineNote.startsWith('*No notes provided') && inlineNote.toLowerCase() !== 'none') {
+                    notesLines.push(inlineNote);
+                }
+                continue;
+            }
+
+            if (readingNotes && currentItem) {
+                if (trimmed === '---' || /^#{1,4}\s+/.test(trimmed) || (trimmed.startsWith('- **') && !trimmed.startsWith('- **Notes**:'))) {
+                    finalizeCurrentItemNotes();
+                    readingNotes = false;
+                    i--;
+                } else {
+                    if (!trimmed.startsWith('*No notes provided')) {
+                        notesLines.push(line);
+                    }
+                }
+            }
+        }
+
+        finalizeCurrentItemNotes();
+
+        if (importedModules.length === 0) {
+            throw new Error("No requirement modules found in Markdown file.");
+        }
+
+        return { modules: importedModules, count: itemsUpdatedCount };
+    }
+
+    parseCsvToModules(csvText) {
+        const parseCsvLines = (text) => {
+            const rows = [];
+            let currentRow = [];
+            let currentCell = '';
+            let inQuotes = false;
+
+            for (let i = 0; i < text.length; i++) {
+                const char = text[i];
+                const nextChar = text[i + 1];
+
+                if (char === '"') {
+                    if (inQuotes && nextChar === '"') {
+                        currentCell += '"';
+                        i++;
+                    } else {
+                        inQuotes = !inQuotes;
+                    }
+                } else if (char === ',' && !inQuotes) {
+                    currentRow.push(currentCell);
+                    currentCell = '';
+                } else if ((char === '\r' || char === '\n') && !inQuotes) {
+                    if (char === '\r' && nextChar === '\n') {
+                        i++;
+                    }
+                    currentRow.push(currentCell);
+                    if (currentRow.some(cell => cell.trim() !== '')) {
+                        rows.push(currentRow);
+                    }
+                    currentRow = [];
+                    currentCell = '';
+                } else {
+                    currentCell += char;
+                }
+            }
+            if (currentCell || currentRow.length > 0) {
+                currentRow.push(currentCell);
+                if (currentRow.some(cell => cell.trim() !== '')) {
+                    rows.push(currentRow);
+                }
+            }
+            return rows;
+        };
+
+        const rows = parseCsvLines(csvText);
+        if (rows.length < 2) {
+            throw new Error("CSV file must contain a header row and at least one data row.");
+        }
+
+        const headers = rows[0].map(h => h.trim().toLowerCase());
+        
+        const moduleIdx = headers.findIndex(h => h.includes('module'));
+        const nameIdx = headers.findIndex(h => h.includes('name') || h.includes('focus'));
+        const scopeIdx = headers.findIndex(h => h.includes('scope') || h.includes('status'));
+        const prioIdx = headers.findIndex(h => h.includes('priority'));
+        const critIdx = headers.findIndex(h => h.includes('criticality'));
+        const notesIdx = headers.findIndex(h => h.includes('notes') || h.includes('note') || h.includes('details'));
+
+        if (nameIdx === -1) {
+            throw new Error("CSV missing required column: 'Item Name' or 'Name'.");
+        }
+
+        let importedModules = JSON.parse(JSON.stringify(this.modules));
+        let itemsUpdatedCount = 0;
+
+        for (let i = 1; i < rows.length; i++) {
+            const row = rows[i];
+            const moduleTitle = moduleIdx !== -1 && row[moduleIdx] ? row[moduleIdx].trim() : "General Requirements";
+            const itemName = row[nameIdx] ? row[nameIdx].trim() : "";
+            const scopeStr = scopeIdx !== -1 && row[scopeIdx] ? row[scopeIdx].trim().toLowerCase() : "pending";
+            const prioStr = prioIdx !== -1 && row[prioIdx] ? row[prioIdx].trim().toLowerCase() : "phase2";
+            const critStr = critIdx !== -1 && row[critIdx] ? row[critIdx].trim().toLowerCase() : "normal";
+            const notesStr = notesIdx !== -1 && row[notesIdx] ? row[notesIdx].trim() : "";
+
+            if (!itemName) continue;
+
+            let scope = 'pending';
+            if (scopeStr.includes('in scope') || scopeStr === 'in') scope = 'in';
+            else if (scopeStr.includes('nice') || scopeStr === 'nice-to-have') scope = 'nice';
+            else if (scopeStr.includes('out') || scopeStr === 'out of scope') scope = 'out';
+
+            let priority = 'phase2';
+            if (prioStr.includes('phase 1') || prioStr.includes('phase1') || prioStr === 'high') priority = 'phase1';
+            else if (prioStr.includes('phase 2') || prioStr.includes('phase2') || prioStr === 'med' || prioStr === 'medium') priority = 'phase2';
+            else if (prioStr.includes('future') || prioStr === 'low') priority = 'future';
+
+            let criticality = 'normal';
+            if (critStr.includes('critical')) criticality = 'critical';
+            else if (critStr.includes('high')) criticality = 'high';
+
+            let mod = importedModules.find(m => m.title.toLowerCase() === moduleTitle.toLowerCase());
+            if (!mod) {
+                mod = {
+                    id: `module-custom-${Date.now()}-${Math.floor(Math.random()*1000)}`,
+                    title: moduleTitle,
+                    description: "Custom business module configuration.",
+                    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" /></svg>`,
+                    items: []
+                };
+                importedModules.push(mod);
+            }
+
+            let item = mod.items.find(item => item.name.toLowerCase() === itemName.toLowerCase());
+            if (!item) {
+                item = {
+                    id: `custom-${Date.now()}-${Math.floor(Math.random()*1000)}`,
+                    name: itemName,
+                    guidance: "Imported from CSV",
+                    scope: scope,
+                    priority: priority,
+                    criticality: criticality,
+                    notes: notesStr
+                };
+                mod.items.push(item);
+            } else {
+                item.scope = scope;
+                item.priority = priority;
+                item.criticality = criticality;
+                if (notesStr) item.notes = notesStr;
+            }
+            itemsUpdatedCount++;
+        }
+
+        return { modules: importedModules, count: itemsUpdatedCount };
+    }
+
+    handleFileImport(event) {
         const file = event.target.files[0];
         if (!file) return;
 
+        const fileName = file.name.toLowerCase();
         const reader = new FileReader();
+
         reader.onload = async (e) => {
+            const content = e.target.result;
             try {
-                const importedData = JSON.parse(e.target.result);
-                if (Array.isArray(importedData) && importedData.length > 0 && importedData[0].items) {
-                    this.modules = importedData;
+                let importedResult = null;
+
+                if (fileName.endsWith('.json') || content.trim().startsWith('[') || content.trim().startsWith('{')) {
+                    const parsed = JSON.parse(content);
+                    if (Array.isArray(parsed) && parsed.length > 0 && parsed[0].items) {
+                        importedResult = { modules: parsed, count: parsed.reduce((acc, m) => acc + (m.items ? m.items.length : 0), 0) };
+                    } else {
+                        throw new Error("Invalid JSON structure. Expecting array of module objects.");
+                    }
+                } else if (fileName.endsWith('.csv') || (content.includes(',') && /module|item|scope|priority/i.test(content.split(/\r?\n/)[0]))) {
+                    importedResult = this.parseCsvToModules(content);
+                } else if (fileName.endsWith('.md') || fileName.endsWith('.markdown') || content.includes('#')) {
+                    importedResult = this.parseMarkdownToModules(content);
+                } else {
+                    throw new Error("Unrecognized file format. Please upload a .json, .csv, or .md file.");
+                }
+
+                if (importedResult && importedResult.modules) {
+                    this.modules = importedResult.modules;
                     this.sanitizeData(this.modules);
                     await this.saveData();
                     this.renderCards();
+                    this.updateOverallProgress();
                     if (this.activeModuleId) {
                         this.openDrawer(this.activeModuleId);
                     }
-                    this.showToast("Configuration imported successfully!");
-                } else {
-                    alert("Invalid JSON format. Please upload a valid ReqGather backup config file.");
+                    this.showToast(`Imported successfully (${importedResult.count} items processed)!`);
                 }
             } catch (err) {
-                console.error("Error reading JSON file", err);
-                alert("Error parsing file. Please check that it is a valid JSON file.");
+                console.error("Error reading import file", err);
+                alert(`Import failed: ${err.message || "Please check that your file format is valid."}`);
             }
         };
+
         reader.readAsText(file);
     }
 
@@ -1536,10 +1891,12 @@ class ReqGatherApp {
         this.btnCopyPreview.addEventListener('click', () => this.copyExportToClipboard());
         this.btnDownloadPreview.addEventListener('click', () => this.downloadExportMarkdown());
 
-        // JSON config controls
+        // Config / File Import and Export controls
         this.btnExportJson.addEventListener('click', () => this.exportJsonConfig());
-        this.btnImportJson.addEventListener('click', () => this.triggerJsonImport());
-        this.importFileInput.addEventListener('change', (e) => this.handleJsonImport(e));
+        if (this.btnImportMd) this.btnImportMd.addEventListener('click', () => this.triggerImport('.md,.markdown,.txt'));
+        if (this.btnImportCsv) this.btnImportCsv.addEventListener('click', () => this.triggerImport('.csv'));
+        if (this.btnImportJson) this.btnImportJson.addEventListener('click', () => this.triggerImport('.json'));
+        if (this.importFileInput) this.importFileInput.addEventListener('change', (e) => this.handleFileImport(e));
 
         // Reset
         this.btnReset.addEventListener('click', () => this.resetAllData());

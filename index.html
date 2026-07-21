@@ -70,7 +70,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                    <span>Export Markdown</span>
+                    <span>Backup Config (MD)</span>
                 </button>
                 <button class="nav-item" id="btn-export-csv">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -86,6 +86,20 @@
                     </svg>
                     <span>Backup Config (JSON)</span>
                 </button>
+                <button class="nav-item" id="btn-import-md">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <span>Import Markdown (.md)</span>
+                </button>
+                <button class="nav-item" id="btn-import-csv">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <span>Import Excel (.csv)</span>
+                </button>
                 <button class="nav-item" id="btn-import-json">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -93,7 +107,7 @@
                     </svg>
                     <span>Import Config (JSON)</span>
                 </button>
-                <input type="file" id="import-file-input" style="display: none;" accept=".json">
+                <input type="file" id="import-file-input" style="display: none;" accept=".json,.csv,.md,.markdown,.txt">
             </nav>
 
             <div class="sidebar-footer">
