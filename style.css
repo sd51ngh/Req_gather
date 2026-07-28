@@ -1,3 +1,7 @@
+html {
+    font-size: calc(16px * var(--font-scale, 1));
+}
+
 /* CSS Variables & Core Tokens */
 :root {
     --bg-primary: #090d16;
@@ -41,6 +45,22 @@
     /* Animations */
     --ease-out-cubic: cubic-bezier(0.215, 0.61, 0.355, 1);
     --ease-elastic: cubic-bezier(0.68, -0.6, 0.32, 1.6);
+}
+
+/* Light Theme overrides */
+:root.light-theme {
+    --bg-primary: #f8fafc;
+    --bg-secondary: #ffffff;
+    --bg-tertiary: #f1f5f9;
+    --border-color: #cbd5e1;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+    
+    --glass-bg: rgba(255, 255, 255, 0.8);
+    --glass-border: 1px solid rgba(0, 0, 0, 0.08);
+    
+    --grad-card-hover: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(139, 92, 246, 0.02) 100%);
 }
 
 /* Reset and Core Rules */
@@ -1068,7 +1088,7 @@ button, input, textarea, select {
     background-color: var(--bg-primary);
     border: 1px solid var(--border-color);
     border-radius: 8px;
-    color: white;
+    color: var(--text-primary);
     font-size: 0.9rem;
     font-family: inherit;
     line-height: 1.4;
@@ -1978,4 +1998,168 @@ body:not(.logged-in) .app-container {
     background-color: rgba(244, 63, 94, 0.1);
     opacity: 1 !important;
 }
+
+/* ==========================================================================
+   Theme & Font Size Accessibility Controls
+   ========================================================================== */
+
+.theme-font-controls {
+    display: flex;
+    gap: 0.5rem;
+    background-color: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: var(--glass-border);
+    padding: 0.4rem;
+    border-radius: 12px;
+    box-shadow: var(--shadow-md);
+    transition: all 0.3s var(--ease-out-cubic);
+    width: fit-content;
+}
+
+.btn-control {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background-color: transparent;
+    border: 1px solid transparent;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.btn-control:hover {
+    color: var(--text-primary);
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+:root.light-theme .btn-control:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+    border-color: rgba(0, 0, 0, 0.06);
+}
+
+.btn-control svg {
+    width: 18px;
+    height: 18px;
+}
+
+.btn-font {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.btn-font span {
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.btn-font .icon-font-control {
+    width: 10px;
+    height: 10px;
+    opacity: 0.7;
+}
+
+/* Page Flow Layouts for Controls */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.login-card-header {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 0.5rem;
+}
+
+/* ==========================================================================
+   Light Theme Components Overrides
+   ========================================================================== */
+
+:root.light-theme .logo-area h2 {
+    background: linear-gradient(135deg, #0f172a 30%, var(--text-secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+:root.light-theme .header-text h1 {
+    background: linear-gradient(135deg, #0f172a 40%, var(--text-secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+:root.light-theme .login-screen-wrapper {
+    background-color: var(--bg-primary);
+    background-image: 
+        radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.04) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.04) 0%, transparent 40%),
+        radial-gradient(circle at 50% 50%, #f8fafc 0%, #e2e8f0 100%);
+}
+
+:root.light-theme .login-card {
+    background-color: rgba(255, 255, 255, 0.95);
+    border-color: rgba(0, 0, 0, 0.08);
+    box-shadow: 
+        var(--shadow-lg), 
+        0 20px 40px -15px rgba(0, 0, 0, 0.1), 
+        0 0 50px 0 rgba(99, 102, 241, 0.03);
+}
+
+:root.light-theme .login-card h2 {
+    background: linear-gradient(135deg, #0f172a 40%, var(--text-secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+:root.light-theme .form-group-login input {
+    background-color: rgba(255, 255, 255, 0.8);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+
+:root.light-theme .form-group-login input:focus {
+    background-color: #ffffff;
+    box-shadow: 0 0 12px rgba(99, 102, 241, 0.15);
+}
+
+:root.light-theme .btn-sidebar-toggle {
+    background-color: var(--bg-secondary);
+    color: var(--text-secondary);
+}
+
+:root.light-theme .btn-sidebar-toggle:hover {
+    color: white;
+    background-color: var(--accent-indigo);
+    border-color: var(--accent-indigo);
+}
+
+:root.light-theme .mrp-card.add-card-trigger {
+    border-style: dashed;
+}
+
+:root.light-theme .mrp-card.add-card-trigger:hover {
+    background-color: rgba(99, 102, 241, 0.04);
+}
+
+:root.light-theme .card-add-icon {
+    background-color: var(--bg-tertiary);
+    border-color: var(--border-color);
+}
+
+:root.light-theme .drawer-overlay {
+    background-color: rgba(15, 23, 42, 0.4);
+}
+
+:root.light-theme .btn-close-drawer:hover {
+    color: var(--text-primary);
+    background-color: var(--bg-tertiary);
+}
+
 

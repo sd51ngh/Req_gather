@@ -90,7 +90,7 @@ on opening each card
 - Field Service Engineer resource mgmt
 	- Allocation/assigning of jobs based on skill matrix and location
 - Job card creation and sign off
-- Installation & Commissioning
+- Installation & Commissioning FATs, SATs
 - Risk Assessment RAMS and work permit/approval
 - Calibration reports and any other compliant specific reports e.g. IATF 16949 compliance
 - Field service reports
@@ -136,3 +136,18 @@ on opening each card
 - How many shop floor terminals
 - Number of User Licenses required
 
+## Finance
+Accounts Payable
+Accounts Receivable
+Budgeting /Forec​asting
+Collec​tions Automa​tions
+Financial Statements
+Invoice Custom​ization
+Journal Entries
+Multi-​Entry / Consol​idation
+Payment Processing
+Reconc​ili​ations
+Payment Scheduling
+Payment Settle​ments
+Payment Batches
+Payment Methods

@@ -171,11 +171,18 @@ class ReqGatherApp {
             this.appContainer.classList.add('sidebar-collapsed');
         }
 
+        // Accessibility controls
+        this.toggleThemeBtns = document.querySelectorAll('.btn-toggle-theme');
+        this.increaseFontBtns = document.querySelectorAll('.btn-increase-font');
+        this.decreaseFontBtns = document.querySelectorAll('.btn-decrease-font');
+
         this.init();
     }
 
     async init() {
         this.setupEventListeners();
+        const savedTheme = localStorage.getItem('app_theme') || 'dark';
+        this.updateThemeUI(savedTheme === 'light');
         await this.checkAuth();
     }
 
@@ -1040,7 +1047,7 @@ class ReqGatherApp {
         input.style.backgroundColor = 'var(--bg-primary)';
         input.style.border = '1px solid var(--accent-indigo)';
         input.style.borderRadius = '6px';
-        input.style.color = 'white';
+        input.style.color = 'var(--text-primary)';
         input.style.fontSize = '1.25rem';
         input.style.fontFamily = 'Outfit, sans-serif';
         input.style.fontWeight = '600';
@@ -1921,6 +1928,17 @@ class ReqGatherApp {
         this.btnLogout.addEventListener('click', () => {
             this.handleLogout();
         });
+
+        // Accessibility event listeners
+        this.toggleThemeBtns.forEach(btn => {
+            btn.addEventListener('click', () => this.toggleTheme());
+        });
+        this.increaseFontBtns.forEach(btn => {
+            btn.addEventListener('click', () => this.adjustFontScale(0.1));
+        });
+        this.decreaseFontBtns.forEach(btn => {
+            btn.addEventListener('click', () => this.adjustFontScale(-0.1));
+        });
     }
 
     // Authentication session check
@@ -1994,6 +2012,40 @@ class ReqGatherApp {
         setTimeout(() => {
             if (this.usernameInput) this.usernameInput.focus();
         }, 100);
+    }
+
+    toggleTheme() {
+        const isLight = document.documentElement.classList.toggle('light-theme');
+        localStorage.setItem('app_theme', isLight ? 'light' : 'dark');
+        this.updateThemeUI(isLight);
+        this.showToast(`${isLight ? 'Light' : 'Dark'} theme applied`);
+    }
+
+    updateThemeUI(isLight) {
+        const sunIcon = document.querySelector('.icon-theme-sun');
+        const moonIcon = document.querySelector('.icon-theme-moon');
+        if (sunIcon && moonIcon) {
+            if (isLight) {
+                sunIcon.style.display = 'block';
+                moonIcon.style.display = 'none';
+            } else {
+                sunIcon.style.display = 'none';
+                moonIcon.style.display = 'block';
+            }
+        }
+    }
+
+    adjustFontScale(delta) {
+        let currentScale = parseFloat(localStorage.getItem('font_scale') || '1.0');
+        let newScale = currentScale + delta;
+        newScale = Math.max(0.8, Math.min(1.4, newScale));
+        newScale = Math.round(newScale * 10) / 10;
+        
+        if (newScale !== currentScale) {
+            localStorage.setItem('font_scale', newScale.toFixed(1));
+            document.documentElement.style.setProperty('--font-scale', newScale.toFixed(1));
+            this.showToast(`Font size set to ${Math.round(newScale * 100)}%`);
+        }
     }
 }
 
