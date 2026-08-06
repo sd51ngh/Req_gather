@@ -379,6 +379,53 @@
         </div>
     </div>
 
+    <!-- Export CSV Config Modal -->
+    <div class="modal-overlay" id="csv-config-modal">
+        <div class="modal-card modal-card-small">
+            <div class="modal-header">
+                <h3>Configure CSV Columns</h3>
+                <button class="btn-close-modal" id="btn-close-csv-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="modal-subtitle-text">Select the columns to include in your CSV export:</p>
+                <div class="csv-columns-list">
+                    <label class="csv-checkbox-label">
+                        <input type="checkbox" name="csv-col" value="module" checked>
+                        <span>Module</span>
+                    </label>
+                    <label class="csv-checkbox-label">
+                        <input type="checkbox" name="csv-col" value="id" checked>
+                        <span>Item ID</span>
+                    </label>
+                    <label class="csv-checkbox-label">
+                        <input type="checkbox" name="csv-col" value="name" checked>
+                        <span>Item Name</span>
+                    </label>
+                    <label class="csv-checkbox-label">
+                        <input type="checkbox" name="csv-col" value="scope" checked>
+                        <span>Scope Status</span>
+                    </label>
+                    <label class="csv-checkbox-label">
+                        <input type="checkbox" name="csv-col" value="priority" checked>
+                        <span>Priority</span>
+                    </label>
+                    <label class="csv-checkbox-label">
+                        <input type="checkbox" name="csv-col" value="criticality" checked>
+                        <span>Criticality</span>
+                    </label>
+                    <label class="csv-checkbox-label">
+                        <input type="checkbox" name="csv-col" value="notes" checked>
+                        <span>Notes</span>
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="btn-cancel-csv">Cancel</button>
+                <button class="btn-primary" id="btn-confirm-export-csv">Export CSV</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Application Script -->
     <script src="app.js"></script>
 </body>

@@ -134,6 +134,12 @@ class ReqGatherApp {
         this.btnCancelAddModule = document.getElementById('btn-cancel-add-module');
         this.btnCloseAddModuleModal = document.getElementById('btn-close-add-module-modal');
 
+        // CSV columns configuration modal elements
+        this.csvConfigModal = document.getElementById('csv-config-modal');
+        this.btnCloseCsvModal = document.getElementById('btn-close-csv-modal');
+        this.btnCancelCsv = document.getElementById('btn-cancel-csv');
+        this.btnConfirmExportCsv = document.getElementById('btn-confirm-export-csv');
+
         // Import / Export backup & restore
         this.btnExportJson = document.getElementById('btn-export-json');
         this.btnImportMd = document.getElementById('btn-import-md');
@@ -1240,10 +1246,24 @@ class ReqGatherApp {
         this.showToast("Markdown downloaded!");
     }
 
-    exportCsv() {
-        const headers = ["Module", "Item ID", "Item Name", "Scope Status", "Priority", "Criticality", "Notes"];
-        const rows = [];
+    exportCsv(selectedColumns = ["module", "id", "name", "scope", "priority", "criticality", "notes"]) {
+        const headers = [];
+        const columnKeys = [];
 
+        if (selectedColumns.includes("module")) { headers.push("Module"); columnKeys.push("module"); }
+        if (selectedColumns.includes("id")) { headers.push("Item ID"); columnKeys.push("id"); }
+        if (selectedColumns.includes("name")) { headers.push("Item Name"); columnKeys.push("name"); }
+        if (selectedColumns.includes("scope")) { headers.push("Scope Status"); columnKeys.push("scope"); }
+        if (selectedColumns.includes("priority")) { headers.push("Priority"); columnKeys.push("priority"); }
+        if (selectedColumns.includes("criticality")) { headers.push("Criticality"); columnKeys.push("criticality"); }
+        if (selectedColumns.includes("notes")) { headers.push("Notes"); columnKeys.push("notes"); }
+
+        if (headers.length === 0) {
+            this.showToast("Please select at least one column to export!");
+            return;
+        }
+
+        const rows = [];
         const priorityLabels = {
             'phase1': 'Phase 1',
             'phase2': 'Phase 2',
@@ -1261,15 +1281,16 @@ class ReqGatherApp {
                 };
                 const scopeStr = scopeLabels[item.scope] || item.scope;
 
-                rows.push([
-                    mod.title,
-                    item.id,
-                    item.name,
-                    scopeStr,
-                    (priorityLabels[item.priority] || item.priority),
-                    (item.criticality || 'normal').toUpperCase(),
-                    item.notes || ""
-                ]);
+                const row = [];
+                if (columnKeys.includes("module")) row.push(mod.title);
+                if (columnKeys.includes("id")) row.push(item.id);
+                if (columnKeys.includes("name")) row.push(item.name);
+                if (columnKeys.includes("scope")) row.push(scopeStr);
+                if (columnKeys.includes("priority")) row.push(priorityLabels[item.priority] || item.priority);
+                if (columnKeys.includes("criticality")) row.push((item.criticality || 'normal').toUpperCase());
+                if (columnKeys.includes("notes")) row.push(item.notes || "");
+
+                rows.push(row);
             });
         });
 
@@ -1757,6 +1778,18 @@ class ReqGatherApp {
         if (this.btnConfirmAddModule) this.btnConfirmAddModule.textContent = "Create Module";
     }
 
+    openCsvConfigModal() {
+        if (this.csvConfigModal) {
+            this.csvConfigModal.classList.add('open');
+        }
+    }
+
+    closeCsvConfigModal() {
+        if (this.csvConfigModal) {
+            this.csvConfigModal.classList.remove('open');
+        }
+    }
+
     openEditModuleModal(moduleId) {
         const mod = this.modules.find(m => m.id === moduleId);
         if (!mod) return;
@@ -1879,6 +1912,7 @@ class ReqGatherApp {
                 this.closeDrawer();
                 this.closeExportModal();
                 this.closeAddModuleModal();
+                this.closeCsvConfigModal();
             }
         });
 
@@ -1892,8 +1926,28 @@ class ReqGatherApp {
 
         // Export Modal controls
         this.btnExportMd.addEventListener('click', () => this.openExportModal());
-        this.btnExportCsv.addEventListener('click', () => this.exportCsv());
+        this.btnExportCsv.addEventListener('click', () => this.openCsvConfigModal());
         this.btnCloseExportModal.addEventListener('click', () => this.closeExportModal());
+
+        // CSV config modal controls
+        if (this.btnCloseCsvModal) this.btnCloseCsvModal.addEventListener('click', () => this.closeCsvConfigModal());
+        if (this.btnCancelCsv) this.btnCancelCsv.addEventListener('click', () => this.closeCsvConfigModal());
+        if (this.btnConfirmExportCsv) {
+            this.btnConfirmExportCsv.addEventListener('click', () => {
+                const checkboxes = this.csvConfigModal.querySelectorAll('input[name="csv-col"]:checked');
+                const selectedCols = Array.from(checkboxes).map(cb => cb.value);
+                this.exportCsv(selectedCols);
+                this.closeCsvConfigModal();
+            });
+        }
+        if (this.csvConfigModal) {
+            this.csvConfigModal.addEventListener('click', (e) => {
+                if (e.target === this.csvConfigModal) {
+                    this.closeCsvConfigModal();
+                }
+            });
+        }
+
         this.btnCopyPreview.addEventListener('click', () => this.copyExportToClipboard());
         this.btnDownloadPreview.addEventListener('click', () => this.downloadExportMarkdown());
 

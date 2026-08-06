@@ -1,0 +1,1890 @@
+[
+    {
+        "id": "production-planning-scheduling",
+        "title": "Production Planning & Scheduling",
+        "description": "Balance supply and demand, run MRP calculations, and allocate factory resources capacity.",
+        "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z\" /></svg>",
+        "items": [
+            {
+                "id": "master-production-schedule-mps",
+                "name": "Master Production Schedule (MPS)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for master production schedule (mps).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "material-requirements-planning-mrp-mrp-ii",
+                "name": "Material Requirements Planning (MRP / MRP II)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for material requirements planning (mrp / mrp ii).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "capacity-requirements-planning-crp",
+                "name": "Capacity Requirements Planning (CRP)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for capacity requirements planning (crp).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "rough-cut-capacity-planning-rccp",
+                "name": "Rough-Cut Capacity Planning (RCCP)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for rough-cut capacity planning (rccp).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "finite-infinite-scheduling",
+                "name": "Finite / Infinite Scheduling",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for finite / infinite scheduling.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "work-center-machine-capacity-management",
+                "name": "Work Center & Machine Capacity Management",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for work center & machine capacity management.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "production-order-creation-release",
+                "name": "Production Order Creation & Release",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for production order creation & release.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "planned-vs-actual-production-tracking",
+                "name": "Planned vs Actual Production Tracking",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for planned vs actual production tracking.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "make-to-stock-mts-make-to-order-mto-engineer-to-order-eto-support",
+                "name": "Make-to-Stock (MTS) / Make-to-Order (MTO) / Engineer-to-Order (ETO) Support",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for make-to-stock (mts) / make-to-order (mto) / engineer-to-order (eto) support.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "discrete-process-repetitive-manufacturing-modes",
+                "name": "Discrete, Process & Repetitive Manufacturing Modes",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for discrete, process & repetitive manufacturing modes.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "demand-forecasting-sales-operations-planning-s-op",
+                "name": "Demand Forecasting & Sales & Operations Planning (S&OP)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for demand forecasting & sales & operations planning (s&op).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "what-if-scenario-planning",
+                "name": "What-If Scenario Planning",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for what-if scenario planning.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            }
+        ]
+    },
+    {
+        "id": "bill-of-materials-bom-product-structure",
+        "title": "Bill of Materials (BOM) & Product Structure",
+        "description": "Configure master product specifications, variant/option handling, multi-level BOMs, revision controls, and new product introductions.",
+        "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z\" /></svg>",
+        "items": [
+            {
+                "id": "multi-level-bom-management-raw-sub-assembly-finished-good",
+                "name": "Multi-Level BOM Management (Raw \u2192 Sub-Assembly \u2192 Finished Good)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for multi-level bom management (raw \u2192 sub-assembly \u2192 finished good).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "engineering-bom-ebom-vs-manufacturing-bom-mbom-vs-sales-bom-sbom",
+                "name": "Engineering BOM (EBOM) vs Manufacturing BOM (MBOM) vs Sales BOM (SBOM)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for engineering bom (ebom) vs manufacturing bom (mbom) vs sales bom (sbom).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "bom-version-revision-control",
+                "name": "BOM Version & Revision Control",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for bom version & revision control.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "configurable-variant-bom-support",
+                "name": "Configurable / Variant BOM Support",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for configurable / variant bom support.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "engineering-change-orders-eco-change-request-workflow",
+                "name": "Engineering Change Orders (ECO) & Change Request Workflow",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for engineering change orders (eco) & change request workflow.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "bom-cost-roll-up-where-used-analysis",
+                "name": "BOM Cost Roll-Up & Where-Used Analysis",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for bom cost roll-up & where-used analysis.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "bom-comparison-impact-analysis",
+                "name": "BOM Comparison & Impact Analysis",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for bom comparison & impact analysis.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "integration-with-mrp-for-automated-procurement",
+                "name": "Integration with MRP for Automated Procurement",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for integration with mrp for automated procurement.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "phantom-non-stocked-bom-items",
+                "name": "Phantom / Non-Stocked BOM Items",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for phantom / non-stocked bom items.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "co-products-by-products-management",
+                "name": "Co-Products & By-Products Management",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for co-products & by-products management.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            }
+        ]
+    },
+    {
+        "id": "shop-floor-control-manufacturing-execution-mes",
+        "title": "Shop Floor Control & Manufacturing Execution (MES)",
+        "description": "Release work orders, log shop floor feedback, run CAD/PDM interfaces, and assign step-by-step tasks.",
+        "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M4.5 12a7.5 7.5 0 0015 0m-15 0a7.5 7.5 0 1115 0m-15 0H3m16.5 0H21m-1.5 0H12m-8.457 3.077l1.41-.513m14.095-5.13l1.41-.513M5.106 17.785l1.15-.827m11.379-8.16l1.15-.827M8.14 21.27l.707-1.03m7.65-11.12l.707-1.03M12 3v1.5m0 15V21m-3.077-8.457l-.513-1.41m5.13 14.095l-.513-1.41M17.785 5.106l-.827 1.15m-8.16 11.379l-.827 1.15m-3.03-8.62l-1.03-.707m11.12 7.65l-1.03-.707\" /></svg>",
+        "items": [
+            {
+                "id": "work-order-management-create-release-complete",
+                "name": "Work Order Management (Create, Release, Complete)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for work order management (create, release, complete).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "job-routing-operation-sequencing",
+                "name": "Job Routing & Operation Sequencing",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for job routing & operation sequencing.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "work-in-progress-wip-tracking",
+                "name": "Work-in-Progress (WIP) Tracking",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for work-in-progress (wip) tracking.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "real-time-shop-floor-data-collection-sfdc",
+                "name": "Real-Time Shop Floor Data Collection (SFDC)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for real-time shop floor data collection (sfdc).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "labour-booking-time-tracking-per-operation",
+                "name": "Labour Booking & Time Tracking per Operation",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for labour booking & time tracking per operation.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "material-issue-backflushing",
+                "name": "Material Issue & Backflushing",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for material issue & backflushing.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "scrap-rework-recording",
+                "name": "Scrap & Rework Recording",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for scrap & rework recording.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "standard-operating-procedures-sops-enforcement",
+                "name": "Standard Operating Procedures (SOPs) Enforcement",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for standard operating procedures (sops) enforcement.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "hard-gated-execution-step-completion-validation",
+                "name": "Hard-Gated Execution (Step completion validation)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for hard-gated execution (step completion validation).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "electronic-work-instructions-ewi-digital-job-cards",
+                "name": "Electronic Work Instructions (EWI / Digital Job Cards)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for electronic work instructions (ewi / digital job cards).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "operator-sign-off-electronic-signatures",
+                "name": "Operator Sign-Off & Electronic Signatures",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for operator sign-off & electronic signatures.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "overall-equipment-effectiveness-oee-monitoring",
+                "name": "Overall Equipment Effectiveness (OEE) Monitoring",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for overall equipment effectiveness (oee) monitoring.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "production-batch-lot-control",
+                "name": "Production Batch & Lot Control",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for production batch & lot control.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "genealogy-full-forward-backward-traceability",
+                "name": "Genealogy & Full Forward/Backward Traceability",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for genealogy & full forward/backward traceability.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "integration-with-scada-plc-iot-machines",
+                "name": "Integration with SCADA / PLC / IoT Machines",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for integration with scada / plc / iot machines.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            }
+        ]
+    },
+    {
+        "id": "inventory-warehouse-management",
+        "title": "Inventory & Warehouse Management",
+        "description": "Procure raw items, track stock movements, audit inventory, and rate supplier performances.",
+        "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m8.25 3v6.75m0 0l-3-3m3 3l3-3M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z\" /></svg>",
+        "items": [
+            {
+                "id": "real-time-inventory-tracking-multi-location-multi-site",
+                "name": "Real-Time Inventory Tracking (Multi-Location / Multi-Site)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for real-time inventory tracking (multi-location / multi-site).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "lot-serial-batch-number-control",
+                "name": "Lot / Serial / Batch Number Control",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for lot / serial / batch number control.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "expiry-date-fefo-first-expired-first-out-management",
+                "name": "Expiry Date & FEFO (First Expired, First Out) Management",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for expiry date & fefo (first expired, first out) management.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "raw-material-wip-finished-goods-inventory-segregation",
+                "name": "Raw Material, WIP & Finished Goods Inventory Segregation",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for raw material, wip & finished goods inventory segregation.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "goods-receipt-goods-issue-processing",
+                "name": "Goods Receipt & Goods Issue Processing",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for goods receipt & goods issue processing.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "stock-transfers-inter-site-movements",
+                "name": "Stock Transfers & Inter-Site Movements",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for stock transfers & inter-site movements.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "cycle-counting-physical-inventory-auditing",
+                "name": "Cycle Counting & Physical Inventory Auditing",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for cycle counting & physical inventory auditing.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "automated-reorder-points-rop-safety-stock",
+                "name": "Automated Reorder Points (ROP) & Safety Stock",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for automated reorder points (rop) & safety stock.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "barcode-rfid-scanning-support",
+                "name": "Barcode & RFID Scanning Support",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for barcode & rfid scanning support.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "warehouse-layout-bin-location-management",
+                "name": "Warehouse Layout & Bin / Location Management",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for warehouse layout & bin / location management.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "inbound-inspection-quality-gate-on-receipt",
+                "name": "Inbound Inspection (Quality Gate on Receipt)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for inbound inspection (quality gate on receipt).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "quarantine-blocked-stock-management",
+                "name": "Quarantine & Blocked Stock Management",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for quarantine & blocked stock management.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "returns-reverse-logistics",
+                "name": "Returns & Reverse Logistics",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for returns & reverse logistics.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "inventory-valuation-fifo-lifo-weighted-average-standard-cost",
+                "name": "Inventory Valuation (FIFO, LIFO, Weighted Average, Standard Cost)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for inventory valuation (fifo, lifo, weighted average, standard cost).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            }
+        ]
+    },
+    {
+        "id": "procurement-supplier-management",
+        "title": "Procurement & Supplier Management",
+        "description": "Configure and track procurement & supplier management requirements.",
+        "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75zm0 5.25h.007v.008H3.75V12zm0 5.25h.007v.008H3.75v-.008z\" /></svg>",
+        "items": [
+            {
+                "id": "purchase-requisition-purchase-order-po-management",
+                "name": "Purchase Requisition & Purchase Order (PO) Management",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for purchase requisition & purchase order (po) management.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "mrp-driven-suggested-purchase-orders",
+                "name": "MRP-Driven Suggested Purchase Orders",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for mrp-driven suggested purchase orders.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "supplier-vendor-master-data-management",
+                "name": "Supplier / Vendor Master Data Management",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for supplier / vendor master data management.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "supplier-qualification-approved-vendor-list-avl",
+                "name": "Supplier Qualification & Approved Vendor List (AVL)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for supplier qualification & approved vendor list (avl).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "supplier-performance-scorecards-otd-quality-lead-time",
+                "name": "Supplier Performance Scorecards (OTD, Quality, Lead Time)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for supplier performance scorecards (otd, quality, lead time).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "request-for-quotation-rfq-supplier-comparison",
+                "name": "Request for Quotation (RFQ) & Supplier Comparison",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for request for quotation (rfq) & supplier comparison.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "po-tracking-expediting",
+                "name": "PO Tracking & Expediting",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for po tracking & expediting.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "goods-receipt-3-way-matching-po-gr-invoice",
+                "name": "Goods Receipt & 3-Way Matching (PO / GR / Invoice)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for goods receipt & 3-way matching (po / gr / invoice).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "supplier-contracts-blanket-orders",
+                "name": "Supplier Contracts & Blanket Orders",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for supplier contracts & blanket orders.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "drop-shipping-subcontract-toll-manufacturing-management",
+                "name": "Drop-Shipping & Subcontract (Toll Manufacturing) Management",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for drop-shipping & subcontract (toll manufacturing) management.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "supply-chain-risk-management",
+                "name": "Supply Chain Risk Management",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for supply chain risk management.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "multi-currency-international-purchasing",
+                "name": "Multi-Currency & International Purchasing",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for multi-currency & international purchasing.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            }
+        ]
+    },
+    {
+        "id": "quality-management-qms",
+        "title": "Quality Management (QMS)",
+        "description": "Enforce standard quality checkpoints, capture deviations, audit material origins, and coordinate corrective actions.",
+        "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0110 21a3.746 3.746 0 01-3.068-.593 3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0114 3c1.251 0 2.396.618 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z\" /></svg>",
+        "items": [
+            {
+                "id": "incoming-goods-inspection-iqc",
+                "name": "Incoming Goods Inspection (IQC)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for incoming goods inspection (iqc).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "in-process-quality-checks-ipqc-spc",
+                "name": "In-Process Quality Checks (IPQC / SPC)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for in-process quality checks (ipqc / spc).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "final-inspection-outgoing-quality-control-oqc",
+                "name": "Final Inspection & Outgoing Quality Control (OQC)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for final inspection & outgoing quality control (oqc).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "inspection-plans-sampling-rules-aql-levels",
+                "name": "Inspection Plans, Sampling Rules & AQL Levels",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for inspection plans, sampling rules & aql levels.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "non-conformance-reports-ncr-defect-logging",
+                "name": "Non-Conformance Reports (NCR) & Defect Logging",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for non-conformance reports (ncr) & defect logging.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "corrective-preventive-action-capa-workflow",
+                "name": "Corrective & Preventive Action (CAPA) Workflow",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for corrective & preventive action (capa) workflow.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "customer-complaint-management-rma-8d-process",
+                "name": "Customer Complaint Management (RMA / 8D Process)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for customer complaint management (rma / 8d process).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "first-article-inspection-fai",
+                "name": "First Article Inspection (FAI)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for first article inspection (fai).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "statistical-process-control-spc-control-charts",
+                "name": "Statistical Process Control (SPC) & Control Charts",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for statistical process control (spc) & control charts.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "certificate-of-analysis-coa-generation",
+                "name": "Certificate of Analysis (CoA) Generation",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for certificate of analysis (coa) generation.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "document-control-quality-records-management",
+                "name": "Document Control & Quality Records Management",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for document control & quality records management.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "calibration-management-measuring-equipment-register",
+                "name": "Calibration Management (Measuring Equipment Register)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for calibration management (measuring equipment register).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "internal-external-audit-management",
+                "name": "Internal & External Audit Management",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for internal & external audit management.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "iso-9001-2015-compliance-support",
+                "name": "ISO 9001:2015 Compliance Support",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for iso 9001:2015 compliance support.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "risk-based-thinking-quality-risk-register",
+                "name": "Risk-Based Thinking & Quality Risk Register",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for risk-based thinking & quality risk register.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "continuous-improvement-kaizen-pdca",
+                "name": "Continuous Improvement (Kaizen / PDCA)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for continuous improvement (kaizen / pdca).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            }
+        ]
+    },
+    {
+        "id": "plant-maintenance-asset-management-cmms",
+        "title": "Plant Maintenance & Asset Management (CMMS)",
+        "description": "Configure and track plant maintenance & asset management (cmms) requirements.",
+        "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M11.42 15.17L17.25 21A2.67 2.67 0 1113.5 17.25l-5.83-5.83m.084-2.113l-5.83-5.83A2.67 2.67 0 115.67 1.83l5.83 5.83m0 0L17.25 1.83A2.67 2.67 0 1121 5.67l-5.83 5.83m0 0L21 17.25a2.67 2.67 0 11-3.75 3.75l-5.83-5.83\" /></svg>",
+        "items": [
+            {
+                "id": "asset-register-equipment-hierarchy-site-line-machine-component",
+                "name": "Asset Register & Equipment Hierarchy (Site \u2192 Line \u2192 Machine \u2192 Component)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for asset register & equipment hierarchy (site \u2192 line \u2192 machine \u2192 component).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "preventive-maintenance-pm-plans-scheduling",
+                "name": "Preventive Maintenance (PM) Plans & Scheduling",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for preventive maintenance (pm) plans & scheduling.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "predictive-maintenance-pdm-via-iot-sensor-integration",
+                "name": "Predictive Maintenance (PdM) via IoT Sensor Integration",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for predictive maintenance (pdm) via iot sensor integration.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "condition-based-monitoring-cbm",
+                "name": "Condition-Based Monitoring (CBM)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for condition-based monitoring (cbm).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "work-order-management-for-maintenance-tasks",
+                "name": "Work Order Management for Maintenance Tasks",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for work order management for maintenance tasks.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "breakdown-corrective-maintenance-recording",
+                "name": "Breakdown / Corrective Maintenance Recording",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for breakdown / corrective maintenance recording.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "mean-time-between-failures-mtbf-mean-time-to-repair-mttr",
+                "name": "Mean Time Between Failures (MTBF) & Mean Time to Repair (MTTR)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for mean time between failures (mtbf) & mean time to repair (mttr).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "oee-tracking-availability-performance-quality",
+                "name": "OEE Tracking (Availability, Performance, Quality)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for oee tracking (availability, performance, quality).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "spare-parts-inventory-mro-maintenance-repair-operations-procurement",
+                "name": "Spare Parts Inventory & MRO (Maintenance, Repair & Operations) Procurement",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for spare parts inventory & mro (maintenance, repair & operations) procurement.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "maintenance-cost-tracking-per-asset",
+                "name": "Maintenance Cost Tracking per Asset",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for maintenance cost tracking per asset.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "equipment-downtime-logging-root-cause-analysis",
+                "name": "Equipment Downtime Logging & Root Cause Analysis",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for equipment downtime logging & root cause analysis.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "statutory-inspection-management-loler-pssr-pressure-vessels",
+                "name": "Statutory Inspection Management (LOLER, PSSR, Pressure Vessels)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for statutory inspection management (loler, pssr, pressure vessels).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "calibration-tooling-lifecycle-management",
+                "name": "Calibration & Tooling Lifecycle Management",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for calibration & tooling lifecycle management.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "mobile-work-order-access-for-maintenance-technicians",
+                "name": "Mobile Work Order Access for Maintenance Technicians",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for mobile work order access for maintenance technicians.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            }
+        ]
+    },
+    {
+        "id": "finance-manufacturing-cost-accounting",
+        "title": "Finance & Manufacturing Cost Accounting",
+        "description": "Manage financial transactions, general ledger, invoice customizations, tax accounts, budgeting, and payment processing.",
+        "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.83-1.106-2.171 0-3.007.562-.439 1.278-.659 2.003-.659.725 0 1.45.22 2.003.659.271.203.48.455.626.732M12 2a10 10 0 110 20 10 10 0 010-20z\" /></svg>",
+        "items": [
+            {
+                "id": "standard-costing-cost-roll-up-material-labour-overhead",
+                "name": "Standard Costing & Cost Roll-Up (Material + Labour + Overhead)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for standard costing & cost roll-up (material + labour + overhead).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "actual-costing-variance-analysis-purchase-price-labour-overhead-variances",
+                "name": "Actual Costing & Variance Analysis (Purchase Price, Labour, Overhead Variances)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for actual costing & variance analysis (purchase price, labour, overhead variances).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "activity-based-costing-abc",
+                "name": "Activity-Based Costing (ABC)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for activity-based costing (abc).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "product-profitability-reporting",
+                "name": "Product Profitability Reporting",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for product profitability reporting.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "job-work-order-costing",
+                "name": "Job / Work Order Costing",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for job / work order costing.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "work-in-progress-wip-valuation-reporting",
+                "name": "Work-in-Progress (WIP) Valuation & Reporting",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for work-in-progress (wip) valuation & reporting.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "accounts-payable-ap-accounts-receivable-ar",
+                "name": "Accounts Payable (AP) & Accounts Receivable (AR)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for accounts payable (ap) & accounts receivable (ar).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "general-ledger-chart-of-accounts-uk-gaap-ifrs",
+                "name": "General Ledger & Chart of Accounts (UK GAAP / IFRS)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for general ledger & chart of accounts (uk gaap / ifrs).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "budgeting-forecasting",
+                "name": "Budgeting & Forecasting",
+                "guidance": "Focus: Guessing how much money we will earn next year and planning how much we are allowed to spend.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "multi-company-multi-currency-multi-entity-consolidation",
+                "name": "Multi-Company / Multi-Currency / Multi-Entity Consolidation",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for multi-company / multi-currency / multi-entity consolidation.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "vat-management-uk-vat-making-tax-digital-mtd",
+                "name": "VAT Management (UK VAT, Making Tax Digital \u2013 MTD)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for vat management (uk vat, making tax digital \u2013 mtd).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "cash-flow-management-payment-scheduling",
+                "name": "Cash Flow Management & Payment Scheduling",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for cash flow management & payment scheduling.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "fixed-asset-accounting-depreciation",
+                "name": "Fixed Asset Accounting & Depreciation",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for fixed asset accounting & depreciation.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "inter-company-transactions",
+                "name": "Inter-Company Transactions",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for inter-company transactions.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "financial-statements-p-l-balance-sheet-cash-flow",
+                "name": "Financial Statements (P&L, Balance Sheet, Cash Flow)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for financial statements (p&l, balance sheet, cash flow).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "journal-entries-reconciliations",
+                "name": "Journal Entries & Reconciliations",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for journal entries & reconciliations.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            }
+        ]
+    },
+    {
+        "id": "sales-crm-configure-price-quote-cpq",
+        "title": "Sales, CRM & Configure-Price-Quote (CPQ)",
+        "description": "Handle margins, complex multi-line quoting, pricing agreements, and prospective pipelines.",
+        "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M9 7.5L12 10.5M12 10.5L15 7.5M12 10.5V16.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z\" /></svg>",
+        "items": [
+            {
+                "id": "customer-contact-management",
+                "name": "Customer & Contact Management",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for customer & contact management.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "opportunity-pipeline-management",
+                "name": "Opportunity & Pipeline Management",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for opportunity & pipeline management.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "quotation-proposal-generation",
+                "name": "Quotation & Proposal Generation",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for quotation & proposal generation.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "configure-price-quote-cpq-for-complex-configurable-products",
+                "name": "Configure-Price-Quote (CPQ) for Complex / Configurable Products",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for configure-price-quote (cpq) for complex / configurable products.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "rules-based-product-configuration-constraint-validation",
+                "name": "Rules-Based Product Configuration & Constraint Validation",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for rules-based product configuration & constraint validation.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "dynamic-pricing-volume-discounts-customer-tiers-cost-plus",
+                "name": "Dynamic Pricing (Volume Discounts, Customer Tiers, Cost-Plus)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for dynamic pricing (volume discounts, customer tiers, cost-plus).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "margin-protection-approval-workflows",
+                "name": "Margin Protection & Approval Workflows",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for margin protection & approval workflows.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "sales-order-entry-acknowledgement",
+                "name": "Sales Order Entry & Acknowledgement",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for sales order entry & acknowledgement.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "delivery-scheduling-available-to-promise-atp",
+                "name": "Delivery Scheduling & Available-to-Promise (ATP)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for delivery scheduling & available-to-promise (atp).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "customer-portal-self-service-ordering",
+                "name": "Customer Portal / Self-Service Ordering",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for customer portal / self-service ordering.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "forecast-integration-with-production-planning",
+                "name": "Forecast Integration with Production Planning",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for forecast integration with production planning.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "customer-returns-credit-note-management",
+                "name": "Customer Returns & Credit Note Management",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for customer returns & credit note management.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "sales-analytics-dashboards",
+                "name": "Sales Analytics & Dashboards",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for sales analytics & dashboards.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            }
+        ]
+    },
+    {
+        "id": "supply-chain-management-scm",
+        "title": "Supply Chain Management (SCM)",
+        "description": "Configure and track supply chain management (scm) requirements.",
+        "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75zm0 5.25h.007v.008H3.75V12zm0 5.25h.007v.008H3.75v-.008z\" /></svg>",
+        "items": [
+            {
+                "id": "demand-planning-statistical-forecasting",
+                "name": "Demand Planning & Statistical Forecasting",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for demand planning & statistical forecasting.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "s-op-sales-operations-planning-process",
+                "name": "S&OP (Sales & Operations Planning) Process",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for s&op (sales & operations planning) process.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "supplier-collaboration-vmi-vendor-managed-inventory",
+                "name": "Supplier Collaboration & VMI (Vendor Managed Inventory)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for supplier collaboration & vmi (vendor managed inventory).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "subcontract-manufacturing-management",
+                "name": "Subcontract Manufacturing Management",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for subcontract manufacturing management.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "import-export-compliance-uk-trade-tariffs-hmrc",
+                "name": "Import / Export Compliance (UK Trade Tariffs, HMRC)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for import / export compliance (uk trade tariffs, hmrc).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "landed-cost-calculation",
+                "name": "Landed Cost Calculation",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for landed cost calculation.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "3pl-4pl-integration",
+                "name": "3PL / 4PL Integration",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for 3pl / 4pl integration.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "supply-chain-risk-disruption-alerting",
+                "name": "Supply Chain Risk & Disruption Alerting",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for supply chain risk & disruption alerting.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "end-to-end-lot-traceability-across-the-supply-chain",
+                "name": "End-to-End Lot Traceability Across the Supply Chain",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for end-to-end lot traceability across the supply chain.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            }
+        ]
+    },
+    {
+        "id": "warehouse-management",
+        "title": "Warehouse Management",
+        "description": "Procure raw items, track stock movements, audit inventory, and rate supplier performances.",
+        "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m8.25 3v6.75m0 0l-3-3m3 3l3-3M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z\" /></svg>",
+        "items": [
+            {
+                "id": "inventory-management-see-inventory-section-above",
+                "name": "Inventory Management (See Inventory section above)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for inventory management (see inventory section above).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "order-processing-pick-list-generation",
+                "name": "Order Processing & Pick List Generation",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for order processing & pick list generation.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "inbound-receive-logistics-asn-grni",
+                "name": "Inbound Receive Logistics (ASN / GRNI)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for inbound receive logistics (asn / grni).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "barcode-rfid-technology",
+                "name": "Barcode & RFID Technology",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for barcode & rfid technology.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "outbound-logistics-pick-pack-ship",
+                "name": "Outbound Logistics (Pick, Pack & Ship)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for outbound logistics (pick, pack & ship).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "wave-batch-picking",
+                "name": "Wave & Batch Picking",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for wave & batch picking.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "packing-station-carton-management",
+                "name": "Packing Station & Carton Management",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for packing station & carton management.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "despatch-notes-proof-of-delivery-pod",
+                "name": "Despatch Notes & Proof of Delivery (POD)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for despatch notes & proof of delivery (pod).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "courier-carrier-integration-dpd-dhl-royal-mail-ups",
+                "name": "Courier / Carrier Integration (DPD, DHL, Royal Mail, UPS)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for courier / carrier integration (dpd, dhl, royal mail, ups).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "cross-docking-support",
+                "name": "Cross-Docking Support",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for cross-docking support.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "returns-processing-restocking",
+                "name": "Returns Processing & Restocking",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for returns processing & restocking.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "integration-with-supply-chain-erp",
+                "name": "Integration with Supply Chain & ERP",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for integration with supply chain & erp.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            }
+        ]
+    },
+    {
+        "id": "human-resources-workforce-management",
+        "title": "Human Resources & Workforce Management",
+        "description": "Administer staffing directories, log skills matrices, track certifications, and record working shifts.",
+        "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M18 18.72a.75.75 0 000-1.5.75.75 0 000 1.5zM12 18.72a.75.75 0 000-1.5.75.75 0 000 1.5zM6 18.72a.75.75 0 000-1.5.75.75 0 000 1.5zM12 12.75a3 3 0 100-6 3 3 0 000 6zM2.25 12a9.75 9.75 0 0119.5 0c0 .35-.018.692-.053 1.03a9.75 9.75 0 11-19.394 0c-.035-.338-.053-.68-.053-1.03z\" /></svg>",
+        "items": [
+            {
+                "id": "employee-master-data-organisation-structure",
+                "name": "Employee Master Data & Organisation Structure",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for employee master data & organisation structure.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "attendance-time-tracking-clock-in-clock-out",
+                "name": "Attendance & Time Tracking (Clock-in / Clock-out)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for attendance & time tracking (clock-in / clock-out).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "timesheet-management-shop-floor-labour-capture",
+                "name": "Timesheet Management (Shop Floor Labour Capture)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for timesheet management (shop floor labour capture).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "shift-rota-planning",
+                "name": "Shift & Rota Planning",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for shift & rota planning.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "leave-management-holiday-entitlements-uk-statutory-leave",
+                "name": "Leave Management & Holiday Entitlements (UK Statutory Leave)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for leave management & holiday entitlements (uk statutory leave).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "skills-matrix-training-records",
+                "name": "Skills Matrix & Training Records",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for skills matrix & training records.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "labour-costing-productivity-reporting",
+                "name": "Labour Costing & Productivity Reporting",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for labour costing & productivity reporting.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "payroll-integration-hmrc-rti-paye",
+                "name": "Payroll Integration (HMRC RTI / PAYE)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for payroll integration (hmrc rti / paye).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "expense-management",
+                "name": "Expense Management",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for expense management.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "performance-management-appraisals",
+                "name": "Performance Management & Appraisals",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for performance management & appraisals.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            }
+        ]
+    },
+    {
+        "id": "health-safety-environment-hse-ehsq",
+        "title": "Health, Safety & Environment (HSE / EHSQ)",
+        "description": "Configure and track health, safety & environment (hse / ehsq) requirements.",
+        "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0110 21a3.746 3.746 0 01-3.068-.593 3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0114 3c1.251 0 2.396.618 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z\" /></svg>",
+        "items": [
+            {
+                "id": "risk-assessment-management-coshh-manual-handling-machinery",
+                "name": "Risk Assessment Management (COSHH, Manual Handling, Machinery)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for risk assessment management (coshh, manual handling, machinery).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "incident-near-miss-accident-reporting",
+                "name": "Incident, Near-Miss & Accident Reporting",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for incident, near-miss & accident reporting.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "riddor-compliance-reporting-of-injuries-diseases-dangerous-occurrences-regulations-2013",
+                "name": "RIDDOR Compliance (Reporting of Injuries, Diseases & Dangerous Occurrences Regulations 2013)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for riddor compliance (reporting of injuries, diseases & dangerous occurrences regulations 2013).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "investigation-root-cause-analysis",
+                "name": "Investigation & Root Cause Analysis",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for investigation & root cause analysis.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "capa-corrective-preventive-action-for-safety-incidents",
+                "name": "CAPA (Corrective & Preventive Action) for Safety Incidents",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for capa (corrective & preventive action) for safety incidents.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "ppe-register-issuance-tracking",
+                "name": "PPE Register & Issuance Tracking",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for ppe register & issuance tracking.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "permit-to-work-ptw-management",
+                "name": "Permit to Work (PTW) Management",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for permit to work (ptw) management.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "safety-observation-tour-tracking",
+                "name": "Safety Observation & Tour Tracking",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for safety observation & tour tracking.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "hazardous-substances-register-coshh-uk-reach",
+                "name": "Hazardous Substances Register (COSHH / UK REACH)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for hazardous substances register (coshh / uk reach).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "environmental-monitoring-waste-management",
+                "name": "Environmental Monitoring & Waste Management",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for environmental monitoring & waste management.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "iso-45001-oh-s-iso-14001-ems-alignment",
+                "name": "ISO 45001 (OH&S) & ISO 14001 (EMS) Alignment",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for iso 45001 (oh&s) & iso 14001 (ems) alignment.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "audit-inspection-scheduling",
+                "name": "Audit & Inspection Scheduling",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for audit & inspection scheduling.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "emergency-response-planning",
+                "name": "Emergency Response Planning",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for emergency response planning.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "safety-training-records-competency-tracking",
+                "name": "Safety Training Records & Competency Tracking",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for safety training records & competency tracking.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            }
+        ]
+    },
+    {
+        "id": "compliance-regulatory-uk-manufacturing",
+        "title": "Compliance & Regulatory (UK Manufacturing)",
+        "description": "Configure and track compliance & regulatory (uk manufacturing) requirements.",
+        "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z\" /></svg>",
+        "items": [
+            {
+                "id": "iso-9001-2015-quality-management-system",
+                "name": "ISO 9001:2015 \u2014 Quality Management System",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for iso 9001:2015 \u2014 quality management system.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "iso-13485-2016-medical-devices-qms",
+                "name": "ISO 13485:2016 \u2014 Medical Devices QMS",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for iso 13485:2016 \u2014 medical devices qms.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "iatf-16949-automotive-quality-management",
+                "name": "IATF 16949 \u2014 Automotive Quality Management",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for iatf 16949 \u2014 automotive quality management.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "as9100-aerospace-quality-management",
+                "name": "AS9100 \u2014 Aerospace Quality Management",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for as9100 \u2014 aerospace quality management.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "gmp-good-manufacturing-practice-pharma-food",
+                "name": "GMP (Good Manufacturing Practice) \u2014 Pharma / Food",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for gmp (good manufacturing practice) \u2014 pharma / food.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "mhra-medicines-healthcare-products-regulatory-agency",
+                "name": "MHRA \u2014 Medicines & Healthcare Products Regulatory Agency",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for mhra \u2014 medicines & healthcare products regulatory agency.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "uk-mdr-uk-medical-device-regulations-ukca-marking",
+                "name": "UK MDR \u2014 UK Medical Device Regulations (UKCA Marking)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for uk mdr \u2014 uk medical device regulations (ukca marking).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "uk-reach-chemical-substance-registration-hse",
+                "name": "UK REACH \u2014 Chemical Substance Registration (HSE)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for uk reach \u2014 chemical substance registration (hse).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "coshh-control-of-substances-hazardous-to-health",
+                "name": "COSHH \u2014 Control of Substances Hazardous to Health",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for coshh \u2014 control of substances hazardous to health.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "puwer-provision-use-of-work-equipment-regulations",
+                "name": "PUWER \u2014 Provision & Use of Work Equipment Regulations",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for puwer \u2014 provision & use of work equipment regulations.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "loler-lifting-operations-lifting-equipment-regulations",
+                "name": "LOLER \u2014 Lifting Operations & Lifting Equipment Regulations",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for loler \u2014 lifting operations & lifting equipment regulations.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "riddor-injury-incident-reporting-to-hse",
+                "name": "RIDDOR \u2014 Injury & Incident Reporting to HSE",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for riddor \u2014 injury & incident reporting to hse.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "making-tax-digital-mtd-hmrc-vat-digital-compliance",
+                "name": "Making Tax Digital (MTD) \u2014 HMRC VAT digital compliance",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for making tax digital (mtd) \u2014 hmrc vat digital compliance.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "bs-standards-british-standards-institution",
+                "name": "BS Standards (British Standards Institution)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for bs standards (british standards institution).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "full-forward-backward-lot-batch-traceability",
+                "name": "Full Forward & Backward Lot/Batch Traceability",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for full forward & backward lot/batch traceability.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "certificate-of-conformance-coc-certificate-of-analysis-coa",
+                "name": "Certificate of Conformance (CoC) & Certificate of Analysis (CoA)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for certificate of conformance (coc) & certificate of analysis (coa).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "technical-documentation-design-history-files-dhf",
+                "name": "Technical Documentation & Design History Files (DHF)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for technical documentation & design history files (dhf).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "product-recall-management",
+                "name": "Product Recall Management",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for product recall management.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "audit-ready-record-keeping",
+                "name": "Audit-Ready Record Keeping",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for audit-ready record keeping.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            }
+        ]
+    },
+    {
+        "id": "project-management-eto-complex-manufacturing",
+        "title": "Project Management (ETO / Complex Manufacturing)",
+        "description": "Configure and track project management (eto / complex manufacturing) requirements.",
+        "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M6 13.5V3.75m0 9.75a1.5 1.5 0 010 3m0-12.75a1.5 1.5 0 010 3m0 9.75V21m0-9.75h12m0 0V3.75m0 9.75a1.5 1.5 0 010 3m0-12.75a1.5 1.5 0 010 3m0 9.75V21\" /></svg>",
+        "items": [
+            {
+                "id": "project-workbench-work-breakdown-structure-wbs",
+                "name": "Project Workbench & Work Breakdown Structure (WBS)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for project workbench & work breakdown structure (wbs).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "project-scheduling-gantt-critical-path",
+                "name": "Project Scheduling (Gantt, Critical Path)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for project scheduling (gantt, critical path).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "tasks-milestones-dependencies",
+                "name": "Tasks, Milestones & Dependencies",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for tasks, milestones & dependencies.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "resource-allocation-capacity-planning",
+                "name": "Resource Allocation & Capacity Planning",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for resource allocation & capacity planning.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "project-budgeting-cost-management",
+                "name": "Project Budgeting & Cost Management",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for project budgeting & cost management.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "actual-vs-budget-variance-tracking",
+                "name": "Actual vs Budget Variance Tracking",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for actual vs budget variance tracking.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "project-billing-milestone-invoicing",
+                "name": "Project Billing & Milestone Invoicing",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for project billing & milestone invoicing.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "subcontractor-management-within-projects",
+                "name": "Subcontractor Management within Projects",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for subcontractor management within projects.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "document-management-drawing-revision-control",
+                "name": "Document Management & Drawing Revision Control",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for document management & drawing revision control.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "project-analytics-dashboards",
+                "name": "Project Analytics & Dashboards",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for project analytics & dashboards.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            }
+        ]
+    },
+    {
+        "id": "reporting-analytics-industry-4-0",
+        "title": "Reporting, Analytics & Industry 4.0",
+        "description": "Configure and track reporting, analytics & industry 4.0 requirements.",
+        "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z\" /></svg>",
+        "items": [
+            {
+                "id": "overall-equipment-effectiveness-oee",
+                "name": "Overall Equipment Effectiveness (OEE)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for overall equipment effectiveness (oee).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "schedule-adherence-on-time-delivery-otd",
+                "name": "Schedule Adherence & On-Time Delivery (OTD)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for schedule adherence & on-time delivery (otd).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "first-pass-yield-fpy-scrap-rate",
+                "name": "First-Pass Yield (FPY) & Scrap Rate",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for first-pass yield (fpy) & scrap rate.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "cycle-time-throughput",
+                "name": "Cycle Time & Throughput",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for cycle time & throughput.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "mtbf-mttr-maintenance",
+                "name": "MTBF & MTTR (Maintenance)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for mtbf & mttr (maintenance).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "cost-per-unit-produced",
+                "name": "Cost per Unit Produced",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for cost per unit produced.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "inventory-turns-days-inventory-outstanding-dio",
+                "name": "Inventory Turns & Days Inventory Outstanding (DIO)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for inventory turns & days inventory outstanding (dio).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "supplier-on-time-delivery-rate",
+                "name": "Supplier On-Time Delivery Rate",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for supplier on-time delivery rate.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "purchase-price-variance-ppv",
+                "name": "Purchase Price Variance (PPV)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for purchase price variance (ppv).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "real-time-production-dashboards",
+                "name": "Real-Time Production Dashboards",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for real-time production dashboards.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "financial-reporting-p-l-costing-reports-variance-analysis",
+                "name": "Financial Reporting (P&L, Costing Reports, Variance Analysis)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for financial reporting (p&l, costing reports, variance analysis).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "quality-performance-reports",
+                "name": "Quality Performance Reports",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for quality performance reports.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "supply-chain-procurement-analytics",
+                "name": "Supply Chain & Procurement Analytics",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for supply chain & procurement analytics.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "role-based-dashboards-shop-floor-operator-plant-manager-cfo",
+                "name": "Role-Based Dashboards (Shop Floor Operator, Plant Manager, CFO)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for role-based dashboards (shop floor operator, plant manager, cfo).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "self-service-bi-ad-hoc-reporting",
+                "name": "Self-Service BI & Ad-hoc Reporting",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for self-service bi & ad-hoc reporting.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "iot-iiot-sensor-integration-machine-connectivity",
+                "name": "IoT / IIoT Sensor Integration & Machine Connectivity",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for iot / iiot sensor integration & machine connectivity.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "opc-ua-mqtt-industrial-protocol-support",
+                "name": "OPC UA / MQTT Industrial Protocol Support",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for opc ua / mqtt industrial protocol support.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "digital-twin-modelling-simulation-optimisation",
+                "name": "Digital Twin Modelling (Simulation & Optimisation)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for digital twin modelling (simulation & optimisation).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "predictive-analytics-ai-driven-demand-forecasting",
+                "name": "Predictive Analytics & AI-Driven Demand Forecasting",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for predictive analytics & ai-driven demand forecasting.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "edge-computing-for-shop-floor-data-processing",
+                "name": "Edge Computing for Shop Floor Data Processing",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for edge computing for shop floor data processing.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "cloud-on-premise-deployment-options",
+                "name": "Cloud & On-Premise Deployment Options",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for cloud & on-premise deployment options.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "mobile-tablet-interface-for-shop-floor-workers",
+                "name": "Mobile & Tablet Interface for Shop Floor Workers",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for mobile & tablet interface for shop floor workers.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "api-integration-layer-rest-api-edi-webhooks",
+                "name": "API / Integration Layer (REST API, EDI, Webhooks)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for api / integration layer (rest api, edi, webhooks).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "cybersecurity-role-based-access-control-rbac",
+                "name": "Cybersecurity & Role-Based Access Control (RBAC)",
+                "guidance": "Focus: Reviewing scope, details, and standard procedures for cybersecurity & role-based access control (rbac).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            }
+        ]
+    }
+]

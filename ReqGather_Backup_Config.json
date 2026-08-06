@@ -1,0 +1,890 @@
+[
+    {
+        "id": "product-design-bom",
+        "title": "Bills of Materials (BOM) and variant handling",
+        "description": "Configure master product specifications, variant/option handling, multi-level BOMs, revision controls, and new product introductions.",
+        "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z\" /></svg>",
+        "items": [
+            {
+                "id": "master-specifications",
+                "name": "Master product specifications",
+                "guidance": "Focus: Making a list of items with their names, what they look like, and how we measure them (like weight or size).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "variant-handling",
+                "name": "Variant/Option handling",
+                "guidance": "Focus: Listing different versions of a toy or tool, like different colors or sizes.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "multi-level-bom",
+                "name": "Multi-level BOM",
+                "guidance": "Focus: Showing how a big toy is made of smaller parts, and those parts are made of even smaller pieces.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "revision-control",
+                "name": "Revision control",
+                "guidance": "Focus: Keeping track of changes we make to a design over time, like version 1, version 2, and why we changed it.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "design-lifecycle",
+                "name": "Design lifecycle management",
+                "guidance": "Focus: Showing if a drawing is just a sketch, waiting for a boss to check it, ready to use, or too old to use.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "npi",
+                "name": "New Product Introduction (NPI)",
+                "guidance": "Focus: The steps to build a brand new product, testing a test model first, and checking everything before making lots of them.",
+                "scope": "in",
+                "priority": "high",
+                "notes": "Stage-gate approval workflows, engineering changes (ECO), prototype builds, and transition-to-production checks."
+            }
+        ]
+    },
+    {
+        "id": "estimating-quotations",
+        "title": "Estimating & Quotations",
+        "description": "Handle margins, complex multi-line quoting, pricing agreements, and prospective pipelines.",
+        "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M9 7.5L12 10.5M12 10.5L15 7.5M12 10.5V16.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z\" /></svg>",
+        "items": [
+            {
+                "id": "crm",
+                "name": "Customer Relationship Mgmt (CRM)",
+                "guidance": "Focus: Keeping a list of customers, their phone numbers, and remembering what we talked about with them.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "quote-mgmt",
+                "name": "Quote Mgmt with quote validity and price agreement",
+                "guidance": "Focus: Telling a customer how much a job will cost, how long that price lasts, and getting a boss to agree to it.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "moq",
+                "name": "Minimum order Quantity",
+                "guidance": "Focus: Deciding the smallest number of items a customer must buy at one time (like you must buy at least 5 packs).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "discount-mgmt",
+                "name": "Discount % management",
+                "guidance": "Focus: Giving special lower prices to customers who buy a lot of things, or special friends.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "sales-pipeline",
+                "name": "Sales Process, Pipeline Mgmt",
+                "guidance": "Focus: Checking how many people who ask for prices actually end up buying, and guessing how much we will sell next month.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "variant-configurator",
+                "name": "Variant Configurator with BOM integration and compatibility rules",
+                "guidance": "Focus: A computer helper that lets customers choose options (like choosing a blue bike with a basket) and makes sure those parts fit together.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "ecommerce",
+                "name": "Web-shop & E-Commerce Integration",
+                "guidance": "Focus: Connecting our online shop so orders show up automatically, and showing customers if items are still in stock.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            }
+        ]
+    },
+    {
+        "id": "sales-order-processing",
+        "title": "Sales Order Processing",
+        "description": "Automate sales confirmations, compliance, e-commerce imports, and order release criteria.",
+        "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z\" /></svg>",
+        "items": [
+            {
+                "id": "export-regs",
+                "name": "Export Regs Compliance",
+                "guidance": "Focus: Following the rules when shipping things to other countries, like paying special cross-border fees.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "delivery-optimisation",
+                "name": "Delivery Vehicle Optimisation",
+                "guidance": "Focus: Packing trucks tightly and planning the best paths so we can deliver to many houses on one trip.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "outlook-integration",
+                "name": "Outlook Integration",
+                "guidance": "Focus: Connecting our system to our email app so we can see customer messages in one place.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            }
+        ]
+    },
+    {
+        "id": "production-planning-scheduling",
+        "title": "Production Planning & Scheduling",
+        "description": "Balance supply and demand, run MRP calculations, and allocate factory resources capacity.",
+        "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z\" /></svg>",
+        "items": [
+            {
+                "id": "demand-forecasting",
+                "name": "Demand Forecasting",
+                "guidance": "Focus: Looking at what we sold in the past to guess how many things we need to make for Christmas or summer.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "mrp",
+                "name": "Material Requirement Planning",
+                "guidance": "Focus: Figuring out exactly what parts we need to buy and make so we don't run out of ingredients.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "planning-views",
+                "name": "Gantt view / Calendar view / Kanban view",
+                "guidance": "Focus: A calendar board where we can drag and drop jobs to see who is working on what.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "job-routing",
+                "name": "Job routing",
+                "guidance": "Focus: Writing down the step-by-step instructions for making something (like step 1: cut, step 2: paint, step 3: dry).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "forward-scheduling",
+                "name": "Forward scheduling",
+                "guidance": "Focus: Planning a project starting today and seeing when is the earliest we can finish it.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "backward-scheduling",
+                "name": "Backward scheduling",
+                "guidance": "Focus: Working backward from the day a customer wants their toy to figure out the latest day we must start making it.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "capacity-planning",
+                "name": "Capacity planning",
+                "guidance": "Focus: Making sure we have enough machines and people working to finish all our jobs without anyone getting overloaded.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "aps",
+                "name": "Advanced Planning & Factory Scheduling (APS)",
+                "guidance": "Focus: A smart scheduling board that knows we only have two hands and can't use a machine if someone else is using it.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            }
+        ]
+    },
+    {
+        "id": "purchasing-stock-control",
+        "title": "Purchasing & Stock Control",
+        "description": "Procure raw items, track stock movements, audit inventory, and rate supplier performances.",
+        "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m8.25 3v6.75m0 0l-3-3m3 3l3-3M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z\" /></svg>",
+        "items": [
+            {
+                "id": "supplier-mgmt",
+                "name": "Supplier Assessment & Mgmt (SCM)",
+                "guidance": "Focus: Keeping track of who we buy parts from, how fast they send them, and if they send good parts.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "stock-skus",
+                "name": "Estimated number of components in stock – think number of SKUs",
+                "guidance": "Focus: Knowing exactly where every single item is kept in the warehouse (like shelf A, bin 3) and how many we have.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "stock-alerts",
+                "name": "Critical Stock Alerts",
+                "guidance": "Focus: A system that alerts us (like a blinking light) when we are running low on something so we can buy more.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "eprocurement",
+                "name": "E-Procurement Portal Integration",
+                "guidance": "Focus: Letting our computer talk directly to the seller's computer to buy things automatically.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "po-revision",
+                "name": "Purchase order revision",
+                "guidance": "Focus: Writing down when we change a shopping list we sent to a supplier, and when they say they will deliver.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "purchase-price-agreement",
+                "name": "Purchase price agreement",
+                "guidance": "Focus: Remembering the special prices we agreed to pay for parts so they don't overcharge us.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "vmi",
+                "name": "Vendor Managed Inventory (VMI)",
+                "guidance": "Focus: Letting the seller check our shelves and send us more items before we even have to ask.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "purchase-price-variance",
+                "name": "Purchase price variance",
+                "guidance": "Focus: Checking if we paid more or less for something than we expected, and finding out why.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            }
+        ]
+    },
+    {
+        "id": "production-management",
+        "title": "Production Management",
+        "description": "Release work orders, log shop floor feedback, run CAD/PDM interfaces, and assign step-by-step tasks.",
+        "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M4.5 12a7.5 7.5 0 0015 0m-15 0a7.5 7.5 0 1115 0m-15 0H3m16.5 0H21m-1.5 0H12m-8.457 3.077l1.41-.513m14.095-5.13l1.41-.513M5.106 17.785l1.15-.827m11.379-8.16l1.15-.827M8.14 21.27l.707-1.03m7.65-11.12l.707-1.03M12 3v1.5m0 15V21m-3.077-8.457l-.513-1.41m5.13 14.095l-.513-1.41M17.785 5.106l-.827 1.15m-8.16 11.379l-.827 1.15m-3.03-8.62l-1.03-.707m11.12 7.65l-1.03-.707\" /></svg>",
+        "items": [
+            {
+                "id": "sfdc",
+                "name": "Shop Floor Data Collection",
+                "guidance": "Focus: Tracking when workers start and stop a job, and how much material gets thrown away.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "production-feedback",
+                "name": "Production Feedback",
+                "guidance": "Focus: Using simple touch screens and barcode scanners in the workshop to check off tasks.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "work-order-creation",
+                "name": "Work order creation",
+                "guidance": "Focus: Giving the makers a sheet of paper that tells them what to build today.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "wip-tracking",
+                "name": "Work in progress tracking",
+                "guidance": "Focus: Real-time tracking of components at different routing stages, and stage completion updates.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "work-instructions",
+                "name": "Work Instructions",
+                "guidance": "Focus: Easy instructions with pictures, warning signs, and checks to help makers do the job safely and correctly.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            }
+        ]
+    },
+    {
+        "id": "qms",
+        "title": "Quality Management System (QMS)",
+        "description": "Enforce standard quality checkpoints, capture deviations, audit material origins, and coordinate corrective actions.",
+        "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0110 21a3.746 3.746 0 01-3.068-.593 3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0114 3c1.251 0 2.396.618 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z\" /></svg>",
+        "items": [
+            {
+                "id": "qc-plan",
+                "name": "Quality control plan",
+                "guidance": "Focus: Checking parts when they arrive, during building, and before they leave to make sure they are perfect.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "deviation-capa",
+                "name": "Deviation mgmt, CAPA",
+                "guidance": "Focus: Putting bad parts in a 'quarantine' box so no one uses them, and figuring out how to prevent mistakes next time.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "inspection-plan",
+                "name": "Inspection plan",
+                "guidance": "Focus: Deciding what rules a part must follow to pass the test (like: it cannot be wider than a ruler).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "root-cause-analysis",
+                "name": "Root cause analysis",
+                "guidance": "Focus: Playing detective and asking 'why, why, why' until we find out why a part broke.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "approval-workflow",
+                "name": "Approval workflow",
+                "guidance": "Focus: Getting the inspectors to sign their names on a screen to say a product is safe to sell.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            }
+        ]
+    },
+    {
+        "id": "pick-pack-despatch",
+        "title": "Pick, Pack & Despatch",
+        "description": "Manage pick lists, track carton packs, print label requirements, and manage fleet configurations.",
+        "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124l-.047-.75m-14.773-2.625h14.773M2.25 12.75V4.875A1.125 1.125 0 013.375 3.75h9.81c.318 0 .624.146.82.4l3.06 3.89c.18.23.28.514.28.808v.538m0-2.25H12a1.125 1.125 0 01-1.125-1.125V3.75m-9 10.5h16.5V18a1.5 1.5 0 01-1.5 1.5h-13.5A1.5 1.5 0 012.25 18v-3.75z\" /></svg>",
+        "items": [
+            {
+                "id": "export-doc-mgmt",
+                "name": "Export Document Mgmt",
+                "guidance": "Focus: Printing the shipping sheets, customs lists, and other paperwork needed to send packages around the world.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "route-planning",
+                "name": "Vehicle Route Planning",
+                "guidance": "Focus: Putting address stops in order so drivers don't have to drive in circles.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "fleet-mgmt",
+                "name": "Delivery Fleet Management",
+                "guidance": "Focus: Keeping our delivery vans working, checking driver licenses, and working with other shipping companies.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "route-optimisation",
+                "name": "Delivery Route Optimisation",
+                "guidance": "Focus: Updating the map path while driving to avoid traffic jams or closed roads.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "warehouse-heatmap",
+                "name": "Warehouse heat map",
+                "guidance": "Focus: Drawing a map of the warehouse that shows which aisles are busiest so we can put popular items closer to the door.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            }
+        ]
+    },
+    {
+        "id": "field-service",
+        "title": "Field Service",
+        "description": "Track installations, manage maintenance, repair, and overhaul (MRO) tasks, and coordinate engineering timesheets.",
+        "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M11.42 15.17L17.25 21A2.67 2.67 0 1113.5 17.25l-5.83-5.83m.084-2.113l-5.83-5.83A2.67 2.67 0 115.67 1.83l5.83 5.83m0 0L17.25 1.83A2.67 2.67 0 1121 5.67l-5.83 5.83m0 0L21 17.25a2.67 2.67 0 11-3.75 3.75l-5.83-5.83\" /></svg>",
+        "items": [
+            {
+                "id": "field-engineer-resource-mgmt",
+                "name": "Field Service Engineer resource mgmt",
+                "guidance": "Focus: Sending the closest and smartest engineer to fix a machine at a customer's house.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "job-card-signoff",
+                "name": "Job card creation and sign off",
+                "guidance": "Focus: Writing down what the engineer fixed, what parts they used, and having the customer sign on a tablet.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "installation-commissioning",
+                "name": "Installation & Commissioning, FATs, SATs",
+                "guidance": "Focus: Checking a customer's house, setting up the machine, testing it, and showing them how to use it safely.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "risk-assessment-rams",
+                "name": "Risk Assessment RAMS and work permit/approval",
+                "guidance": "Focus: Checking for dangers (like hot pipes or wet floors) and writing down how to stay safe before we start fixing.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "compliance-reports",
+                "name": "Calibration reports and any other compliant specific reports e.g. IATF 16949 compliance",
+                "guidance": "Focus: Writing safety and tuning reports to prove that our tools work exactly like they are supposed to.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "field-service-reports",
+                "name": "Field service reports",
+                "guidance": "Focus: A summary paper for the customer showing what we fixed and how to keep it working.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "consumable-stock-mgmt",
+                "name": "Manage consumable stock for field service engineers",
+                "guidance": "Focus: Keeping track of small things like glue, screws, and tape that engineers use every day.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "vehicle-stock-mgmt",
+                "name": "Field service engineer's vehicle stock management",
+                "guidance": "Focus: Making sure each engineer's van has enough spare parts in the back so they don't have to drive back to the warehouse.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "expense-mgmt",
+                "name": "Expense managements",
+                "guidance": "Focus: Keeping receipts for gas, hotel rooms, and meals so the company can pay the engineer back.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "mobile-tablet-access",
+                "name": "Mobile/tablet access for field engineers",
+                "guidance": "Focus: An app on a phone or tablet that works even without internet so engineers can take photos and check off tasks.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            }
+        ]
+    },
+    {
+        "id": "customer-portal",
+        "title": "Customer/Client Facing Portal (WebTicketing)",
+        "description": "Provide a portal for raising service tickets, tracking progress, website integration, and managing service contracts.",
+        "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-12h12c1.38 0 2.5 1.12 2.5 2.5v7c0 1.38-1.12 2.5-2.5 2.5h-12A2.5 2.5 0 015 15.5v-7A2.5 2.5 0 017.5 6z\" /></svg>",
+        "items": [
+            {
+                "id": "raise-tickets",
+                "name": "Option to raise service/job tickets from webticket",
+                "guidance": "Focus: A website page where customers can report a broken item, write what happened, and upload a photo.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "website-integration",
+                "name": "Website integration",
+                "guidance": "Focus: Putting the help screen right on our main website so customers can find it easily.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "user-mgmt-portal",
+                "name": "User mgmt for webticket login",
+                "guidance": "Focus: Letting customers create usernames, passwords, and choose who else in their office can see their tickets.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "ticketing-queue",
+                "name": "Ticketing queue and work in progress flags",
+                "guidance": "Focus: A progress bar on screen (like: 'We got it', 'We are working on it', 'Fixed!') so customers know what's happening.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "service-contract-mgmt",
+                "name": "Service contract mgmt/remaining hours mgmt",
+                "guidance": "Focus: Keeping track of how many hours of help a customer has paid for (like a prepaid phone card).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            }
+        ]
+    },
+    {
+        "id": "hr",
+        "title": "HR",
+        "description": "Administer staffing directories, log skills matrices, track certifications, and record working shifts.",
+        "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M18 18.72a.75.75 0 000-1.5.75.75 0 000 1.5zM12 18.72a.75.75 0 000-1.5.75.75 0 000 1.5zM6 18.72a.75.75 0 000-1.5.75.75 0 000 1.5zM12 12.75a3 3 0 100-6 3 3 0 000 6zM2.25 12a9.75 9.75 0 0119.5 0c0 .35-.018.692-.053 1.03a9.75 9.75 0 11-19.394 0c-.035-.338-.053-.68-.053-1.03z\" /></svg>",
+        "items": [
+            {
+                "id": "timesheets",
+                "name": "Timesheets",
+                "guidance": "Focus: Tracking when employees start and finish work each day so we can pay them correctly.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "skills-matrix",
+                "name": "Skill matrix/organogram",
+                "guidance": "Focus: A list showing what everyone is good at (like who knows how to weld, who knows how to code).",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "training-mgmt",
+                "name": "training mgmt",
+                "guidance": "Focus: Organizing classes to teach workers new skills, and remembering when they need to renew their safety licenses.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "hr-expense-tracking",
+                "name": "expense tracking",
+                "guidance": "Focus: Tracking money spent by workers on office supplies or client lunches.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            }
+        ]
+    },
+    {
+        "id": "integrations",
+        "title": "Integrations",
+        "description": "Connect with external systems including CRM, Finance, E-commerce, shipping carriers, and payment gateways.",
+        "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244\" /></svg>",
+        "items": [
+            {
+                "id": "api-documentation",
+                "name": "API Documentation",
+                "guidance": "Focus: A rulebook that shows programmers how to connect other games or apps to our system.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "integration-outlook",
+                "name": "Outlook Integration",
+                "guidance": "Focus: Syncing calendars and customer emails so we don't miss any meetings or notes.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "integration-crm",
+                "name": "CRM system - Salesforce, HubSpot, Zoho etc",
+                "guidance": "Focus: Sharing customer lists and sales notes automatically with other popular customer tools.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "integration-finance",
+                "name": "Finance Systems eg. Sage, Xero, Quickbooks, etc",
+                "guidance": "Focus: Sending bills and money notes to accounting apps like Sage or QuickBooks automatically.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "integration-ecommerce",
+                "name": "E-commerce platforms eg. Shopify, Magento, WooCommerce",
+                "guidance": "Focus: Importing online store orders from online shops like Shopify and updating stock counts automatically.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "integration-shipping",
+                "name": "Shipping carriers eg. DHL, FedEX, UPS",
+                "guidance": "Focus: Printing shipping labels and sending package tracking links to customers automatically.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "integration-payments",
+                "name": "Payment gateways eg. Stripe, PayPal",
+                "guidance": "Focus: Taking credit card payments safely online and checking them off as paid.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            }
+        ]
+    },
+    {
+        "id": "dashboards",
+        "title": "Dashboards",
+        "description": "Monitor key performance indicators across stock, sales, production, finance, and overall operations.",
+        "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z\" /></svg>",
+        "items": [
+            {
+                "id": "dashboard-overview",
+                "name": "Overview Dashboard",
+                "guidance": "Focus: A main screen showing quick numbers on how the business is doing, like a game dashboard.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "dashboard-stock",
+                "name": "Stock Dashboard",
+                "guidance": "Focus: A screen showing how much our stock is worth and alerts for items that have been sitting on shelves too long.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "dashboard-sales",
+                "name": "Sales Dashboard",
+                "guidance": "Focus: A screen showing how many orders we got this month and what toys or tools are selling best.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "dashboard-production",
+                "name": "Production Dashboard",
+                "guidance": "Focus: A screen showing if our factory is working fast and how many items are being made right now.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "dashboard-financial",
+                "name": "Financial Dashboard",
+                "guidance": "Focus: A screen showing how much money we made, how much we spent, and our actual profit.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            }
+        ]
+    },
+    {
+        "id": "other-questions",
+        "title": "Other Questions",
+        "description": "Address critical operational volumes, terminal counts, licensing requirements, and other scoping details.",
+        "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z\" /></svg>",
+        "items": [
+            {
+                "id": "avg-customer-orders",
+                "name": "How many customer orders per week/month on average",
+                "guidance": "Focus: Finding out how many orders we get a day so we can make sure our computer is fast enough.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "avg-purchase-orders",
+                "name": "How many purchase orders per week/month on average",
+                "guidance": "Focus: Writing down how many purchase orders we send to suppliers so we can see how much buying we do.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "shop-floor-terminals-count",
+                "name": "How many shop floor terminals",
+                "guidance": "Focus: Counting how many computers we need in the workshop so we can buy enough screens.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "user-licenses-count",
+                "name": "Number of User Licenses required",
+                "guidance": "Focus: Counting how many people will use the software so we can pay for the right amount of keys.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            }
+        ]
+    },
+    {
+        "id": "finance",
+        "title": "Finance",
+        "description": "Manage financial transactions, general ledger, invoice customizations, tax accounts, budgeting, and payment processing.",
+        "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.83-1.106-2.171 0-3.007.562-.439 1.278-.659 2.003-.659.725 0 1.45.22 2.003.659.271.203.48.455.626.732M12 2a10 10 0 110 20 10 10 0 010-20z\" /></svg>",
+        "items": [
+            {
+                "id": "accounts-payable",
+                "name": "Accounts Payable",
+                "guidance": "Focus: Keeping track of bills we owe to other companies, making sure they are approved, and paying them on time.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "accounts-receivable",
+                "name": "Accounts Receivable",
+                "guidance": "Focus: Sending bills to customers, checking if they paid, and sending reminders if they are late.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "budgeting-forecasting",
+                "name": "Budgeting / Forecasting",
+                "guidance": "Focus: Guessing how much money we will earn next year and planning how much we are allowed to spend.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "collections-automations",
+                "name": "Collections Automations",
+                "guidance": "Focus: Sending automatic emails to remind people to pay their bills, and locking accounts if they are too late.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "financial-statements",
+                "name": "Financial Statements",
+                "guidance": "Focus: Printing the main money reports that show exactly what we own and how much we made.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "invoice-customization",
+                "name": "Invoice Customization",
+                "guidance": "Focus: Changing how our bills look, like adding our logo, adding tax details, and changing the colors.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "journal-entries",
+                "name": "Journal Entries",
+                "guidance": "Focus: Writing down edits or fixes in our money books, like when we buy a computer and it gets older/worth less.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "multi-entry-consolidation",
+                "name": "Multi-Entry / Consolidation",
+                "guidance": "Focus: Combining money books from different shops or offices, and handling different currencies like dollars and pounds.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "payment-processing",
+                "name": "Payment Processing",
+                "guidance": "Focus: Setting up ways for customers to pay us by bank transfer or credit card online.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "reconciliations",
+                "name": "Reconciliations",
+                "guidance": "Focus: Matching our receipts to the bank statement to make sure all the math is correct.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "payment-scheduling",
+                "name": "Payment Scheduling",
+                "guidance": "Focus: Choosing which days to pay our bills in batches so we don't run out of cash.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "payment-settlements",
+                "name": "Payment Settlements",
+                "guidance": "Focus: Tracking when credit card money actually arrives in our bank account and recording bank fees.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "payment-batches",
+                "name": "Payment Batches",
+                "guidance": "Focus: Paying a whole group of suppliers at once by exporting a single payment file to the bank.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            },
+            {
+                "id": "payment-methods",
+                "name": "Payment Methods",
+                "guidance": "Focus: Keeping credit card numbers and bank details saved safely so customers can pay easily next time.",
+                "scope": "pending",
+                "priority": "med",
+                "notes": ""
+            }
+        ]
+    }
+]
