@@ -1246,13 +1246,14 @@ class ReqGatherApp {
         this.showToast("Markdown downloaded!");
     }
 
-    exportCsv(selectedColumns = ["module", "id", "name", "scope", "priority", "criticality", "notes"]) {
+    exportCsv(selectedColumns = ["module", "id", "name", "guidance", "scope", "priority", "criticality", "notes"]) {
         const headers = [];
         const columnKeys = [];
 
         if (selectedColumns.includes("module")) { headers.push("Module"); columnKeys.push("module"); }
         if (selectedColumns.includes("id")) { headers.push("Item ID"); columnKeys.push("id"); }
         if (selectedColumns.includes("name")) { headers.push("Item Name"); columnKeys.push("name"); }
+        if (selectedColumns.includes("guidance")) { headers.push("Guidance Prompts"); columnKeys.push("guidance"); }
         if (selectedColumns.includes("scope")) { headers.push("Scope Status"); columnKeys.push("scope"); }
         if (selectedColumns.includes("priority")) { headers.push("Priority"); columnKeys.push("priority"); }
         if (selectedColumns.includes("criticality")) { headers.push("Criticality"); columnKeys.push("criticality"); }
@@ -1285,6 +1286,7 @@ class ReqGatherApp {
                 if (columnKeys.includes("module")) row.push(mod.title);
                 if (columnKeys.includes("id")) row.push(item.id);
                 if (columnKeys.includes("name")) row.push(item.name);
+                if (columnKeys.includes("guidance")) row.push(item.guidance || "");
                 if (columnKeys.includes("scope")) row.push(scopeStr);
                 if (columnKeys.includes("priority")) row.push(priorityLabels[item.priority] || item.priority);
                 if (columnKeys.includes("criticality")) row.push((item.criticality || 'normal').toUpperCase());
