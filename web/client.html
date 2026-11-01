@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Requirements Workshop – Live Overview</title>
+    <meta name="description" content="A live overview of the topics we are covering in today's requirements workshop.">
+    <meta name="robots" content="noindex">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/static/client.css">
+</head>
+
+<body>
+    <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+
+    <header class="topbar">
+        <img src="/static/logo.png" alt="WMG" class="topbar-logo">
+        <span class="live" id="live" title="Connection status"><i></i><span id="live-text">Connecting…</span></span>
+    </header>
+
+    <main class="stage">
+        <!-- Optional access code -->
+        <section class="panel gate" id="gate" hidden>
+            <h1>Welcome</h1>
+            <p>Please enter the access code you were given for this session.</p>
+            <form id="gate-form">
+                <input type="password" id="gate-code" placeholder="Access code" autocomplete="off" aria-label="Access code" required>
+                <button type="submit">Continue</button>
+            </form>
+            <p class="gate-error" id="gate-error" role="alert" hidden></p>
+        </section>
+
+        <!-- Shown when the team has blanked the screen -->
+        <section class="panel paused" id="paused" hidden>
+            <div class="pulse-ring"><i></i></div>
+            <h1>Session in progress</h1>
+            <p>We'll be right back with you.</p>
+        </section>
+
+        <!-- Live overview -->
+        <div id="view" hidden>
+            <section class="hero">
+                <div class="hero-text">
+                    <p class="eyebrow">Requirements workshop</p>
+                    <h1>Here's what we're covering today</h1>
+                    <p class="lede">Each topic is ticked off as we work through it together. Select a card to see what's inside.</p>
+                </div>
+                <div class="hero-progress" aria-label="Overall progress">
+                    <svg viewBox="0 0 120 120" class="big-ring">
+                        <circle class="big-ring-bg" cx="60" cy="60" r="52"></circle>
+                        <circle class="big-ring-fg" id="big-ring-fg" cx="60" cy="60" r="52"></circle>
+                    </svg>
+                    <div class="big-ring-label"><b id="big-pct">0%</b><span id="big-count">0 of 0 covered</span></div>
+                </div>
+            </section>
+
+            <section class="now" id="now" hidden aria-live="polite">
+                <span class="now-eyebrow"><i></i>Now discussing</span>
+                <h2 id="now-title"></h2>
+                <p id="now-sub"></p>
+            </section>
+
+            <section class="modules" id="modules" aria-label="Topics"></section>
+        </div>
+    </main>
+
+    <footer class="foot">Thank you for your time today.</footer>
+    <script src="/static/client.js"></script>
+</body>
+
+</html>

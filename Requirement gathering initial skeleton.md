@@ -1,4 +1,6 @@
 1st page with these cards  
+
+
 # Core MRP
 - Bills of Materials (BOM) and variant handling
 - Estimating & Quotations
@@ -13,6 +15,7 @@
 - Integrations 
 - Dashboards
 
+
 on opening each card
 # Contents of each card
 ## Bills of Materials (BOM) and variant handling
@@ -22,6 +25,7 @@ on opening each card
 - Revision control 
 - Design lifecycle management 
 - New product introduction 
+
 
 ## Estimating & Quotations
 - Customer Relationship Mgmt (CRM)

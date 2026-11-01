@@ -7,7 +7,7 @@
         "items": [
             {
                 "id": "master-specifications",
-                "name": "Master product specifications",
+                "name": " Custom Master product specifications",
                 "guidance": "Focus: Making a list of items with their names, what they look like, and how we measure them (like weight or size).",
                 "scope": "pending",
                 "priority": "med",
