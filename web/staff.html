@@ -90,6 +90,19 @@
                     <span>Dashboard</span>
                 </button>
 
+                <div class="nav-section-label"><span>Company &amp; Presets</span></div>
+                <div class="sidebar-company-box" id="sidebar-company-box">
+                    <label for="quick-company-select" class="sidebar-company-label">Active Company</label>
+                    <select id="quick-company-select" class="sidebar-company-select" title="Switch active company"></select>
+                    <span class="sidebar-company-preset" id="sidebar-company-preset">—</span>
+                </div>
+                <button class="nav-item" id="btn-companies" title="Create and switch companies or load industry presets">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" />
+                    </svg>
+                    <span>Companies &amp; Presets</span>
+                </button>
+
                 <div class="nav-section-label"><span>Client screen</span></div>
                 <a class="nav-item" id="link-client-screen" href="/client" target="_blank" rel="noopener">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -186,7 +199,17 @@
                     </svg>
                 </button>
                 <div class="header-text">
-                    <h1>Requirement Gathering</h1>
+                    <div class="header-title-row">
+                        <h1>Requirement Gathering</h1>
+                        <button type="button" class="header-company-btn" id="header-company-btn" title="Switch company or create a new company from an industry preset">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" />
+                            </svg>
+                            <strong id="header-company-name">Loading…</strong>
+                            <span class="header-company-preset" id="header-company-preset"></span>
+                            <span class="header-company-switch-hint">Switch / + New</span>
+                        </button>
+                    </div>
                     <p>Work through the modules together. Everyone's notes land instantly for the whole team.</p>
                     <div class="header-live-row">
                         <span class="live-pill off" id="live-pill"><i></i><span id="live-pill-text">Connecting…</span></span>
@@ -376,6 +399,39 @@
             <div class="modal-footer">
                 <button class="btn-secondary" id="btn-cancel-csv">Cancel</button>
                 <button class="btn-primary" id="btn-confirm-export-csv">Export CSV</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Companies & Industry Presets Modal -->
+    <div class="modal-overlay" id="companies-modal">
+        <div class="modal-card modal-card-wide">
+            <div class="modal-header">
+                <h3>Companies &amp; Industry Presets</h3>
+                <button class="btn-close-modal" id="btn-close-companies-modal">&times;</button>
+            </div>
+            <div class="modal-body companies-modal-body">
+                <div class="companies-section">
+                    <h4 class="companies-section-title">Your Companies (Switch or Manage)</h4>
+                    <p class="modal-subtitle-text">Switching the active company updates both the team workspace and the live client screen.</p>
+                    <div class="companies-list" id="companies-list"></div>
+                </div>
+
+                <div class="companies-divider"></div>
+
+                <div class="companies-create-section">
+                    <h4 class="companies-section-title">Create New Company from Industry Preset</h4>
+                    <div class="form-group-modal" style="margin-bottom: 1rem;">
+                        <label class="field-label" for="input-company-name">Company / Client Name</label>
+                        <input type="text" class="field-input" id="input-company-name" maxlength="120" placeholder="E.g. Warwick Precision Engineering Ltd, Apex Mouldings, Cotswold Foods…">
+                    </div>
+                    <label class="field-label">Select Manufacturing Industry Preset</label>
+                    <div class="presets-grid" id="presets-grid"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="btn-companies-done">Close</button>
+                <button class="btn-primary" id="btn-create-company">+ Create &amp; Switch to Company</button>
             </div>
         </div>
     </div>

@@ -33,7 +33,7 @@ from http import cookies
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import urlparse
 
-from backend import auth
+from backend import auth, presets
 from backend.events import Hub
 from backend.store import Store, StoreError
 
@@ -158,7 +158,7 @@ def api_change_own_password(h, m, body):
 
 @route("GET", "/api/state", "staff")
 def api_state(h, m, body):
-    state = APP.store.get_state()
+    state = APP.store.get_state(APP.seed_path)
     state["user"] = h.user
     state["presence"] = APP.hub.presence()
     return 200, state
@@ -168,6 +168,58 @@ def api_state(h, m, body):
 def api_events(h, m, body):
     sub = APP.hub.subscribe_staff(h.user)
     h.stream(sub, lambda: APP.hub.unsubscribe_staff(sub))
+
+
+# =================================================== companies & industry presets
+@route("GET", "/api/companies", "staff")
+def api_list_companies(h, m, body):
+    return 200, {
+        "active": APP.store.get_active_company(),
+        "companies": APP.store.list_companies(),
+        "presets": presets.list_presets(APP.seed_path),
+    }
+
+
+@route("POST", "/api/companies", "staff")
+def api_create_company(h, m, body):
+    body = _dict(body)
+    comp = APP.store.create_company(
+        body.get("name"),
+        body.get("preset_id") or "metal_fabrication",
+        seed_path=APP.seed_path,
+        switch_to=body.get("switch_to", True),
+    )
+    _broadcast(h, {"type": "company_switched", "company": comp})
+    return 201, {"company": comp, "companies": APP.store.list_companies()}
+
+
+@route("PUT", "/api/companies/active", "staff")
+def api_switch_company(h, m, body):
+    body = _dict(body)
+    comp = APP.store.switch_company(body.get("company_id"))
+    _broadcast(h, {"type": "company_switched", "company": comp})
+    return 200, {"company": comp, "companies": APP.store.list_companies()}
+
+
+@route("PATCH", r"/api/companies/([A-Za-z0-9._:-]+)", "staff")
+def api_update_company(h, m, body):
+    body = _dict(body)
+    comp = APP.store.update_company(
+        m.group(1),
+        name=body.get("name"),
+        preset_id=body.get("preset_id"),
+        seed_path=APP.seed_path,
+        apply_preset=bool(body.get("apply_preset")),
+    )
+    _broadcast(h, {"type": "company_switched" if body.get("apply_preset") else "company_updated", "company": comp})
+    return 200, {"company": comp, "companies": APP.store.list_companies()}
+
+
+@route("DELETE", r"/api/companies/([A-Za-z0-9._:-]+)", "staff")
+def api_delete_company(h, m, body):
+    active = APP.store.delete_company(m.group(1))
+    _broadcast(h, {"type": "company_switched", "company": active})
+    return 200, {"company": active, "companies": APP.store.list_companies()}
 
 
 # ======================================================= modules & requirements

@@ -19,7 +19,13 @@
     <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
 
     <header class="topbar">
-        <img src="/static/logo.png" alt="WMG" class="topbar-logo">
+        <div class="topbar-left">
+            <img src="/static/logo.png" alt="WMG" class="topbar-logo">
+            <div class="company-pill" id="company-pill" hidden>
+                <span class="company-pill-name" id="company-name"></span>
+                <span class="company-pill-preset" id="company-preset"></span>
+            </div>
+        </div>
         <span class="live" id="live" title="Connection status"><i></i><span id="live-text">Connecting…</span></span>
     </header>
 
@@ -46,9 +52,9 @@
         <div id="view" hidden>
             <section class="hero">
                 <div class="hero-text">
-                    <p class="eyebrow">Requirements workshop</p>
-                    <h1>Here's what we're covering today</h1>
-                    <p class="lede">Each topic is ticked off as we work through it together. Select a card to see what's inside.</p>
+                    <p class="eyebrow" id="hero-eyebrow">Requirements workshop</p>
+                    <h1 id="hero-title">Here's what we're covering today</h1>
+                    <p class="lede">The active topic automatically stays pinned at the top as we work through each area together.</p>
                 </div>
                 <div class="hero-progress" aria-label="Overall progress">
                     <svg viewBox="0 0 120 120" class="big-ring">

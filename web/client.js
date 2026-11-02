@@ -1,6 +1,8 @@
 /* Client-facing screen. It only ever receives the server's sanitised snapshot:
- * topic names, a covered/not-covered flag, and the optional "now discussing" spotlight.
- * There is no notes, guidance, scope or priority data in anything this page can fetch. */
+ * topic names, a covered/not-covered flag, the active company name, and the
+ * optional "now discussing" spotlight.
+ * The active module card is always kept pinned at the very top of the grid
+ * so viewers never have to scroll down to see bottom cards. */
 (() => {
     'use strict';
 
@@ -15,9 +17,10 @@
     let retryTimer = null;
     let firstRender = true;
     const expanded = new Set();
-    const userToggled = new Set();
     const doneBefore = new Set();
-    let lastSpotModule = null;
+    let lastServerActiveModule = null;
+    let localPinnedModuleId = null;
+    let lastState = null;
 
     function setLive(on) {
         $('live').className = 'live' + (on ? ' on' : '');
@@ -33,7 +36,21 @@
     // --------------------------------------------------------------- rendering
     function render(state) {
         if (!state || state.hidden) { show('paused'); return; }
+        lastState = state;
         show('view');
+
+        // Company header badge
+        const comp = state.company;
+        const compPill = $('company-pill');
+        if (comp && comp.name) {
+            compPill.hidden = false;
+            $('company-name').textContent = comp.name;
+            $('company-preset').textContent = comp.preset_name || 'Manufacturing';
+            $('hero-eyebrow').textContent = `${comp.name} · Requirements Workshop`;
+        } else {
+            compPill.hidden = true;
+            $('hero-eyebrow').textContent = 'Requirements workshop';
+        }
 
         const { done, total } = state.progress;
         const pct = total ? Math.round((done / total) * 100) : 0;
@@ -42,27 +59,47 @@
         $('big-ring-fg').style.strokeDashoffset = String(RING_BIG * (1 - pct / 100));
 
         const sp = state.spotlight;
+        const serverActiveId = (sp && sp.module_id) || state.active_module_id || null;
+
+        // If the server's active/spotlighted module changed, follow the server and auto-expand it at the top
+        const serverChanged = serverActiveId && serverActiveId !== lastServerActiveModule;
+        if (serverChanged) {
+            localPinnedModuleId = null;
+            expanded.add(serverActiveId);
+        }
+        lastServerActiveModule = serverActiveId;
+
+        const activeModuleId = localPinnedModuleId || serverActiveId || (state.modules[0] && state.modules[0].id) || null;
+        if (activeModuleId && firstRender) {
+            expanded.add(activeModuleId);
+        }
+
         const now = $('now');
         if (sp) {
             now.hidden = false;
             $('now-title').textContent = sp.item_name || sp.module_title;
             $('now-sub').textContent = sp.item_name ? sp.module_title : 'Topic overview';
-            if (sp.module_id !== lastSpotModule && !userToggled.has(sp.module_id)) expanded.add(sp.module_id);
         } else {
             now.hidden = true;
         }
-        lastSpotModule = sp ? sp.module_id : null;
 
-        renderModules(state, sp);
+        renderModules(state, sp, activeModuleId, serverChanged);
         firstRender = false;
     }
 
-    function renderModules(state, sp) {
+    function renderModules(state, sp, activeModuleId, shouldScrollTop) {
         const wrap = $('modules');
         const existing = new Map(Array.from(wrap.children).map((c) => [c.dataset.id, c]));
         let prev = null;
 
-        state.modules.forEach((m, idx) => {
+        // Always keep the active card at index 0 (very top of the grid) so users never have to scroll down
+        const orderedModules = state.modules.slice().sort((a, b) => {
+            const aActive = a.id === activeModuleId ? 0 : 1;
+            const bActive = b.id === activeModuleId ? 0 : 1;
+            return aActive - bActive;
+        });
+
+        orderedModules.forEach((m, idx) => {
             let card = existing.get(m.id);
             if (!card) {
                 card = document.createElement('article');
@@ -72,20 +109,31 @@
                 card.innerHTML = `
                     <button class="mod-head" type="button" aria-expanded="false">
                         <span class="mod-icon"></span>
-                        <span class="mod-text"><h3></h3><p></p></span>
+                        <span class="mod-text">
+                            <div class="mod-title-row"><h3></h3><span class="mod-active-pill">Active Topic · Top</span></div>
+                            <p></p>
+                        </span>
                         <span class="ring"><svg viewBox="0 0 44 44"><circle class="ring-bg" cx="22" cy="22" r="18"></circle><circle class="ring-fg" cx="22" cy="22" r="18"></circle></svg><b></b></span>
                         <span class="chev"></span>
                     </button>
                     <div class="mod-body"><ul></ul></div>`;
                 card.querySelector('.mod-head').addEventListener('click', () => {
                     const id = card.dataset.id;
-                    userToggled.add(id);
-                    if (expanded.has(id)) expanded.delete(id); else expanded.add(id);
-                    applyOpen(card);
+                    if (expanded.has(id) && localPinnedModuleId === id) {
+                        expanded.delete(id);
+                        applyOpen(card);
+                    } else {
+                        // Promote clicked card to the top of the screen and open it
+                        localPinnedModuleId = id;
+                        expanded.add(id);
+                        if (lastState) render(lastState);
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
                 });
             }
             existing.delete(m.id);
 
+            const isActiveCard = m.id === activeModuleId;
             const iconEl = card.querySelector('.mod-icon');
             if (iconEl.dataset.src !== m.icon) { iconEl.innerHTML = m.icon; iconEl.dataset.src = m.icon; }
             card.querySelector('h3').textContent = m.title;
@@ -94,10 +142,17 @@
             const frac = m.total ? m.done / m.total : 0;
             card.querySelector('.ring-fg').style.strokeDashoffset = String(RING_SMALL * (1 - frac));
             card.classList.toggle('complete', m.total > 0 && m.done === m.total);
-            card.classList.toggle('spot', !!(sp && sp.module_id === m.id));
+            card.classList.toggle('spot', isActiveCard);
+
+            // Within the active card, place the spotlighted item at the top of the list so it's immediately visible
+            const orderedItems = m.items.slice().sort((a, b) => {
+                const aNow = (sp && sp.item_id === a.id) ? 0 : 1;
+                const bNow = (sp && sp.item_id === b.id) ? 0 : 1;
+                return aNow - bNow;
+            });
 
             const ul = card.querySelector('ul');
-            ul.innerHTML = m.items.map((it) => {
+            ul.innerHTML = orderedItems.map((it) => {
                 const cls = [];
                 if (it.done) cls.push('done');
                 if (it.done && !doneBefore.has(it.id) && !firstRender) cls.push('just-done');
@@ -115,10 +170,9 @@
 
         existing.forEach((card) => card.remove());
 
-        // Bring the spotlighted topic into view for the room.
-        if (sp) {
-            const target = wrap.querySelector(`.mod[data-id="${CSS.escape(sp.module_id)}"]`);
-            if (target && !firstRender) target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        // Keep viewport at the top when the active card updates so the top-pinned card is always visible
+        if (shouldScrollTop && !firstRender && window.scrollY > 180) {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     }
 

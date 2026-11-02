@@ -4,6 +4,10 @@ Design notes
 ------------
 * One SQLite connection guarded by a re-entrant lock. Every public method is
   thread-safe, which is all the threaded HTTP server needs.
+* Multi-company support: staff can create and switch between companies, each
+  seeded from an industry preset (Metal Fab/Precision Eng, Injection Moulding,
+  Food & Beverage, Pharma, Chemical, Electronics, Automotive/Aerospace, or Blank)
+  with its own isolated modules, requirements, notes, and client spotlight.
 * Notes are an *append-only log* (one row per note, with author + timestamp).
   Several people can push notes to the same requirement at the same moment
   without ever overwriting each other.
@@ -24,6 +28,8 @@ import threading
 import time
 from contextlib import contextmanager
 
+from backend import presets
+
 SCOPES = ("pending", "in", "nice", "out")
 PRIORITIES = ("phase1", "phase2", "future")
 CRITICALITIES = ("super", "critical", "normal")
@@ -31,6 +37,10 @@ ROLES = ("admin", "staff")
 
 LEGACY_PRIORITY = {"high": "phase1", "med": "phase2", "medium": "phase2", "low": "future"}
 LEGACY_CRITICALITY = {"high": "critical"}
+
+DEFAULT_COMPANY_ID = "company-default"
+DEFAULT_PRESET_ID = "metal_fabrication"
+DEFAULT_PRESET_NAME = "Metal Fabrication & Precision Engineering"
 
 DEFAULT_ICON = (
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">'
@@ -86,6 +96,16 @@ def _safe_icon(value):
 
 def _hash_token(token):
     return hashlib.sha256(token.encode("utf-8")).hexdigest()
+
+
+def _scoped_id(company_id, raw_id):
+    """Ensure module and item IDs are unique per company in SQLite."""
+    if not company_id or company_id == DEFAULT_COMPANY_ID:
+        return raw_id
+    prefix = "%s--" % company_id
+    if raw_id.startswith(prefix):
+        return raw_id
+    return ("%s%s" % (prefix, raw_id))[:120]
 
 
 def normalise_modules(raw, keep_state):
@@ -205,8 +225,19 @@ class Store:
                     created_at REAL NOT NULL,
                     expires_at REAL NOT NULL
                 );
+                CREATE TABLE IF NOT EXISTS companies(
+                    id TEXT PRIMARY KEY,
+                    name TEXT NOT NULL,
+                    preset_id TEXT NOT NULL DEFAULT 'metal_fabrication',
+                    preset_name TEXT NOT NULL DEFAULT 'Metal Fabrication & Precision Engineering',
+                    spotlight TEXT NOT NULL DEFAULT '',
+                    last_active_module_id TEXT NOT NULL DEFAULT '',
+                    created_at REAL NOT NULL,
+                    updated_at REAL NOT NULL
+                );
                 CREATE TABLE IF NOT EXISTS modules(
                     id TEXT PRIMARY KEY,
+                    company_id TEXT NOT NULL DEFAULT 'company-default',
                     title TEXT NOT NULL,
                     description TEXT NOT NULL DEFAULT '',
                     icon TEXT NOT NULL DEFAULT '',
@@ -243,6 +274,19 @@ class Store:
                 CREATE INDEX IF NOT EXISTS idx_notes_item ON notes(item_id);
                 """
             )
+            # Non-destructive migration for existing databases created before multi-company support
+            cols = {r["name"] for r in self._db.execute("PRAGMA table_info(modules)").fetchall()}
+            if "company_id" not in cols:
+                self._db.execute(
+                    "ALTER TABLE modules ADD COLUMN company_id TEXT NOT NULL DEFAULT '%s'" % DEFAULT_COMPANY_ID
+                )
+            self._db.execute("CREATE INDEX IF NOT EXISTS idx_modules_company ON modules(company_id)")
+
+            comp_cols = {r["name"] for r in self._db.execute("PRAGMA table_info(companies)").fetchall()}
+            if "last_active_module_id" not in comp_cols:
+                self._db.execute(
+                    "ALTER TABLE companies ADD COLUMN last_active_module_id TEXT NOT NULL DEFAULT ''"
+                )
 
     @contextmanager
     def _tx(self):
@@ -281,6 +325,185 @@ class Store:
             key = secrets.token_hex(32)
             self.set_meta("secret_key", key)
         return key
+
+    # -------------------------------------------------------------- companies
+    def _ensure_default_company_row(self):
+        with self._lock:
+            count = self._one("SELECT COUNT(*) AS c FROM companies")["c"]
+            if count == 0:
+                now = time.time()
+                old_spot = self.get_meta("spotlight", "") or ""
+                with self._tx() as db:
+                    db.execute(
+                        "INSERT INTO companies(id,name,preset_id,preset_name,spotlight,last_active_module_id,created_at,updated_at) "
+                        "VALUES(?,?,?,?,?,?,?,?)",
+                        (
+                            DEFAULT_COMPANY_ID,
+                            "Precision Eng / Metal Fabricator",
+                            DEFAULT_PRESET_ID,
+                            DEFAULT_PRESET_NAME,
+                            old_spot,
+                            "",
+                            now,
+                            now,
+                        ),
+                    )
+                    db.execute(
+                        "INSERT INTO meta(key,value) VALUES('active_company_id',?) "
+                        "ON CONFLICT(key) DO UPDATE SET value=excluded.value",
+                        (DEFAULT_COMPANY_ID,),
+                    )
+
+    def active_company_id(self):
+        self._ensure_default_company_row()
+        cid = self.get_meta("active_company_id")
+        if cid and self._one("SELECT 1 FROM companies WHERE id=?", (cid,)):
+            return cid
+        first = self._one("SELECT id FROM companies ORDER BY created_at, rowid LIMIT 1")
+        cid = first["id"] if first else DEFAULT_COMPANY_ID
+        self.set_meta("active_company_id", cid)
+        return cid
+
+    def _company_stats(self, company_id):
+        row = self._one(
+            """
+            SELECT
+                (SELECT COUNT(*) FROM modules WHERE company_id=?) AS module_count,
+                COUNT(i.id) AS total_items,
+                 COALESCE(SUM(CASE WHEN i.scope != 'pending' THEN 1 ELSE 0 END), 0) AS scoped_items
+            FROM modules m
+            LEFT JOIN items i ON i.module_id = m.id AND i.suppressed = 0
+            WHERE m.company_id = ?
+            """,
+            (company_id, company_id),
+        )
+        total = int(row["total_items"] or 0)
+        scoped = int(row["scoped_items"] or 0)
+        return {
+            "module_count": int(row["module_count"] or 0),
+            "total_items": total,
+            "scoped_items": scoped,
+            "progress_pct": int(round((scoped / total) * 100)) if total else 0,
+        }
+
+    def _company_dict(self, row, active_id=None):
+        if active_id is None:
+            active_id = self.active_company_id()
+        stats = self._company_stats(row["id"])
+        return {
+            "id": row["id"],
+            "name": row["name"],
+            "preset_id": row["preset_id"],
+            "preset_name": row["preset_name"],
+            "is_active": row["id"] == active_id,
+            "created_at": row["created_at"],
+            "updated_at": row["updated_at"],
+            **stats,
+        }
+
+    def get_active_company(self):
+        cid = self.active_company_id()
+        row = self._one("SELECT * FROM companies WHERE id=?", (cid,))
+        return self._company_dict(row, cid) if row else None
+
+    def list_companies(self):
+        active_id = self.active_company_id()
+        rows = self._all("SELECT * FROM companies ORDER BY created_at ASC, rowid ASC")
+        return [self._company_dict(r, active_id) for r in rows]
+
+    def create_company(self, name, preset_id=DEFAULT_PRESET_ID, seed_path=None, switch_to=True):
+        name = (name or "").strip()[:120]
+        if not name:
+            raise StoreError("Please enter a company name.")
+        preset = presets.PRESETS_BY_ID.get(preset_id)
+        if not preset:
+            raise StoreError("Unknown industry preset: %s" % preset_id)
+        raw_modules = presets.get_preset_modules(preset_id, seed_path)
+        modules = normalise_modules(raw_modules, keep_state=False) if raw_modules else []
+        cid = _new_id("comp")
+        now = time.time()
+        first_mod_id = _scoped_id(cid, modules[0]["id"]) if modules else ""
+        with self._tx() as db:
+            db.execute(
+                "INSERT INTO companies(id,name,preset_id,preset_name,spotlight,last_active_module_id,created_at,updated_at) "
+                "VALUES(?,?,?,?,?,?,?,?)",
+                (cid, name, preset["id"], preset["name"], "", first_mod_id, now, now),
+            )
+            for pos, module in enumerate(modules):
+                self._insert_module(db, module, pos, company_id=cid)
+            if switch_to:
+                db.execute(
+                    "INSERT INTO meta(key,value) VALUES('active_company_id',?) "
+                    "ON CONFLICT(key) DO UPDATE SET value=excluded.value",
+                    (cid,),
+                )
+        row = self._one("SELECT * FROM companies WHERE id=?", (cid,))
+        return self._company_dict(row)
+
+    def switch_company(self, company_id):
+        company_id = (company_id or "").strip()
+        row = self._one("SELECT * FROM companies WHERE id=?", (company_id,))
+        if not row:
+            raise StoreError("Company not found.", 404)
+        self.set_meta("active_company_id", company_id)
+        return self._company_dict(row, company_id)
+
+    def update_company(self, company_id, name=None, preset_id=None, seed_path=None, apply_preset=False):
+        company_id = (company_id or "").strip()
+        row = self._one("SELECT * FROM companies WHERE id=?", (company_id,))
+        if not row:
+            raise StoreError("Company not found.", 404)
+        new_name = (name if name is not None else row["name"]).strip()[:120]
+        if not new_name:
+            raise StoreError("Company name cannot be empty.")
+        new_preset_id = preset_id or row["preset_id"]
+        preset = presets.PRESETS_BY_ID.get(new_preset_id)
+        if not preset:
+            raise StoreError("Unknown industry preset: %s" % new_preset_id)
+        now = time.time()
+        with self._tx() as db:
+            db.execute(
+                "UPDATE companies SET name=?, preset_id=?, preset_name=?, updated_at=? WHERE id=?",
+                (new_name, preset["id"], preset["name"], now, company_id),
+            )
+        if apply_preset:
+            raw_modules = presets.get_preset_modules(preset["id"], seed_path)
+            modules = normalise_modules(raw_modules, keep_state=False) if raw_modules else []
+            self.replace_all(modules, company_id=company_id)
+        updated = self._one("SELECT * FROM companies WHERE id=?", (company_id,))
+        return self._company_dict(updated)
+
+    def delete_company(self, company_id):
+        company_id = (company_id or "").strip()
+        with self._tx() as db:
+            row = db.execute("SELECT * FROM companies WHERE id=?", (company_id,)).fetchone()
+            if not row:
+                raise StoreError("Company not found.", 404)
+            total = db.execute("SELECT COUNT(*) AS c FROM companies").fetchone()["c"]
+            if total <= 1:
+                raise StoreError("You cannot delete the only remaining company.", 409)
+            db.execute("DELETE FROM modules WHERE company_id=?", (company_id,))
+            db.execute("DELETE FROM companies WHERE id=?", (company_id,))
+            active = self.get_meta("active_company_id")
+            if active == company_id:
+                nxt = db.execute("SELECT id FROM companies ORDER BY created_at ASC, rowid ASC LIMIT 1").fetchone()
+                if nxt:
+                    db.execute(
+                        "INSERT INTO meta(key,value) VALUES('active_company_id',?) "
+                        "ON CONFLICT(key) DO UPDATE SET value=excluded.value",
+                        (nxt["id"],),
+                    )
+        return self.get_active_company()
+
+    def _touch_company_module(self, db, company_id, module_id=None):
+        now = time.time()
+        if module_id:
+            db.execute(
+                "UPDATE companies SET last_active_module_id=?, updated_at=? WHERE id=?",
+                (module_id, now, company_id),
+            )
+        else:
+            db.execute("UPDATE companies SET updated_at=? WHERE id=?", (now, company_id))
 
     # ------------------------------------------------------------------ users
     @staticmethod
@@ -408,31 +631,54 @@ class Store:
         }
 
     # ------------------------------------------------------------ bulk (re)load
-    def _insert_module(self, db, module, position):
-        db.execute("INSERT INTO modules(id,title,description,icon,position,is_custom) VALUES(?,?,?,?,?,?)",
-                   (module["id"], module["title"], module["description"], module["icon"], position,
-                    1 if module["id"].startswith("module-custom-") else 0))
+    def _insert_module(self, db, module, position, company_id=None):
+        cid = company_id or self.active_company_id()
+        raw_mid = module["id"]
+        is_custom_mod = 1 if ("module-custom-" in raw_mid) else 0
+        mid = _scoped_id(cid, raw_mid)
+        db.execute(
+            "INSERT INTO modules(id,company_id,title,description,icon,position,is_custom) VALUES(?,?,?,?,?,?,?)",
+            (mid, cid, module["title"], module["description"], module["icon"], position, is_custom_mod),
+        )
         for i, it in enumerate(module["items"]):
+            raw_iid = it["id"]
+            is_custom_item = 1 if (raw_iid.startswith("custom-") or "--custom-" in raw_iid) else 0
+            iid = _scoped_id(cid, raw_iid)
             db.execute(
                 "INSERT INTO items(id,module_id,name,guidance,guidance_edited,scope,priority,criticality,"
                 "suppressed,position,is_custom) VALUES(?,?,?,?,?,?,?,?,?,?,?)",
-                (it["id"], module["id"], it["name"], it["guidance"], 1 if it["guidance_edited"] else 0,
-                 it["scope"], it["priority"], it["criticality"], 1 if it["suppressed"] else 0, i,
-                 1 if it["id"].startswith("custom-") else 0))
+                (
+                    iid,
+                    mid,
+                    it["name"],
+                    it["guidance"],
+                    1 if it["guidance_edited"] else 0,
+                    it["scope"],
+                    it["priority"],
+                    it["criticality"],
+                    1 if it["suppressed"] else 0,
+                    i,
+                    is_custom_item,
+                ),
+            )
             for n in it["notes"]:
-                db.execute("INSERT INTO notes(item_id,user_id,author,body,created_at,edited_at) VALUES(?,?,?,?,?,?)",
-                           (it["id"], None, n["author"], n["body"], n["created_at"], n["edited_at"]))
+                db.execute(
+                    "INSERT INTO notes(item_id,user_id,author,body,created_at,edited_at) VALUES(?,?,?,?,?,?)",
+                    (iid, None, n["author"], n["body"], n["created_at"], n["edited_at"]),
+                )
 
-    def replace_all(self, modules):
-        """Wipe every module/requirement/note and load `modules` (already normalised)."""
+    def replace_all(self, modules, company_id=None):
+        """Wipe every module/requirement/note for `company_id` (or active company) and load `modules`."""
+        cid = company_id or self.active_company_id()
+        first_mod_id = _scoped_id(cid, modules[0]["id"]) if modules else ""
         with self._tx() as db:
-            db.execute("DELETE FROM notes")
-            db.execute("DELETE FROM items")
-            db.execute("DELETE FROM modules")
+            db.execute("DELETE FROM modules WHERE company_id=?", (cid,))
             for pos, module in enumerate(modules):
-                self._insert_module(db, module, pos)
-            db.execute("INSERT INTO meta(key,value) VALUES('spotlight','') "
-                       "ON CONFLICT(key) DO UPDATE SET value=''")
+                self._insert_module(db, module, pos, company_id=cid)
+            db.execute(
+                "UPDATE companies SET spotlight='', last_active_module_id=?, updated_at=? WHERE id=?",
+                (first_mod_id, time.time(), cid),
+            )
 
     def import_modules(self, raw):
         modules = normalise_modules(raw, keep_state=True)
@@ -448,6 +694,7 @@ class Store:
 
     def ensure_seeded(self, seed_path):
         """Seed the template on first run only. Returns a human-readable status."""
+        self._ensure_default_company_row()
         if self.get_meta("seeded"):
             return "existing data"
         if self._one("SELECT COUNT(*) AS c FROM modules")["c"] > 0:
@@ -456,36 +703,60 @@ class Store:
         if not seed_path or not os.path.exists(seed_path):
             return "no seed file found (%s) - starting empty; import a JSON config from the Admin menu" % seed_path
         modules = self.load_seed_file(seed_path)
-        self.replace_all(modules)
+        self.replace_all(modules, company_id=DEFAULT_COMPANY_ID)
         self.set_meta("seeded", "1")
         return "seeded %d modules from %s" % (len(modules), os.path.basename(seed_path))
 
     def reset_to_seed(self, seed_path):
-        if not seed_path or not os.path.exists(seed_path):
-            raise StoreError("Seed file not found on the server: %s" % seed_path, 500)
-        self.replace_all(self.load_seed_file(seed_path))
+        comp = self.get_active_company()
+        preset_id = comp["preset_id"] if comp else DEFAULT_PRESET_ID
+        raw_modules = presets.get_preset_modules(preset_id, seed_path)
+        if not raw_modules and preset_id != "blank":
+            if not seed_path or not os.path.exists(seed_path):
+                raise StoreError("Seed file not found on the server: %s" % seed_path, 500)
+            modules = self.load_seed_file(seed_path)
+        else:
+            modules = normalise_modules(raw_modules, keep_state=False) if raw_modules else []
+        self.replace_all(modules, company_id=comp["id"] if comp else DEFAULT_COMPANY_ID)
 
     # ------------------------------------------------------------------ state
-    def get_state(self):
-        """Full staff-side state, with every note attached to its requirement."""
+    def get_state(self, seed_path=None):
+        """Full staff-side state for the active company, with companies & presets list."""
         with self._lock:
-            modules = [self._module_dict(r) for r in
-                       self._db.execute("SELECT * FROM modules ORDER BY position, rowid").fetchall()]
+            cid = self.active_company_id()
+            modules = [
+                self._module_dict(r)
+                for r in self._db.execute(
+                    "SELECT * FROM modules WHERE company_id=? ORDER BY position, rowid", (cid,)
+                ).fetchall()
+            ]
             by_module = {}
             for m in modules:
                 m["items"] = []
                 by_module[m["id"]] = m
             by_item = {}
-            for r in self._db.execute("SELECT * FROM items ORDER BY position, rowid").fetchall():
-                item = self._item_dict(r)
-                item["notes"] = []
-                by_item[item["id"]] = item
-                if item["module_id"] in by_module:
-                    by_module[item["module_id"]]["items"].append(item)
-            for r in self._db.execute("SELECT * FROM notes ORDER BY created_at, id").fetchall():
-                if r["item_id"] in by_item:
-                    by_item[r["item_id"]]["notes"].append(self._note_dict(r))
+            if by_module:
+                for r in self._db.execute(
+                    "SELECT i.* FROM items i JOIN modules m ON m.id = i.module_id "
+                    "WHERE m.company_id=? ORDER BY i.position, i.rowid",
+                    (cid,),
+                ).fetchall():
+                    item = self._item_dict(r)
+                    item["notes"] = []
+                    by_item[item["id"]] = item
+                    if item["module_id"] in by_module:
+                        by_module[item["module_id"]]["items"].append(item)
+                for r in self._db.execute(
+                    "SELECT n.* FROM notes n JOIN items i ON i.id = n.item_id "
+                    "JOIN modules m ON m.id = i.module_id WHERE m.company_id=? ORDER BY n.created_at, n.id",
+                    (cid,),
+                ).fetchall():
+                    if r["item_id"] in by_item:
+                        by_item[r["item_id"]]["notes"].append(self._note_dict(r))
             return {
+                "company": self.get_active_company(),
+                "companies": self.list_companies(),
+                "presets": presets.list_presets(seed_path),
                 "modules": modules,
                 "spotlight": self.get_spotlight(),
                 "client_hidden": self.get_client_hidden(),
@@ -497,14 +768,23 @@ class Store:
             hidden = self.get_client_hidden()
             if hidden:
                 return {"hidden": True}
+            cid = self.active_company_id()
+            comp_row = self._one("SELECT * FROM companies WHERE id=?", (cid,))
             modules, done_total, all_total = [], 0, 0
-            module_rows = self._db.execute("SELECT * FROM modules ORDER BY position, rowid").fetchall()
+            module_rows = self._db.execute(
+                "SELECT * FROM modules WHERE company_id=? ORDER BY position, rowid", (cid,)
+            ).fetchall()
             item_rows = self._db.execute(
-                "SELECT id, module_id, name, scope FROM items WHERE suppressed=0 ORDER BY position, rowid").fetchall()
+                "SELECT i.id, i.module_id, i.name, i.scope FROM items i "
+                "JOIN modules m ON m.id = i.module_id "
+                "WHERE m.company_id=? AND i.suppressed=0 ORDER BY i.position, i.rowid",
+                (cid,),
+            ).fetchall()
             items_by_module = {}
             for r in item_rows:
                 items_by_module.setdefault(r["module_id"], []).append(
-                    {"id": r["id"], "name": r["name"], "done": r["scope"] != "pending"})
+                    {"id": r["id"], "name": r["name"], "done": r["scope"] != "pending"}
+                )
             names = {}
             for r in module_rows:
                 items = items_by_module.get(r["id"], [])
@@ -537,16 +817,32 @@ class Store:
                     "item_id": sp.get("item_id"),
                     "item_name": item_name,
                 }
+            # Determine the active module to keep pinned at the top of the client screen:
+            # 1) Explicit spotlight module, or 2) Most recently active module in this company
+            active_module_id = None
+            if spotlight:
+                active_module_id = spotlight["module_id"]
+            elif comp_row and comp_row["last_active_module_id"] in names:
+                active_module_id = comp_row["last_active_module_id"]
+
             return {
                 "hidden": False,
+                "company": {
+                    "id": comp_row["id"],
+                    "name": comp_row["name"],
+                    "preset_name": comp_row["preset_name"],
+                } if comp_row else None,
                 "modules": modules,
                 "progress": {"done": done_total, "total": all_total},
                 "spotlight": spotlight,
+                "active_module_id": active_module_id,
             }
 
     # ------------------------------------------------- spotlight / client screen
     def get_spotlight(self):
-        raw = self.get_meta("spotlight", "")
+        cid = self.active_company_id()
+        row = self._one("SELECT spotlight FROM companies WHERE id=?", (cid,))
+        raw = row["spotlight"] if row else ""
         if not raw:
             return None
         try:
@@ -558,20 +854,28 @@ class Store:
         return None
 
     def set_spotlight(self, module_id=None, item_id=None):
+        cid = self.active_company_id()
         if item_id:
-            row = self._one("SELECT module_id FROM items WHERE id=?", (item_id,))
+            row = self._one(
+                "SELECT i.module_id FROM items i JOIN modules m ON m.id = i.module_id WHERE i.id=? AND m.company_id=?",
+                (item_id, cid),
+            )
             if not row:
                 raise StoreError("Requirement not found.", 404)
             module_id = row["module_id"]
         elif module_id:
-            if not self._one("SELECT 1 FROM modules WHERE id=?", (module_id,)):
+            if not self._one("SELECT 1 FROM modules WHERE id=? AND company_id=?", (module_id, cid)):
                 raise StoreError("Module not found.", 404)
-        if not module_id:
-            self.set_meta("spotlight", "")
-            return None
-        value = {"module_id": module_id, "item_id": item_id or None}
-        self.set_meta("spotlight", json.dumps(value))
-        return value
+        with self._tx() as db:
+            if not module_id:
+                db.execute("UPDATE companies SET spotlight='' WHERE id=?", (cid,))
+                return None
+            value = {"module_id": module_id, "item_id": item_id or None}
+            db.execute(
+                "UPDATE companies SET spotlight=?, last_active_module_id=?, updated_at=? WHERE id=?",
+                (json.dumps(value), module_id, time.time(), cid),
+            )
+            return value
 
     def get_client_hidden(self):
         return self.get_meta("client_hidden", "0") == "1"
@@ -586,11 +890,17 @@ class Store:
         if not title:
             raise StoreError("Please enter a module title.")
         description = (description or "").strip()[:1000] or "Custom business module configuration."
+        cid = self.active_company_id()
         mid = _new_id("module-custom")
         with self._tx() as db:
-            pos = db.execute("SELECT COALESCE(MAX(position), -1) + 1 AS p FROM modules").fetchone()["p"]
-            db.execute("INSERT INTO modules(id,title,description,icon,position,is_custom) VALUES(?,?,?,?,?,1)",
-                       (mid, title, description, DEFAULT_ICON, pos))
+            pos = db.execute(
+                "SELECT COALESCE(MAX(position), -1) + 1 AS p FROM modules WHERE company_id=?", (cid,)
+            ).fetchone()["p"]
+            db.execute(
+                "INSERT INTO modules(id,company_id,title,description,icon,position,is_custom) VALUES(?,?,?,?,?,?,1)",
+                (mid, cid, title, description, DEFAULT_ICON, pos),
+            )
+            self._touch_company_module(db, cid, mid)
             row = db.execute("SELECT * FROM modules WHERE id=?", (mid,)).fetchone()
         module = self._module_dict(row)
         module["items"] = []
@@ -601,36 +911,40 @@ class Store:
         if not title:
             raise StoreError("Please enter a module title.")
         description = (description or "").strip()[:1000] or "Custom business module configuration."
+        cid = self.active_company_id()
         with self._tx() as db:
-            row = db.execute("SELECT * FROM modules WHERE id=?", (module_id,)).fetchone()
+            row = db.execute("SELECT * FROM modules WHERE id=? AND company_id=?", (module_id, cid)).fetchone()
             if not row:
                 raise StoreError("Module not found.", 404)
             if not row["is_custom"]:
                 raise StoreError("Only custom modules can be edited.", 403)
             db.execute("UPDATE modules SET title=?, description=? WHERE id=?", (title, description, module_id))
+            self._touch_company_module(db, cid, module_id)
             row = db.execute("SELECT * FROM modules WHERE id=?", (module_id,)).fetchone()
         return self._module_dict(row)
 
     def delete_module(self, module_id):
+        cid = self.active_company_id()
         with self._tx() as db:
-            row = db.execute("SELECT * FROM modules WHERE id=?", (module_id,)).fetchone()
+            row = db.execute("SELECT * FROM modules WHERE id=? AND company_id=?", (module_id, cid)).fetchone()
             if not row:
                 raise StoreError("Module not found.", 404)
             if not row["is_custom"]:
                 raise StoreError("Only custom modules can be deleted.", 403)
             db.execute("DELETE FROM modules WHERE id=?", (module_id,))
-        sp = self.get_spotlight()
-        if sp and sp["module_id"] == module_id:
-            self.set_meta("spotlight", "")
+            sp = self.get_spotlight()
+            if sp and sp["module_id"] == module_id:
+                db.execute("UPDATE companies SET spotlight='' WHERE id=?", (cid,))
 
     # ------------------------------------------------------------ requirements
     def create_item(self, module_id, name):
         name = (name or "").strip()[:300]
         if not name:
             raise StoreError("Please enter a name.")
+        cid = self.active_company_id()
         iid = _new_id("custom")
         with self._tx() as db:
-            if not db.execute("SELECT 1 FROM modules WHERE id=?", (module_id,)).fetchone():
+            if not db.execute("SELECT 1 FROM modules WHERE id=? AND company_id=?", (module_id, cid)).fetchone():
                 raise StoreError("Module not found.", 404)
             pos = db.execute("SELECT COALESCE(MAX(position), -1) + 1 AS p FROM items WHERE module_id=?",
                              (module_id,)).fetchone()["p"]
@@ -638,6 +952,7 @@ class Store:
                 "INSERT INTO items(id,module_id,name,guidance,guidance_edited,scope,priority,criticality,"
                 "suppressed,position,is_custom) VALUES(?,?,?,?,0,'pending','phase2','normal',0,?,1)",
                 (iid, module_id, name, "Custom focus item added by user.", pos))
+            self._touch_company_module(db, cid, module_id)
             row = db.execute("SELECT * FROM items WHERE id=?", (iid,)).fetchone()
         item = self._item_dict(row)
         item["notes"] = []
@@ -652,8 +967,12 @@ class Store:
         unknown = set(fields) - allowed
         if unknown:
             raise StoreError("Unknown field: %s" % ", ".join(sorted(unknown)))
+        cid = self.active_company_id()
         with self._tx() as db:
-            row = db.execute("SELECT * FROM items WHERE id=?", (item_id,)).fetchone()
+            row = db.execute(
+                "SELECT i.* FROM items i JOIN modules m ON m.id = i.module_id WHERE i.id=? AND m.company_id=?",
+                (item_id, cid),
+            ).fetchone()
             if not row:
                 raise StoreError("Requirement not found.", 404)
             sets, vals = [], []
@@ -685,12 +1004,17 @@ class Store:
                 sets.append("guidance_edited=1")
             if sets:
                 db.execute("UPDATE items SET %s WHERE id=?" % ", ".join(sets), vals + [item_id])
+                self._touch_company_module(db, cid, row["module_id"])
                 row = db.execute("SELECT * FROM items WHERE id=?", (item_id,)).fetchone()
         return self._item_dict(row)
 
     def delete_item(self, item_id):
+        cid = self.active_company_id()
         with self._tx() as db:
-            row = db.execute("SELECT * FROM items WHERE id=?", (item_id,)).fetchone()
+            row = db.execute(
+                "SELECT i.* FROM items i JOIN modules m ON m.id = i.module_id WHERE i.id=? AND m.company_id=?",
+                (item_id, cid),
+            ).fetchone()
             if not row:
                 raise StoreError("Requirement not found.", 404)
             if not row["is_custom"]:
@@ -698,7 +1022,7 @@ class Store:
             db.execute("DELETE FROM items WHERE id=?", (item_id,))
         sp = self.get_spotlight()
         if sp and sp.get("item_id") == item_id:
-            self.set_meta("spotlight", json.dumps({"module_id": sp["module_id"], "item_id": None}))
+            self.set_spotlight(sp["module_id"], None)
         return dict(self._item_dict(row))
 
     # ------------------------------------------------------------------ notes
@@ -713,12 +1037,18 @@ class Store:
 
     def add_note(self, item_id, user, body):
         body = self._clean_body(body)
+        cid = self.active_company_id()
         with self._tx() as db:
-            if not db.execute("SELECT 1 FROM items WHERE id=?", (item_id,)).fetchone():
+            item_row = db.execute(
+                "SELECT i.module_id FROM items i JOIN modules m ON m.id = i.module_id WHERE i.id=? AND m.company_id=?",
+                (item_id, cid),
+            ).fetchone()
+            if not item_row:
                 raise StoreError("Requirement not found.", 404)
             cur = db.execute(
                 "INSERT INTO notes(item_id,user_id,author,body,created_at,edited_at) VALUES(?,?,?,?,?,NULL)",
                 (item_id, user["id"], user["display_name"], body, time.time()))
+            self._touch_company_module(db, cid, item_row["module_id"])
             row = db.execute("SELECT * FROM notes WHERE id=?", (cur.lastrowid,)).fetchone()
         return self._note_dict(row)
 

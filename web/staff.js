@@ -25,6 +25,10 @@
     // ------------------------------------------------------------------ state
     const S = {
         me: null,
+        company: null,
+        companies: [],
+        presets: [],
+        selectedPresetId: 'metal_fabrication',
         modules: [],
         presence: [],
         spotlight: null,
@@ -137,6 +141,9 @@
     async function loadState() {
         const d = await api('GET', '/api/state');
         S.me = d.user;
+        S.company = d.company || null;
+        S.companies = d.companies || [];
+        S.presets = d.presets || [];
         S.modules = d.modules;
         S.spotlight = d.spotlight;
         S.clientHidden = d.client_hidden;
@@ -182,6 +189,14 @@
             case 'reload':
                 loadState().catch(() => { });
                 if (!mine) toast(`${ev.by} reloaded the data`);
+                break;
+            case 'company_switched':
+                if (S.activeModuleId) closeDrawer(true);
+                loadState().catch(() => { });
+                if (!mine && ev.company) toast(`${ev.by} switched to "${ev.company.name}"`);
+                break;
+            case 'company_updated':
+                loadState().catch(() => { });
                 break;
             case 'module_added':
                 if (!findModule(ev.module.id)) S.modules.push(Object.assign({}, ev.module, { items: [] }));
@@ -258,10 +273,28 @@
 
     // ----------------------------------------------------------------- render
     function renderAll() {
-        renderPresence(); renderCards(); updateOverallProgress(); renderClientControls();
+        renderCompanyUI(); renderPresence(); renderCards(); updateOverallProgress(); renderClientControls();
         if (S.activeModuleId) {
             if (findModule(S.activeModuleId)) { renderDrawerHeader(); renderDrawerList(); updateDrawerSummary(); }
             else closeDrawer(true);
+        }
+    }
+
+    function renderCompanyUI() {
+        const comp = S.company;
+        if (comp) {
+            $('header-company-name').textContent = comp.name;
+            $('header-company-preset').textContent = comp.preset_name || '';
+            $('sidebar-company-preset').textContent = comp.preset_name || '';
+        }
+        const sel = $('quick-company-select');
+        if (sel) {
+            sel.innerHTML = S.companies.map((c) =>
+                `<option value="${esc(c.id)}"${c.is_active ? ' selected' : ''}>${esc(c.name)}</option>`
+            ).join('');
+        }
+        if ($('companies-modal').classList.contains('open')) {
+            renderCompaniesModal();
         }
     }
 
@@ -370,6 +403,11 @@
         renderDrawerHeader();
         renderDrawerList();
         updateDrawerSummary();
+
+        // Automatically spotlight the opened module on the client screen so it stays pinned at the top
+        if (!S.spotlight || S.spotlight.module_id !== moduleId) {
+            api('PUT', '/api/spotlight', { module_id: moduleId }).catch(() => { });
+        }
 
         const d = drawer();
         const cardEl = document.querySelector(`.mrp-card[data-id="${CSS.escape(moduleId)}"]`);
@@ -791,9 +829,16 @@
 
     // ---------------------------------------------------------------- exports
     function noteLine(n) { return `[${n.author}, ${fullTime(n.created_at)}] ${n.body}`; }
+    function companySlug() {
+        const name = (S.company && S.company.name) ? S.company.name : 'requirement_gathering';
+        return name.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '') || 'requirement_gathering';
+    }
 
     function generateMarkdown() {
-        let md = '# Requirement Gathering Backup Config\n';
+        const compName = (S.company && S.company.name) ? S.company.name : 'Requirement Gathering';
+        const presetName = (S.company && S.company.preset_name) ? S.company.preset_name : '';
+        let md = `# Requirement Gathering Report — ${compName}\n`;
+        if (presetName) md += `**Industry Preset**: ${presetName}  \n`;
         md += `*Exported: ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()} by ${S.me.display_name}*\n\n`;
         let total = 0, scoped = 0;
         S.modules.forEach((m) => activeItemsOf(m).forEach((i) => { total++; if (i.scope !== 'pending') scoped++; }));
@@ -840,7 +885,7 @@
         };
         const rows = [defs.map((d) => cell(d[1])).join(',')];
         S.modules.forEach((m) => m.items.forEach((i) => { if (!i.suppressed) rows.push(defs.map((d) => cell(d[2](m, i))).join(',')); }));
-        download('requirement_gathering.csv', '\ufeff' + rows.join('\r\n'), 'text/csv;charset=utf-8;');
+        download(`${companySlug()}_requirements.csv`, '\ufeff' + rows.join('\r\n'), 'text/csv;charset=utf-8;');
         toast('CSV downloaded (Excel ready)!');
     }
 
@@ -851,7 +896,8 @@
         reader.onload = async (e) => {
             try {
                 const parsed = JSON.parse(e.target.result);
-                if (!confirm('Importing REPLACES all current modules, requirements and notes for everyone. Continue?')) return;
+                const compName = (S.company && S.company.name) ? S.company.name : 'the active company';
+                if (!confirm(`Importing REPLACES all current modules, requirements and notes for "${compName}". Continue?`)) return;
                 const r = await api('POST', '/api/import', { modules: parsed });
                 toast(`Imported ${r.modules} modules / ${r.items} requirements`);
             } catch (err) { alert('Import failed: ' + (err.message || 'invalid JSON file')); }
@@ -860,8 +906,123 @@
     }
 
     async function resetAll() {
-        if (!confirm('Reset ALL data for everyone? This deletes every note, scope, priority and custom item and restores the default template. This cannot be undone.')) return;
-        try { await api('POST', '/api/reset'); toast('All data has been reset.'); } catch (e) { toast(e.message); }
+        const compName = (S.company && S.company.name) ? S.company.name : 'this company';
+        const presetName = (S.company && S.company.preset_name) ? S.company.preset_name : 'the default preset';
+        if (!confirm(`Reset ALL data for "${compName}"? This deletes every note, scope, priority and custom item for this company and restores the "${presetName}" preset. This cannot be undone.`)) return;
+        try { await api('POST', '/api/reset'); toast(`Reset "${compName}" to preset.`); } catch (e) { toast(e.message); }
+    }
+
+    // --------------------------------------------------- companies & presets
+    async function openCompaniesModal() {
+        $('companies-modal').classList.add('open');
+        try {
+            const d = await api('GET', '/api/companies');
+            S.company = d.active;
+            S.companies = d.companies || [];
+            S.presets = d.presets || [];
+        } catch (e) { /* use cached state */ }
+        renderCompaniesModal();
+    }
+
+    function closeCompaniesModal() {
+        $('companies-modal').classList.remove('open');
+    }
+
+    function renderCompaniesModal() {
+        const listEl = $('companies-list');
+        if (listEl) {
+            listEl.innerHTML = S.companies.map((c) => `
+                <div class="company-row${c.is_active ? ' is-active' : ''}" data-company-id="${esc(c.id)}">
+                    <div class="company-row-main">
+                        <div class="company-row-title">
+                            <strong>${esc(c.name)}</strong>
+                            ${c.is_active ? '<span class="company-active-tag">Active on Workspace &amp; Client Screen</span>' : ''}
+                            <span class="company-preset-tag">${esc(c.preset_name)}</span>
+                        </div>
+                        <div class="company-row-sub">
+                            ${c.module_count} modules · ${c.scoped_items}/${c.total_items} requirements scoped (${c.progress_pct}%)
+                        </div>
+                    </div>
+                    <div class="company-row-actions">
+                        ${!c.is_active ? '<button class="primary" data-action="company-switch">Switch to Company</button>' : ''}
+                        <button data-action="company-rename">Rename</button>
+                        ${S.companies.length > 1 ? '<button class="danger" data-action="company-delete">Delete</button>' : ''}
+                    </div>
+                </div>`).join('');
+        }
+        const gridEl = $('presets-grid');
+        if (gridEl) {
+            gridEl.innerHTML = S.presets.map((p) => `
+                <button type="button" class="preset-card${S.selectedPresetId === p.id ? ' selected' : ''}" data-preset-id="${esc(p.id)}">
+                    <div>
+                        <div class="preset-card-top">
+                            <h5>${esc(p.name)}</h5>
+                            <span class="preset-badge">${esc(p.badge)}</span>
+                        </div>
+                        <p>${esc(p.description)}</p>
+                    </div>
+                    <div class="preset-stats">${p.module_count} modules · ${p.item_count} focus items</div>
+                </button>`).join('');
+        }
+    }
+
+    async function switchCompany(companyId) {
+        if (!companyId || (S.company && S.company.id === companyId)) return;
+        try {
+            const r = await api('PUT', '/api/companies/active', { company_id: companyId });
+            if (S.activeModuleId) closeDrawer(true);
+            await loadState();
+            toast(`Switched to "${r.company.name}"`);
+        } catch (e) { toast(e.message); }
+    }
+
+    async function createCompany() {
+        const input = $('input-company-name');
+        const name = input.value.trim();
+        if (!name) {
+            toast('Please enter a company / client name');
+            input.focus();
+            return;
+        }
+        const btn = $('btn-create-company');
+        btn.disabled = true;
+        try {
+            const r = await api('POST', '/api/companies', {
+                name,
+                preset_id: S.selectedPresetId || 'metal_fabrication',
+                switch_to: true,
+            });
+            input.value = '';
+            if (S.activeModuleId) closeDrawer(true);
+            await loadState();
+            closeCompaniesModal();
+            toast(`Created & switched to "${r.company.name}" (${r.company.preset_name})`);
+        } catch (e) { toast(e.message); }
+        btn.disabled = false;
+    }
+
+    async function renameCompany(companyId) {
+        const comp = S.companies.find((c) => c.id === companyId);
+        if (!comp) return;
+        const next = prompt('Rename company:', comp.name);
+        if (!next || !next.trim() || next.trim() === comp.name) return;
+        try {
+            await api('PATCH', `/api/companies/${encodeURIComponent(companyId)}`, { name: next.trim() });
+            await loadState();
+            toast('Company renamed');
+        } catch (e) { toast(e.message); }
+    }
+
+    async function deleteCompany(companyId) {
+        const comp = S.companies.find((c) => c.id === companyId);
+        if (!comp) return;
+        if (!confirm(`Delete company "${comp.name}" and all of its modules, requirements, and notes? This cannot be undone.`)) return;
+        try {
+            await api('DELETE', `/api/companies/${encodeURIComponent(companyId)}`);
+            if (S.activeModuleId) closeDrawer(true);
+            await loadState();
+            toast(`Deleted "${comp.name}"`);
+        } catch (e) { toast(e.message); }
     }
 
     // ------------------------------------------------------------------- team
@@ -978,7 +1139,7 @@
         window.addEventListener('keydown', (e) => {
             if (e.key !== 'Escape') return;
             closeDrawer();
-            ['export-modal', 'add-module-modal', 'csv-config-modal', 'team-modal'].forEach((id) => $(id).classList.remove('open'));
+            ['export-modal', 'add-module-modal', 'csv-config-modal', 'team-modal', 'companies-modal'].forEach((id) => $(id).classList.remove('open'));
         });
 
         // Focus list - one delegated set of handlers, so live re-renders never lose wiring
@@ -1060,8 +1221,8 @@
             const ta = $('export-preview-content'); ta.select();
             navigator.clipboard.writeText(ta.value).then(() => toast('Copied to clipboard!'), () => alert('Copy failed — select the text manually.'));
         });
-        $('btn-download-preview').addEventListener('click', () => { download('requirement_gathering.md', $('export-preview-content').value, 'text/markdown;charset=utf-8;'); toast('Markdown downloaded!'); });
-        $('btn-export-json').addEventListener('click', () => { download('requirement_gathering.json', JSON.stringify(S.modules, null, 4), 'application/json;charset=utf-8;'); toast('JSON Config downloaded!'); });
+        $('btn-download-preview').addEventListener('click', () => { download(`${companySlug()}_requirements.md`, $('export-preview-content').value, 'text/markdown;charset=utf-8;'); toast('Markdown downloaded!'); });
+        $('btn-export-json').addEventListener('click', () => { download(`${companySlug()}_requirements.json`, JSON.stringify(S.modules, null, 4), 'application/json;charset=utf-8;'); toast('JSON Config downloaded!'); });
         $('btn-import-json').addEventListener('click', () => { $('import-file-input').value = ''; $('import-file-input').click(); });
         $('import-file-input').addEventListener('change', handleImportFile);
         $('btn-export-csv').addEventListener('click', () => $('csv-config-modal').classList.add('open'));
@@ -1079,6 +1240,33 @@
         $('btn-close-add-module-modal').addEventListener('click', closeModuleModal);
         $('btn-confirm-add-module').addEventListener('click', saveModule);
         $('input-module-title').addEventListener('keydown', (e) => { if (e.key === 'Enter') saveModule(); });
+
+        // Companies & Industry Presets modal
+        $('btn-companies').addEventListener('click', openCompaniesModal);
+        $('header-company-btn').addEventListener('click', openCompaniesModal);
+        $('quick-company-select').addEventListener('change', (e) => switchCompany(e.target.value));
+        $('btn-close-companies-modal').addEventListener('click', closeCompaniesModal);
+        $('btn-companies-done').addEventListener('click', closeCompaniesModal);
+        $('btn-create-company').addEventListener('click', createCompany);
+        $('input-company-name').addEventListener('keydown', (e) => { if (e.key === 'Enter') createCompany(); });
+        $('presets-grid').addEventListener('click', (e) => {
+            const card = e.target.closest('.preset-card');
+            if (!card) return;
+            S.selectedPresetId = card.dataset.presetId;
+            renderCompaniesModal();
+        });
+        $('companies-list').addEventListener('click', (e) => {
+            const btn = e.target.closest('[data-action]');
+            const row = e.target.closest('.company-row');
+            if (!btn || !row) return;
+            const cid = row.dataset.companyId;
+            switch (btn.dataset.action) {
+                case 'company-switch': switchCompany(cid); break;
+                case 'company-rename': renameCompany(cid); break;
+                case 'company-delete': deleteCompany(cid); break;
+                default: break;
+            }
+        });
 
         // Team modal
         $('btn-team').addEventListener('click', openTeam);

@@ -177,3 +177,103 @@ body:not(.is-admin) .admin-only { display: none !important; }
 .team-add-title { font-size: 0.95rem; margin-bottom: 0.75rem; }
 .team-add-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
 @media (max-width: 600px) { .team-add-grid { grid-template-columns: 1fr; } }
+
+/* Sidebar company quick-switcher */
+.sidebar-company-box {
+    display: flex; flex-direction: column; gap: 0.35rem;
+    margin: 0.15rem 0.6rem 0.35rem; padding: 0.65rem 0.75rem;
+    border-radius: 10px; background: var(--bg-tertiary); border: 1px solid var(--border-color);
+}
+.app-container.sidebar-collapsed .sidebar-company-box { display: none; }
+.sidebar-company-label { font-size: 0.64rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); }
+.sidebar-company-select {
+    width: 100%; padding: 0.42rem 0.55rem; border-radius: 7px;
+    background: var(--bg-primary); border: 1px solid var(--border-color);
+    color: var(--text-primary); font-size: 0.82rem; font-weight: 600; cursor: pointer;
+}
+.sidebar-company-select:focus { outline: none; border-color: var(--accent-indigo); }
+.sidebar-company-preset { font-size: 0.68rem; color: var(--accent-indigo); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* Header company button */
+.header-title-row { display: flex; align-items: center; gap: 0.9rem; flex-wrap: wrap; }
+.header-company-btn {
+    display: inline-flex; align-items: center; gap: 0.55rem; cursor: pointer;
+    padding: 0.42rem 0.85rem; border-radius: 999px;
+    background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.3);
+    color: var(--text-primary); font-size: 0.82rem; transition: all 0.2s ease;
+}
+.header-company-btn:hover { background: rgba(99, 102, 241, 0.18); border-color: var(--accent-indigo); transform: translateY(-1px); }
+.header-company-btn svg { width: 15px; height: 15px; color: var(--accent-indigo); flex-shrink: 0; }
+.header-company-preset {
+    font-size: 0.7rem; font-weight: 600; color: var(--accent-emerald);
+    padding-left: 0.5rem; border-left: 1px solid var(--border-color);
+}
+.header-company-switch-hint {
+    font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+    padding: 0.15rem 0.45rem; border-radius: 999px; background: var(--bg-primary); color: var(--text-secondary);
+}
+
+/* Companies & Industry Presets Modal */
+.modal-card-wide { max-width: 860px; width: 94vw; }
+.companies-modal-body { max-height: 74vh; overflow-y: auto; }
+.companies-section-title { font-size: 0.98rem; font-weight: 700; margin-bottom: 0.25rem; color: var(--text-primary); }
+.companies-divider { height: 1px; background: var(--border-color); margin: 1.4rem 0; }
+.companies-list { display: flex; flex-direction: column; gap: 0.55rem; margin-top: 0.75rem; max-height: 240px; overflow-y: auto; }
+.company-row {
+    display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap;
+    padding: 0.75rem 0.95rem; border-radius: 10px;
+    background: var(--bg-primary); border: 1px solid var(--border-color);
+    transition: border-color 0.2s ease;
+}
+.company-row.is-active {
+    border-color: var(--accent-indigo);
+    background: rgba(99, 102, 241, 0.08);
+}
+.company-row-main { flex: 1; min-width: 180px; }
+.company-row-title { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+.company-row-title strong { font-size: 0.92rem; color: var(--text-primary); }
+.company-active-tag {
+    font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+    padding: 0.14rem 0.5rem; border-radius: 999px; background: var(--grad-primary); color: #fff;
+}
+.company-preset-tag {
+    font-size: 0.65rem; font-weight: 600;
+    padding: 0.14rem 0.5rem; border-radius: 999px;
+    background: var(--bg-tertiary); border: 1px solid var(--border-color); color: var(--text-secondary);
+}
+.company-row-sub { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.2rem; }
+.company-row-actions { display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap; }
+.company-row-actions button {
+    background: var(--bg-secondary); border: 1px solid var(--border-color); color: var(--text-secondary);
+    cursor: pointer; font-size: 0.74rem; font-weight: 600; padding: 0.35rem 0.7rem; border-radius: 7px;
+    transition: all 0.15s ease;
+}
+.company-row-actions button:hover { color: var(--text-primary); border-color: var(--accent-indigo); }
+.company-row-actions button.primary { background: var(--grad-primary); color: #fff; border-color: transparent; }
+.company-row-actions button.danger:hover { color: var(--accent-rose); border-color: var(--accent-rose); }
+
+.presets-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(235px, 1fr));
+    gap: 0.75rem; margin-top: 0.5rem;
+}
+.preset-card {
+    display: flex; flex-direction: column; justify-content: space-between;
+    padding: 0.85rem 0.95rem; border-radius: 10px; cursor: pointer; text-align: left;
+    background: var(--bg-primary); border: 2px solid var(--border-color);
+    color: var(--text-primary); transition: all 0.18s ease;
+}
+.preset-card:hover { border-color: rgba(99, 102, 241, 0.5); transform: translateY(-1px); }
+.preset-card.selected {
+    border-color: var(--accent-indigo);
+    background: rgba(99, 102, 241, 0.1);
+    box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.3);
+}
+.preset-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.4rem; }
+.preset-card h5 { font-size: 0.88rem; font-weight: 700; line-height: 1.25; }
+.preset-badge {
+    font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
+    padding: 0.14rem 0.45rem; border-radius: 999px; flex-shrink: 0;
+    background: rgba(16, 185, 129, 0.12); color: var(--accent-emerald);
+}
+.preset-card p { font-size: 0.74rem; color: var(--text-secondary); line-height: 1.42; margin-bottom: 0.55rem; }
+.preset-stats { font-size: 0.68rem; font-weight: 600; color: var(--text-muted); }
